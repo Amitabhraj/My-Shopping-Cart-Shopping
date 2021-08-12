@@ -1,0 +1,108 @@
+{% extends 'shop/basic.html' %}
+{%block title%}Checkout{%endblock %}
+
+{% block css %}
+
+#image img {
+width: 287px;
+height: 300px;
+margin-top: 10px;
+margin-left:30px;
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row-md-8">
+        <p id="image"><img src="/media/{{product.image}}" width="280px" height="300px" right="100%"></p>
+    </div>
+
+    </div>
+
+    <div class="col-md-7"><br>
+        <h5><b>Title:-</b>{{product.product_name}}</h5><br>
+        <h6><b>Price:-</b>${{product.price}}</h6><br><br>
+
+    </div>
+    </div>
+
+
+
+    <form action="/shop/order/{{product.id}}" method="post">{% csrf_token %}
+    <div class="col my-4">
+        <h2>Enter Address & Other Details</h2>
+        <b><form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <input type="name" class="form-control" id="name" placeholder="Name" name="name">
+                </div><br>
+
+
+
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
+                </div>
+            </div><br>
+
+
+
+
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Enter Your Address" name="address1">
+            </div><br>
+
+
+
+            <div class="form-group">
+                <label for="inputAddress2">Address 2</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="Enter your locality and house Name" name="address2">
+            </div><br>
+
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="Enter your city Name" name="city">
+                </div><br>
+
+
+
+                <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="Enter Your State Name" name="state">
+                    </select>
+                </div><br>
+
+
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip" placeholder="Enter your Pin Code" name="zip">
+                </div>
+            </div><br>
+
+            
+            <div class="form-group">
+                <label for="inputphone">Phone Number</label>
+                <input type="tel" class="form-control" id="inputPhone" placeholder="Enter Your Phone Number" name="phone">
+            </div><br>
+
+            <div class="form-group col-md-7">
+                <label for="inputorder">Your order Detail</label>
+                <input id="inputorder" class="form-control" value="name-{{product.product_name}}      price-${{product.price}}      id no.-{{product.id}}" readonly="readonly" name="order"></div></b>
+
+
+
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+    </div>
+</div>
+
+
+{%endblock %}

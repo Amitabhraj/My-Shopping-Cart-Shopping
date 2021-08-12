@@ -1,0 +1,54 @@
+{% extends 'shop/basic.html' %}
+{% block title %} sell your product {% endblock %}
+{% block body %}
+
+<p>Welcome {{ user.username }} !!!</p> 
+
+<h4><u>Enter Your Product Details Below</u></h4>
+
+<b><div class="container mt-5">
+    <form  action="{% url 'sellproduct' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+
+        <div class="form-group">
+          <label for="{{form.file_name.id_for_label}}">Product Name</label>
+          {{form.file_name}}         
+        </div><br>
+
+
+        <div class="form-group">
+          <label for="{{form.file_category.id_for_label}}">Product Category</label>
+          {{form.file_category}}         
+        </div><br>
+
+
+        <div class="form-group">
+          <label for="{{form.file_subcategory.id_for_label}}">Product Subcategory</label>
+          {{form.file_subcategory}}       
+        </div><br>
+
+
+        <div class="form-group">
+          <label for="{{form.file_price.id_for_label}}">Product Price</label>
+          {{form.file_price}}         
+        </div><br>
+
+
+        <div class="form-group">
+          <label for="{{form.file_des.id_for_label}}">description of the Product</label>
+          {{form.file_des}}     
+        </div><br>
+
+
+        <div class="form-group" rows="3">
+          <label for="{{form.files_data.id_for_label}}">Upload Image</label>
+            {{form.files_data}}
+        </div><br>
+        
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form></b>
+
+</div>
+
+{% endblock %}
