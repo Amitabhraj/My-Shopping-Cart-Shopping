@@ -43,6 +43,7 @@ class Order(models.Model):
     state=models.CharField(max_length=50, default="")
     zip=models.IntegerField(default=0)
     phone=models.CharField(max_length=10,default="0")
+    order_method=models.CharField(max_length=50, default="")
     order=models.CharField(max_length=1,default=0)
     
     def __str__(self):

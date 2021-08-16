@@ -24,8 +24,13 @@ def index(request):
 
 
 
+
+
 def about(requests):
     return render(requests,"shop/about.html")
+
+
+
 
 
 
@@ -37,7 +42,7 @@ def contact(request):
         des=request.POST.get('des', '')
         contact = Contact(name=name, email=email, phone=phone, des=des)
         contact.save()
-        return HttpResponse("<h1>Successfully Submitted</h1>")
+        return redirect("success1")
     return render(request, "shop/contact.html")
 
 
@@ -46,6 +51,7 @@ def contact(request):
 
 def search(requests):
    return render(requests,'shop/search.html')
+
 
 
 
@@ -69,20 +75,16 @@ def order(request, myid):
         state=request.POST.get('state','')
         zip=request.POST.get('zip','')
         phone=request.POST.get('phone','')
+        order_method=request.POST.get('order_method','')
         order_d=request.POST.get('order','')
         
-        order = Order(name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone, order=order_d)
+        order = Order(name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,order=order_d)
         order.save()
-        return HttpResponse("<h1>Your Order has Been Placed<br>Thank you for Choosing us</h1>")
-        
+        return redirect("success")
     product = Product.objects.filter(id=myid)
     return render(request,'shop/order.html', {'product':product[0]})
 
 
-
-
-def success(request):
-    return HttpResponse("<h1>Successfully Uploaded</h1>")
 
 
 
@@ -101,11 +103,10 @@ def sellproduct(request):
             the_files = form.cleaned_data['files_data']
 
             Product(product_name=name, category=category, subcategory=subcategory, price=price ,des=des, image=the_files).save()
-            return redirect("success")
+            return redirect("success2")
         
         else:
             return HttpResponse('<h1>Error</h1>')
-
     else:
         context = {
             'form':MyfileUploadForm()
@@ -124,3 +125,20 @@ def show_file(request):
         }
 
     return render(request, 'shop/view.html', context)
+
+
+
+
+
+
+
+def success(request):
+    return render(request,'shop/success.html')
+
+
+def success1(request):
+    return render(request,'shop/success1.html')
+
+
+def success2(request):
+    return render(request,'shop/success2.html')

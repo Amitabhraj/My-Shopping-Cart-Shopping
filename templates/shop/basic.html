@@ -45,7 +45,6 @@
         <a class="nav-link" href="/shop/contact">Contact Us</a>
       </li>
 {% else %}
-
 <style>
 #button {     
     background-color: Transparent;
@@ -71,10 +70,10 @@
         </button>
       </div>
       <div class="modal-body">
-        for Contacting us,you have to login first, signup Here:-<a href="/">Signup/Login</a>
+        for Contacting us,you have to login first:-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
       </div>
     </div>
   </div>
@@ -119,10 +118,10 @@
         </button>
       </div>
       <div class="modal-body">
-        for visiting Sell product page,you have to login first,signup Here:-<a href="/">Signup/Login</a>
+        for visiting Sell product page,you have to login first:-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="/" class="btn btn-secondary">Signup/Login</a>
       </div>
     </div>
   </div>
@@ -142,12 +141,14 @@
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login with another account</b></p></a></li>
   <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
   </ul>
 
 
 {% else %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
   {% endif %}
 
     

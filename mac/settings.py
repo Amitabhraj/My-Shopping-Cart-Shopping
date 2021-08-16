@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 ROOT_URLCONF = 'mac.urls'
 
 TEMPLATES = [
@@ -78,6 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mac.wsgi.application'
+
 
 
 # Database
@@ -143,12 +145,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.adapter.DefaultAccountAdapter'
 ]
 
 
 SITE_ID = 2
+
+
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGIN_REDIRECT_URL = '/shop'
 LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =False
+
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -161,3 +172,37 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+         }
+     }
+}
+
+
+PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
+
+# SOCIAL_AUTH_FACEBOOK_KEY = '534560934481071' 
+# SOCIAL_AUTH_FACEBOOK_SECRET = '21e1d4b891b76d2008e89833176ca745'  # App 

@@ -24,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
-    path('', TemplateView.as_view(template_name="accounts/login.html")),
-    path('signout/', LogoutView.as_view()),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', TemplateView.as_view(template_name="accounts/login.html"), name='login'),
+    path('signout/', LogoutView.as_view(), name='logout'),
+    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

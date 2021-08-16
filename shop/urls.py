@@ -14,6 +14,8 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name = 'sellproduct.html'),        name = 'home'),
     path('social-auth/', include('social_django.urls',       namespace='social')),
     path('success/', views.success,      name='success'),
+    path('success1/', views.success1,      name='success1'),
+    path('success2/', views.success2,      name='success2'),
     path('sellproduct/', views.sellproduct,      name='sellproduct' ),
     path('view/', views.show_file,       name="view"),
 ]

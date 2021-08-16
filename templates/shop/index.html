@@ -59,7 +59,7 @@ padding-right: 0;
                         <div class="card align-items-center" style="width: 18rem;">
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body" id="card_body">
-                                <h5 class="card-title" id="namepr{{i.id}}" id="name_product">{{i.product_name}}</h5>
+                                <h5 class="card-title" id="namepr{{i.id}}" id="name_product"><a href="/shop/productview/{{i.id}}">{{i.product_name}}</a></h5>
                                 <p class="card-text"><b>price:-${{i.price}}</b></p>
                                 <a href="/shop/productview/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a>
                                 <a href="/shop/order/{{i.id}}"><button id="q{{i.id}}" class="btn btn-primary cart">BUY NOW</button></a>

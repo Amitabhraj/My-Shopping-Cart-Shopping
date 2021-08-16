@@ -1,3 +1,6 @@
+{% extends 'shop/basic.html' %}
+
+{% block body %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,31 +14,25 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-1">
         <div class="row">
             <div class="col-12">
-
                 <table class="table">
                     <thead>
                       <tr>
-                        <th >S/N</th>
-                        <th >Name</th>
-                        <th >Price</th>
-                        <th >Product Image</th>
-                        <th ></th>
+                        <th><h5>S/N</h5></th>
+                        <th><h5>Product Image</h5></th>
+                        <th><h5>Product Name</h5></th>
+                        <th><h5>Product Price</h5></th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for d in data %}
                       <tr>
                         <th>{{forloop.counter}}</th>
-                        <th>{{d.product_name}}</th>
-                        <th>${{d.price}}</th>
-                        <th><img src="{{d.image.url}}" width="230px" height="270px"></a></th>
-
-                        
-                       
-                      </tr>
+                        <th><img src="{{d.image.url}}" width="260px" height="270px"></a></th>
+                        <th><h4><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
+                        <th><h5>${{d.price}}</h5></th></tr>
                       {% endfor %}
                     </tbody>
                   </table>
@@ -52,3 +49,5 @@
 </body>
 
 </html>
+
+{% endblock %}
