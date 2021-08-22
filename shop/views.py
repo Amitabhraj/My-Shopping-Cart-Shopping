@@ -129,6 +129,21 @@ def show_file(request):
 
 
 
+def profile(request):
+    return render(request, 'shop/profile.html')
+
+
+
+
+
+def delete(request, myid):
+    data=Product.objects.filter(id=myid)
+    data.delete()
+    return redirect('/shop/view')
+
+
+
+
 
 
 

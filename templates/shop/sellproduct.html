@@ -1,8 +1,8 @@
 {% extends 'shop/basic.html' %}
 {% block title %} sell your product {% endblock %}
-{% block body %}
 
-<p>Welcome {{ user.username }} !!!</p> 
+{% block body %}
+{% if user.is_authenticated %}
 
 <h4><u>Enter Your Product Details Below</u></h4>
 
@@ -51,4 +51,8 @@
 
 </div>
 
-{% endblock %}
+
+{% else %}
+<h1>you have not signup please go and sign up the page</h1>
+{% endif %}
+{%endblock%}

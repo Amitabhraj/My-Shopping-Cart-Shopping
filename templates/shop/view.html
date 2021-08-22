@@ -1,9 +1,8 @@
 {% extends 'shop/basic.html' %}
 
 {% block body %}
-<!DOCTYPE html>
+{%if user.email == "spacetech374@gmail.com"%}
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,6 +23,7 @@
                         <th><h5>Product Image</h5></th>
                         <th><h5>Product Name</h5></th>
                         <th><h5>Product Price</h5></th>
+                        <th><h5>Delete Product</h5></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -32,7 +32,8 @@
                         <th>{{forloop.counter}}</th>
                         <th><img src="{{d.image.url}}" width="260px" height="270px"></a></th>
                         <th><h4><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
-                        <th><h5>${{d.price}}</h5></th></tr>
+                        <th><h5>${{d.price}}</h5></th>
+                        <th><h5><a href="/shop/delete/{{d.id}}"><p style="color:red">Delete Product</p></a></h5></th></tr>
                       {% endfor %}
                     </tbody>
                   </table>
@@ -49,5 +50,7 @@
 </body>
 
 </html>
-
+{% else %}
+<h1>you cannot see this page</h1>
+{%endif%}
 {% endblock %}

@@ -40,6 +40,20 @@
         <a class="nav-link" href="/shop/about">About us</a>
       </li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% if user.is_authenticated %}
       <li class="nav-item active">
         <a class="nav-link" href="/shop/contact">Contact Us</a>
@@ -78,8 +92,16 @@
     </div>
   </div>
 </div>
-
 {% endif %}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,8 +111,6 @@
       <li class="nav-item active">
         <a class="nav-link" href="/shop/sellproduct" data-target="#exampleModal">Sell Your Products</a>
     </li>
-
-
 
 {% else %}
 <style>
@@ -132,10 +152,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <li class="nav-item dropdown">
   <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MORE
   </a>
+
+<style>
+#droplist{
+    background-color:#CECECE;
+}
+#navbarDropdown{
+  position:relative;
+  left:24px;
+}
+</style>
 
   {% if user.is_authenticated %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
@@ -149,19 +192,88 @@
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
-  {% endif %}
+{% endif %}
+</ul>
 
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <style>
-#droplist{
-    background-color:#CECECE;
-}
-</style>
+        .dropbtn {
+            background-color: transparent;
+            color: white;
 
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+  
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            left: -30px;
+        }
+  
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 
+                0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+  
+        .dropdown-content a {
+            color: black;
+            padding: 12px 17px;
+            text-decoration: none;
+            display: block;
+        }
+  
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+}
+  
+        .dropdown:hover .dropdown-content {
+            display: block;
+            left: -50px;
+
+
+        }
+    </style>
+    {%if user.is_authenticated%}
+    <center>
+        <div class="dropdown">
+            <button class="dropbtn">
+                <img src=
+"https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png"
+                    width="35" height="35">
+            </button> 
+            <div class="dropdown-content">
+                <a href="/shop/profile">View Profile</a>
+                <a href="#">Settings</a>
+            </div>
+        </div>
+        {%endif%}
 
 </div>
 </nav>
@@ -190,4 +302,3 @@
     -->
   </body>
 </html>
-

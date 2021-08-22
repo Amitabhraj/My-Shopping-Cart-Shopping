@@ -18,4 +18,6 @@ urlpatterns = [
     path('success2/', views.success2,      name='success2'),
     path('sellproduct/', views.sellproduct,      name='sellproduct' ),
     path('view/', views.show_file,       name="view"),
+    path('profile/', views.profile,       name="profile"),
+    path('delete/<int:myid>', views.delete,       name="profile"),
 ]

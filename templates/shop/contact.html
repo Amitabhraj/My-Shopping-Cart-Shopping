@@ -1,6 +1,7 @@
 {% extends 'shop/basic.html' %}
 {% block title %} Contact Us {% endblock %}
 {% block body %}
+{%if user.is_authenticated%}
  <div class="container">
      <h2><u>Contact Us</u></h2><br>
      <form action="/shop/contact/" method="post">{% csrf_token %}
@@ -36,5 +37,7 @@
 
 
     <button class="btn btn-dark" type="submit">Submit</button>
-
-  {%endblock%}
+{% else %}
+<h1>you have not signup please go and sign up the page</h1>
+{% endif %}
+{%endblock%}

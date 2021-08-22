@@ -1,0 +1,59 @@
+<div class="background">
+
+
+    <img src="https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png" width="100px" height="100px"><h1><u>{{user.first_name}} {{user.last_name}}</u><h1>
+
+
+</div>
+
+
+<div>
+<p id="text" class="line-1 anim-typewriter">
+  User Name:-<u><b>{{user.first_name}} {{user.last_name}}</b></u><br><br>Email-Address:-<u><b>{{user.email}}</b></u><br><br>
+
+<a href="/edit">EDIT</a>
+
+</p>
+    </div>
+
+
+<style>
+.background { 
+      position:fixed;
+      top: 0;
+      left: 0;
+      width:25%;
+      padding-bottom: 200%;
+      background-color: #686F70; 
+ }
+
+    .line-1{
+    position: relative;
+    top: 50%;
+
+    margin: 0 auto;
+    border-right: 2px solid rgba(255,255,255,.75);
+    font-size: 2vw;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);
+    font-family: 'Bitter', serif;
+    color: rgba(255,255,255,.75);
+    text-shadow: 3px 3px 	#000000;}
+
+    #text {
+    z-index: 100;
+    position: absolute;
+    left: 27%;
+    top: 9%;
+}
+</style>
+
+<!-- <div class="form-group col-md-7">
+        <label for="inputorder" id="text">Your order Detail</label>
+        <input id="inputorder" class="form-control" value="name-{{product.product_name}}      price-${{product.price}}      id no.-{{product.id}}" readonly="readonly" name="order"></div></b><br>
+
+<div id="background">{{ user.username }}<h1>{{ user.username }}</h1></div><br>
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+<div><h1>Date Joined:-{{ user.date_joined.date }}</h3></div> -->
