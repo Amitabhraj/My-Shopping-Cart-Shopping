@@ -1,36 +1,25 @@
-<header class="row visible">
-
-    <div class="grid_12 visible">
-        <div class="row logo-wrap">
-
-            <!-- logo -->
-                        <div class="grid_6">
-                <div id="logo">
-                    <a href="http://dev.jzm.co.nz/mytime/"><img src="https://mdbootstrap.com/img/new/slides/003.jpg" title="My Time Candles" alt="My Time Candles" /></a>
-                </div>
-            </div>
+<div id="container-top">
+    <div id="logo">
+        <a href="http://dev.jzm.co.nz/mytime/"><img src="http://dev.jzm.co.nz/mytime/image/data/logo-black-web.png" title="My Time Candles" alt="My Time Candles"></a>
+    </div>
+<!-- search -->
+    <div id="search" class="visible">
+        <div class="button-search">Search</div>
+        <input type="text" name="filter_name" value="Search ... " onclick="this.value = '';" onkeydown="this.style.color = '#000000';">
+    </div>
+<!--/search-->
+</div>
 
 <style>
+#container-top{
+    position: relative;
+}
+
 #search{
-  text-align: center;
+    top: 15%;
+    right: 0;
 }
 #logo{
-  width: 100%;
-  max-width: 300px; /* Original width of the logo image */ 
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  float: left;
+    margin:0 auto;
 }
 </style>
-            <!-- search -->
-            <div class="grid_6 visible">
-                <div id="search">
-                    <div class="button-search">Search</div>
-                                        <input type="text" name="filter_name" value="Search ... " onclick="this.value = '';" onkeydown="this.style.color = '#000000';" />
-                                    </div><!--/search-->
-            </div>
-
-        </div><!--/row-->  
-    </div><!--/grid_12-->
-</header><!--End Header-->
