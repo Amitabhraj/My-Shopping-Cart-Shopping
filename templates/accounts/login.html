@@ -91,9 +91,12 @@ body {
 }
 .social-btn button.twitter-btn{
   background-color: red;
+  padding-right:80px;
 }
 .social-btn button.facebook-btn{
   background-color: #3f68be;
+  padding-right:80px;
+  
 }
 .social-btn {
     padding-top: -5px;
@@ -109,6 +112,7 @@ body {
 }
 .social-btn button.twitter-btn, .social-btn button.facebook-btn {
     font-size: 20px;
+    padding-right:80px;
 }
 }
 </style>
@@ -122,7 +126,7 @@ body {
 
       <a href="{% provider_login_url 'google' %}" style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
 
-      <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i>with Facebook</button></a>
+      <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</button></a>
 
       <a href="/shop" class="btn btn-danger" type="button">skip</a>
     </div>
