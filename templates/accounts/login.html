@@ -109,6 +109,8 @@ body {
 }
 @media (max-width: 767px){
 .login-form form {
+    position: relative;
+    top: 100px;
     width: 90%;
     padding: 20px 15px 20px;
 }
@@ -127,7 +129,7 @@ body {
     <h2>Login</h2>
     <div class="social-btn">
 
-      <a href="{% provider_login_url 'google' %}" style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
+      <a href="{% provider_login_url 'google' method='js_sdk' %} " style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
 
       <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</button></a>
 
