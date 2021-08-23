@@ -84,7 +84,7 @@ body {
     color: #2196F3;
     text-decoration: none;
 }
-.social-btn button.twitter-btn, .social-btn button.facebook-btn {
+.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
     width: 100%;
     font-size: 22px;
     margin: 0px 0px 10px;
@@ -94,6 +94,10 @@ body {
 }
 .social-btn button.facebook-btn{
   background-color: #3f68be;
+  
+}
+.social-btn button.github-btn{
+  background-color: black;
   
 }
 .social-btn {
@@ -108,7 +112,7 @@ body {
     width: 90%;
     padding: 20px 15px 20px;
 }
-.social-btn button.twitter-btn, .social-btn button.facebook-btn {
+.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
     font-size: 20px;
     padding-right:80px;
     white-space: nowrap
@@ -126,6 +130,8 @@ body {
       <a href="{% provider_login_url 'google' %}" style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
 
       <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</button></a>
+
+      <a href="{% provider_login_url 'github' %}" style="text-decoration:none"><button type="button" class="github-btn"><i class="fa fa-github" aria-hidden="true"></i>Login with Github</button></a>
 
       <a href="/shop" class="btn btn-danger" type="button">skip</a>
     </div>
