@@ -5,22 +5,26 @@
 {% if request.user.id == order.order_uid %}
 
 
-
-<div class="container my-4">
+<style>
+#img{
+	position: relative;
+	left: -70px;
+}
+</style>
+<div class="container my-5">
     <div class="row">
     <div class="col-md-4">
     <div class="row">
-        <img src="/media/{{order.product_image}}" width="280px" height="300px">
+        <img src="/media/{{order.product_image}}" width="280px" height="300px" id="img">
     </div>
-
-        <a href="/shop/productview/{{order.order}}"><p style="margin-left:-1.9em;position:relative;top:10px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
 
 
     </div>
 
     <div class="col-md-8">
-        <h5><b>Title:-</b>{{order.product_name}}</h5><br>
-        <h6><b>Price:-</b>${{order.product_price}}</h6><br><br>
+        <h4 id="img"><b>Title:-</b>{{order.product_name}}</h4><br>
+        <h5 id="img"><b>Price:-</b>${{order.product_price}}</h5><br>
+        <a href="/shop/productview/{{order.order}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
 
     </div>
     </div>
