@@ -51,8 +51,4 @@ class Order(models.Model):
     order_uid=models.IntegerField(default=0)
     
     def __str__(self):
-<<<<<<< HEAD
         return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Order ID:-)"+str(self.order_uid)
-=======
-        return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Order ID:-)"+str(self.order_uid)
->>>>>>> ed161c3fce47ea020730480f78b9a4a749874742
