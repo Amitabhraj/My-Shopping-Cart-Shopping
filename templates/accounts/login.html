@@ -164,109 +164,14 @@ body {
       <div class="modal-footer">
         <a href="{% provider_login_url 'facebook' %}" class="btn btn-secondary">Submit</a>
       </div>
-    </div>
-  </div>
-</div>
-
-
-=======
-}
-.login-form h2 {
-    text-align: center;
-    font-size: 35px;
-    margin: 10px 0px 40px;
-}
-.login-form input {
-    width: 100%;
-    border: 1px solid #ddd;
-    padding: 5px 10px;
-    height: 45px;
-    margin: 0px 0px 20px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 17px;
-}
-.login-form button {
-    margin: 10px auto 30px;
-    display: table;
-    font-size: 20px;
-    padding: 10px 30px;
-    background-color: #4CAF50;
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.login-form button:hover{
-  opacity: 0.8;
-}
-.login-form input[type="checkbox"] {
-    height: 16px;
-    width: 16px;
-    margin-right: 5px;
-    float: left;
-}
-.login-form .forget-psw {
-    float: right;
-}
-.login-form .forget-psw a {
-    color: #2196F3;
-    text-decoration: none;
-}
-.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
-    width: 100%;
-    font-size: 22px;
-    margin: 0px 0px 10px;
-}
-.social-btn button.twitter-btn{
-  background-color: red;
-}
-.social-btn button.facebook-btn{
-  background-color: #3f68be;
-  
-}
-.social-btn button.github-btn{
-  background-color: black;
-  
-}
-.social-btn {
-    padding-top: -5px;
-    margin-top: 20px;
-}
-.social-btn button i {
-    margin-right: 5px;
-}
-@media (max-width: 767px){
-.login-form form {
-    position: relative;
-    top: 60px;
-    width: 90%;
-    padding: 20px 15px 20px;
-}
-.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
-    font-size: 20px;
-    padding-right:80px;
-    white-space: nowrap
-}
-}
-</style>
-
-
-
-<div class="login-form">
-  <form>
-    <h2>Login</h2>
-    <div class="social-btn">
-
-      <a href="{% provider_login_url 'google' method='js_sdk' %} " style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
-
-      <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</button></a>
-
       <a href="{% provider_login_url 'github' %}" style="text-decoration:none"><button type="button" class="github-btn"><i class="fa fa-github" aria-hidden="true"></i>Login with Github</button></a>
 
       <a href="/shop" class="btn btn-danger" type="button">skip</a>
     </div>
   </form>
+</div>
+</div>
+</div>
 </div>
 
  <!-- Optional JavaScript -->
@@ -276,4 +181,5 @@ body {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
+{%endblock%}
 {%endblock%}
