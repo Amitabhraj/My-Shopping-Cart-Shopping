@@ -131,42 +131,9 @@ body {
 
       <a href="{% provider_login_url 'google' method='js_sdk' %} " style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
 
+      <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn" id="product_button" type="button" data-toggle="modal" data-target="#product"><i class="fa fa-facebook" aria-hidden="true" ></i>Login with Facebook</button></a>
 
-
-
-<style>
-#product_button {     
-    background-color: blue;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
-}
-</style>
-
-<button type="button" class="facebook-btn" id="product_button" type="button" data-toggle="modal" data-target="#product"><i class="fa fa-facebook" aria-hidden="true" ></i>Login with Facebook</button>
-<form action="/" method="POST">{% csrf_token %}
-<div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Please,Enter your Email Address</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label for="inputState">Email-Address</label>
-        <input type="text" class="form-control" id="inputState" placeholder="Enter Your Email" name="email">
-      </div>
-      <div class="modal-footer">
-        <a href="{% provider_login_url 'facebook' %}" class="btn btn-secondary">Submit</a>
-      </div>
-      </div>
-</div>
-</div>
-      <a href="{% provider_login_url 'github' %}" style="text-decoration:none"><button type="button" class="github-btn"><i class="fa fa-github" aria-hidden="true"></i>Login with Github</button></a>
+      <a href="{% provider_login_url 'github' %}" style="text-decoration:none"><button type="button" class="github-btn" id="product_button" type="button" data-toggle="modal" data-target="#product"><i class="fa fa-github" aria-hidden="true" ></i>Login with Github</button></a>
 
       <a href="/shop" class="btn btn-danger" type="button">skip</a>
     </div>
