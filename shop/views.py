@@ -148,10 +148,10 @@ def vieworder(requests):
 
 
 
-def delete(request, myid):
-    data=Product.objects.filter(id=myid)
+def delete(request,myid):
+    data=Order.objects.filter(order_id=myid)
     data.delete()
-    return redirect('/shop/view')
+    return redirect('/shop/vieworder')
 
 
 
