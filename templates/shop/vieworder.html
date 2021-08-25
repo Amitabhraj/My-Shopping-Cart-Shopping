@@ -3,12 +3,30 @@
 {%if user.is_authenticated%}
 {% for order in order %}
 {% if request.user.id == order.order_uid %}
-<div class="column">
-	<img src="/media/{{order.product_image}}" width="287px" height="300px">
-  <h5>Product Name:-{{order.product_name}}</h5>
-  <h6>Price:-{{order.product_price}}</h6>
-  <a href="/shop/productview/{{order.order_id}}"><button class="btn btn-primary">View Product</button></a><br><br><br><br>
+
+
+
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row">
+        <img src="/media/{{order.product_image}}" width="280px" height="300px">
+    </div>
+
+        <a href="/shop/productview/{{order.order}}"><p style="margin-left:-1.9em;position:relative;top:10px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
+
+
+    </div>
+
+    <div class="col-md-8">
+        <h5><b>Title:-</b>{{order.product_name}}</h5><br>
+        <h6><b>Price:-</b>${{order.product_price}}</h6><br><br>
+
+    </div>
+    </div>
 </div>
+
+
 {% endif %}
 {% endfor %}
 {%else%}
