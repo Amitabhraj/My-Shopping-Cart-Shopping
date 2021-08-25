@@ -28,27 +28,8 @@
 
         <a href="/shop/productview/{{order.product_id}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
 
-		<a type="button" data-toggle="modal" data-target="#order"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
+		<a href="/shop/delete/{{order.product_id}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
 
-
-				            <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		              <div class="modal-dialog" role="document">
-		                <div class="modal-content">
-		                  <div class="modal-header">
-		                    <h5 class="modal-title" id="exampleModalLabel"><p style="color:red;"><u>WARNING</u></p></h5>
-		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                      <span aria-hidden="true">&times;</span>
-		                    </button>
-		                  </div>
-		                  <div class="modal-body"><b>
-		                    Are You Sure To Cancel This Order?</b>
-		                  </div>
-		                  <div class="modal-footer">
-		                    <a href="/shop/delete/{{order.product_id}}"><button class="btn btn-danger mx-3">Yes,I am Sure</button></a>
-		                  </div>
-		                </div>
-		              </div>
-		            </div>
 
 
 </div>
