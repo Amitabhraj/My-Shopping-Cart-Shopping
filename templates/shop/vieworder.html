@@ -1,4 +1,5 @@
 {% extends 'shop/basic.html' %}
+{% block title %}View Order{% endblock %}
 {%block body%}
 {%if user.is_authenticated%}
 {% for order in order %}
@@ -28,9 +29,9 @@
 
         <a href="/shop/productview/{{order.product_id}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
 
-		<a href="/shop/delete/{{order.product_id}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
+		<a href="/shop/delete/{{order.product_id}}" onclick="return confirm('Are you sure you want to Cancel The Order?')"/><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
 
-
+		
 
 </div>
 
