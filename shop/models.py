@@ -47,12 +47,8 @@ class Order(models.Model):
     zip=models.IntegerField(default=0)
     phone=models.CharField(max_length=10,default="0")
     order_method=models.CharField(max_length=50, default="")
-    order_id=models.CharField(max_length=1,default=0)
-    order_uid=models.IntegerField(default=0)
+    product_id=models.CharField(max_length=1,default=0)
+    user_uid=models.IntegerField(default=0)
     
     def __str__(self):
-<<<<<<< HEAD
-        return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Order ID:-)"+str(self.order_uid)
-=======
-        return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Order ID:-)"+str(self.order_uid)
->>>>>>> ed161c3fce47ea020730480f78b9a4a749874742
+        return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Product ID:-)"+str(self.product_id)

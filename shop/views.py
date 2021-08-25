@@ -80,10 +80,10 @@ def order(request, myid):
         zip=request.POST.get('zip','')
         phone=request.POST.get('phone','')
         order_method=request.POST.get('order_method','')
-        order_id=request.POST.get('order_id','')
-        order_uid=request.POST.get('order_uid','')
+        product_id=request.POST.get('product_id','')
+        user_uid=request.POST.get('user_uid','')
         
-        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,order_id=order_id,order_uid=order_uid)
+        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,product_id=product_id,user_uid=user_uid)
         order.save()
         return redirect("success")
     product = Product.objects.filter(id=myid)
