@@ -1,5 +1,5 @@
 {% extends 'shop/basic.html' %}
-{%block title%}Checkout{%endblock %}
+{%block title%}Place Order{%endblock %}
 
 {% block css %}
 
@@ -46,26 +46,29 @@ width:40%;
 
 {% endblock %}
 {% block body %}
+<form action="/shop/order/{{product.id}}" method="post">{% csrf_token %}
 <div class="container">
 
     <div class="row">
     <div class="col-md-4">
     <div class="row-md-8">
-        <p id="image"><img src="/media/{{product.image}}" width="280px" height="300px" right="100%"></p>
+        <label for="image"><img src="/media/{{product.image}}" width="287px" height="300px"></label>
+        <input type="hidden" id="image"readonly="readonly" class="form-control" value="{{product.image}}" name="product_image">
     </div>
 
     </div>
 
     <div class="col-md-7"><br>
-        <h5><b>Title:-</b>{{product.product_name}}</h5><br>
-        <h6><b>Price:-</b>${{product.price}}</h6><br><br>
+        <label for="pn">Product Name:-</label>
+    <input id="pn" readonly="readonly" class="form-control" name="product_name" value="{{product.product_name}}"></input><br>
+        <label for="pr">Product price:-</label>
+    <input id="pr" readonly="readonly" class="form-control" value="{{product.price}}" name="product_price"></input><br>
 
     </div>
     </div>
 
 
 
-    <form action="/shop/order/{{product.id}}" method="post">{% csrf_token %}
     <div class="col my-4">
         <h2>Enter Address & Other Details</h2>
         <b><form>
@@ -140,8 +143,13 @@ width:40%;
 
 
             <div class="form-group col-md-7">
-                <label for="inputorder" id="text">Your order Detail</label>
-                <input id="inputorder" class="form-control" value="name-{{product.product_name}}      price-${{product.price}}      id no.-{{product.id}}" readonly="readonly" name="order"></div></b><br>
+                <label for="inputorder" id="text">Your order ID</label>
+                <input id="inputorder" class="form-control" value="{{product.id}}" readonly="readonly" name="order_id"></div></b>
+
+
+
+            <div class="form-group col-md-7">
+                <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="order_uid"></div></b><br>
 
 
 

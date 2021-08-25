@@ -1,7 +1,5 @@
 {% extends 'shop/basic.html' %}
-
-{% block body %}
-{%if user.email == "spacetech374@gmail.com"%}
+{%block body%}
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -13,6 +11,15 @@
 </head>
 
 <body>
+<style>
+@media (max-width: 767px){
+.login-form form {
+    width: 90%;
+    padding: 20px 15px 20px;
+}
+}
+</style>
+
     <div class="container mt-1">
         <div class="row">
             <div class="col-12">
@@ -23,7 +30,6 @@
                         <th><h5>Product Image</h5></th>
                         <th><h5>Product Name</h5></th>
                         <th><h5>Product Price</h5></th>
-                        <th><h5>Delete Product</h5></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -33,7 +39,6 @@
                         <th><img src="{{d.image.url}}" width="260px" height="270px"></a></th>
                         <th><h4><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
                         <th><h5>${{d.price}}</h5></th>
-                        <th><h5><a href="/shop/delete/{{d.id}}"><p style="color:red">Delete Product</p></a></h5></th></tr>
                       {% endfor %}
                     </tbody>
                   </table>
@@ -43,14 +48,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 </body>
-
 </html>
-{% else %}
-<h1>you cannot see this page</h1>
-{%endif%}
-{% endblock %}
+{%endblock%}

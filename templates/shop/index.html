@@ -13,7 +13,7 @@ width: 287px;
 height:300px;
 }
 body .carousel-indicator li{
-background-color: blue;
+background-color: red;
 }
 body .carousel-indicators{
 bottom: 0;
@@ -41,7 +41,6 @@ padding-right: 0;
 {% block body %}
 {% load static %}
 <div class="container">
-    <!--Slideshow starts here -->
     {% for product, range, nSlides in allprods %}
     <h5 class="my-4">Flash Sale on <b><u>{{product.0.category}}</u></b> Items</h5>
     <div class="row">

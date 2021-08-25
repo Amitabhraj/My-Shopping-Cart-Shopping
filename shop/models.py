@@ -35,6 +35,9 @@ class Contact(models.Model):
     
 
 class Order(models.Model):
+    product_image=models.ImageField(upload_to="shop/images")
+    product_name=models.CharField(max_length=200)
+    product_price=models.CharField(max_length=200)
     name=models.CharField(max_length=50)
     email=models.CharField(max_length=50, default="")
     address1=models.CharField(max_length=100, default="")
@@ -44,7 +47,8 @@ class Order(models.Model):
     zip=models.IntegerField(default=0)
     phone=models.CharField(max_length=10,default="0")
     order_method=models.CharField(max_length=50, default="")
-    order=models.CharField(max_length=1,default=0)
+    order_id=models.CharField(max_length=1,default=0)
+    order_uid=models.IntegerField(default=0)
     
     def __str__(self):
         return self.name

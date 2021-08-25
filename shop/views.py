@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
-from .models import Product,Contact,Order
+from .models import Product
+from .models import Contact
+from .models import Order
 from math import ceil
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout
-
 # Create your views here.
 
 def index(request):
@@ -67,6 +68,9 @@ def prodview(requests, myid):
 
 def order(request, myid):
     if request.method=="POST":
+        product_image=request.POST.get('product_image', '')
+        product_name=request.POST.get('product_name', '')
+        product_price=request.POST.get('product_price', '')
         name=request.POST.get('name', '')
         email=request.POST.get('email', '')
         address1=request.POST.get('address1', '')
@@ -76,9 +80,10 @@ def order(request, myid):
         zip=request.POST.get('zip','')
         phone=request.POST.get('phone','')
         order_method=request.POST.get('order_method','')
-        order_d=request.POST.get('order','')
+        order_id=request.POST.get('order_id','')
+        order_uid=request.POST.get('order_uid','')
         
-        order = Order(name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,order=order_d)
+        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,order_id=order_id,order_uid=order_uid)
         order.save()
         return redirect("success")
     product = Product.objects.filter(id=myid)
@@ -134,15 +139,19 @@ def profile(request):
 
 
 
+def vieworder(requests):
+    order= Order.objects.all()
+    context={'order':order}
+    return render(requests, 'shop/vieworder.html',context)
+ 
+
+
 
 
 def delete(request, myid):
     data=Product.objects.filter(id=myid)
     data.delete()
     return redirect('/shop/view')
-
-
-
 
 
 

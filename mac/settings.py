@@ -193,6 +193,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': [
             'user',
             'repo',
+            'email',
             'read:org',
         ],
         'AUTH_PARAMS': {
