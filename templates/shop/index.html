@@ -1,86 +1,54 @@
 {% extends 'shop/basic.html' %}
-{% block css %}
-.col-md-3
-{
-display: inline-block;
-margin-left:-4px;
-}
-.carousel-indicators .active {
-background-color: blue;
-}
-.col-md-3 img{
-width: 287px;
-height:300px;
-}
-body .carousel-indicator li{
-background-color: red;
-}
-body .carousel-indicators{
-bottom: 0;
-}
-body .carousel-control-prev-icon,
-body .carousel-control-next-icon{
-background-color: blue;
-}
-.carousel-control-prev,
-.carousel-control-next{
-top: auto;
-bottom: auto;
-padding-top: 222px;
-}
-body .no-padding{
-padding-left: 0,
-padding-right: 0;
-}
-#card_body{
-    height:210px;
-}
-
-{% endblock %}
 {% block title %}Home{% endblock %}
-{% block body %}
-{% load static %}
-<div class="container">
-    {% for product, range, nSlides in allprods %}
-    <h5 class="my-4">Flash Sale on <b><u>{{product.0.category}}</u></b> Items</h5>
-    <div class="row">
-        <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
-            <ul class="carousel-indicators">
-                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
-                {% for i in range %}
-                <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
-                {% endfor %}
-            </ul>
-            <div class="container carousel-inner no-padding">
-                <div class="carousel-item active">
-                    {% for i in product %}
-                    <div class="col-xs-3 col-sm-3 col-md-3">
-                        <div class="card align-items-center" style="width: 18rem;">
-                            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
-                            <div class="card-body" id="card_body">
-                                <h5 class="card-title" id="namepr{{i.id}}" id="name_product"><a href="/shop/productview/{{i.id}}">{{i.product_name}}</a></h5>
-                                <p class="card-text"><b>price:-${{i.price}}</b></p>
-                                <a href="/shop/productview/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a>
-                                <a href="/shop/order/{{i.id}}"><button id="q{{i.id}}" class="btn btn-primary cart">BUY NOW</button></a>
-                            </div>
-                        </div>
-                    </div>
-                    {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
-                </div>
-                <div class="carousel-item">
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <!-- left and right controls for the slide -->
-        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
-    {% endfor %}
-</div>
+
+{% block css %}
+#img{
+    width: 280px;
+    height: 300px;
+}
+#hori{
+  border-top: 3px solid black;
+  width: 100%;  
+}
+#horii{
+  border-top: 3px solid grey;
+  width: 100%;  
+}
+@media (max-width: 767px){
+#img{
+    width: 150px;
+    height: 160px;
+}
+}
 {% endblock %}
+
+{% block body %}
+
+
+
+{% for product, range, nSlides in allprods %}
+    <hr id="hori"></hr>
+    <h5 class="col-9 row-9 my-2">Flash Sale on <b><u>{{product.0.category}}</u></b> Items</h5>
+    <hr id="hori"></hr>
+    {%for i in product%}
+
+
+
+<div class="d-flex position-relative">
+  <img src="/media/{{i.image}}" class="flex-shrink-0 me-3" alt="..." id="img">
+  <div>
+    <a href="/shop/productview/{{i.id}}"><h3 class="mt-0" style="margin-left:20px;">{{i.product_name}}</h3></a>
+    <h5 class="card-title" style="margin-left:20px;">Price:-${{i.price}}</h5>
+    <h6 style="margin-left:20px;">{{i.des}}</h6>
+    <a href="/shop/order/{{i.id}}" class="btn btn-primary" style="margin-left:20px;">Buy Now</a>
+  </div>
+</div>
+<hr id="horii"></hr>
+{%endfor%}
+{%endfor%}
+
+
+
+
+
+{% endblock %} 
