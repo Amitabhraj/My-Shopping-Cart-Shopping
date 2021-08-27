@@ -1,323 +1,63 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'shop/basic.html' %}
+{% block title %}Home{% endblock %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-
-<title>{%block title%}{%endblock %}</title>
-
-
- <style>{% block css %}{% endblock %}</style>
-
-
-
-<style>
-::-webkit-scrollbar {
-    width: 17px;
-    background-color: #343535
+{% block css %}
+#img{
+    width: 280px;
+    height: 300px;
 }
-::-webkit-scrollbar-thumb {
-    border-radius: 20px;
-    background-color: #909596;
+#hori{
+  border-top: 3px solid black;
+  width: 100%;  
 }
-</style>
-
-
-
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/shop">My Awesome Cart</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-
-
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
-      </li>
-
-
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop/about">About us</a>
-      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop/contact">Contact Us</a>
-      </li>
-{% else %}
-<style>
-#button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
+#horii{
+  border-top: 3px solid grey;
+  width: 100%;  
 }
-</style>
-
-<li class="nav-item active">
-<button class="nav-link" type="button" data-toggle="modal" data-target="#contact" id="button">
-  Contact Us
-</button>
-</li>
-
-<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">You can't Contact Us</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        for Contacting us,you have to login first:-
-      </div>
-      <div class="modal-footer">
-        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop/sellproduct" data-target="#exampleModal">Sell Your Products</a>
-    </li>
-
-{% else %}
-<style>
-#product_button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
+@media (max-width: 767px){
+#img{
+    width: 150px;
+    height: 160px;
 }
-</style>
-
-<li class="nav-item active">
-<button class="nav-link" type="button" data-toggle="modal" data-target="#product" id="product_button">
-  Sell Your Product
-</button>
-</li>
-
-<div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Please,Signup</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        for visiting Sell product page,you have to login first:-
-      </div>
-      <div class="modal-footer">
-        <a href="/" class="btn btn-secondary">Signup/Login</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<li class="nav-item dropdown">
-  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    MORE
-  </a>
-
-<style>
-#droplist{
-    background-color:#CECECE;
+.mt-0{
+    font-size:20px;
 }
-#navbarDropdown{
-  position:relative;
-  left:24px;
+.card-title{
+    font-size:15px;
 }
-</style>
-
-  {% if user.is_authenticated %}
-<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/vieworder"><p style="color:black;"><b>My Orders</b></p></a></li>
-  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login with another account</b></p></a></li>
-  <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
-  </ul>
-
-
-{% else %}
-<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
-{% endif %}
-</ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-        .dropbtn {
-            background-color: transparent;
-            color: white;
-
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-  
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            left: -30px;
-        }
-  
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 
-                0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-  
-        .dropdown-content a {
-            color: black;
-            padding: 12px 17px;
-            text-decoration: none;
-            display: block;
-        }
-  
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-        .avatar {
-            vertical-align: middle;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+#des{
+    font-size:13px;
 }
-  
-        .dropdown:hover .dropdown-content {
-            display: block;
-            left: -50px;
-
-
-        }
-    </style>
-    {%if user.is_authenticated%}
-    <center>
-        <div class="dropdown">
-            <button class="dropbtn">
-                <img src=
-"https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png"
-                    width="35" height="35">
-            </button> 
-            <div class="dropdown-content">
-                <a href="/shop/profile">View Profile</a>
-                <a href="#">Settings</a>
-            </div>
-        </div>
-        {%endif%}
-
-</div>
-</nav>
-{% block body %}
+}
 {% endblock %}
 
+{% block body %}
 
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+{% for product, range, nSlides in allprods %}
+    <hr id="hori"></hr>
+    <h5 class="col-9 row-9 my-2">Flash Sale on <b><u>{{product.0.category}}</u></b> Items</h5>
+    <hr id="hori"></hr>
+    {%for i in product%}
 
 
 
-<!-- Optional JavaScript; choose one of the two! -->
+<div class="d-flex position-relative">
+  <img src="/media/{{i.image}}" class="flex-shrink-0 me-3" alt="..." id="img">
+  <div>
+    <a href="/shop/productview/{{i.id}}"><h3 class="mt-0" style="margin-left:20px;">{{i.product_name}}</h3></a>
+    <h5 class="card-title" style="margin-left:20px;">Price:-${{i.price}}</h5>
+    <h6 style="margin-left:20px;" id="des">{{i.des}}</h6>
+    <a href="/shop/order/{{i.id}}" class="btn btn-primary" style="margin-left:20px;">Buy Now</a>
+  </div>
+</div>
+<hr id="horii"></hr>
+{%endfor%}
+{%endfor%}
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
-  </body>
-</html>
+
+
+
+{% endblock %} 
