@@ -9,9 +9,12 @@ height: 300px;
 margin-top: 10px;
 margin-left:30px;
 }
-
+#inputorder,#text{
+    position:relative;
+    left:20px;
+}
 #method{
-width:40%;
+width:60%;
 }
 
 #text{
@@ -130,7 +133,7 @@ width:40%;
             </div><br>
 
 
-
+            
 
 
             
@@ -142,14 +145,15 @@ width:40%;
 
 
 
-            <div class="form-group col-md-7">
+            <div class="form-group">
                 <label for="inputorder" id="text">Your Product ID</label>
-                <input id="inputorder" class="form-control" value="{{product.id}}" readonly="readonly" name="product_id"></div></b>
-
+                <input id="inputorder" class="form-control" value="{{product.id}}" readonly="readonly" name="product_id">
+            </div></b>
 
 
             <div class="form-group col-md-7">
-                <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid"></div></b><br>
+                <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid">
+            </div><br>
 
 
 
