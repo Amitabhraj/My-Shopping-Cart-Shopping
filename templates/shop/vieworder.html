@@ -5,38 +5,36 @@
 {% for order in order %}
 {% if request.user.id == order.user_uid %}
 
-
 <style>
-#img{
-	position: relative;
-	left: -70px;
+.flex-shrink-0{
+    width: 200px;
+    height: 170px;
+}
+@media (max-width: 767px){
+.flex-shrink-0{
+    width: 140px;
+    height: 120px;
+}
 }
 </style>
-<div class="container my-5">
-    <div class="row">
-    <div class="col-md-4">
-    <div class="row">
-        <img src="/media/{{order.product_image}}" width="280px" height="300px" id="img">
-    </div>
 
-
-    </div>
-
-    <div class="col-md-8">
-        <h4 id="img"><b>Title:-</b>{{order.product_name}}</h4><br>
-        
-        <h5 id="img"><b>Price:-</b>${{order.product_price}}</h5><br>
-
-        <a href="/shop/productview/{{order.product_id}}"><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-primary mx-3">View Product</button></p></a>
-
-		<a href="/shop/delete/{{order.product_id}}" onclick="return confirm('Are you sure you want to Cancel The Order?')"/><p style="margin-left:-1.9em;position:relative;left:-60px;"><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
-
-		
-
+<br>
+{{order.id}}
+<div class="d-flex position-relative">
+  <img src="/media/{{order.product_image}}" class="flex-shrink-0 me-3" alt="...">
+  <div>
+    <h3 class="mt-0">Product Name:-{{order.product_name}}</h3>
+    <h5>Price:-<b>${{order.product_price}}</b></h6>
+    <a href="/shop/productview/{{order.product_id}}"><button class="btn btn-primary mx-3" >View Product</button></p></a>
+    <a href="/shop/delete/{{order.id}}" onclick="return confirm('Are you sure you want to Cancel The Order?')"/><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
+  </div>
 </div>
+<br>
+<br>
 
-    </div>
-</div>
+
+
+
 
 
 {% endif %}

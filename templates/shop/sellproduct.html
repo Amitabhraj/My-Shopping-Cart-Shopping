@@ -2,6 +2,45 @@
 {% block title %} sell your product {% endblock %}
 
 {% block body %}
+
+
+<style>
+.d-block{
+    width:1200px;
+    height:530px;
+}
+@media(max-width: 767px){
+.d-block{
+    width:700px;
+    height:180px;
+
+}
+}
+</style>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://www.omnikick.com/wp-content/uploads/2016/09/Sell-Product.png" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.j2store.org/media/k2/items/cache/6b2d733e62f961aa8f8d2da1c77df197_XL.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://productmanagementfestival.com/wp-content/uploads/2017/01/sell-your-product-online.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+
 {% if user.is_authenticated %}
 
 <h4><u>Enter Your Product Details Below</u></h4>
@@ -18,7 +57,7 @@
 
         <div class="form-group">
           <label for="{{form.file_category.id_for_label}}">Product Category</label>
-          {{form.file_category}}         
+          {{form.file_category}}
         </div><br>
 
 
