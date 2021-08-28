@@ -151,7 +151,7 @@ def vieworder(requests):
 def delete(request,myid):
     data=Order.objects.filter(id=myid)
     data.delete()
-    return redirect('/shop/vieworder.html')
+    return redirect('shop/vieworder.html')
 
 
 
