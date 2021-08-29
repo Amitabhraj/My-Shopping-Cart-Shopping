@@ -6,18 +6,35 @@
     width: 270px;
     height: 240px;
 }
+#text{
+    position: relative;
+    top: 0px;
+}
+#des{
+    position: relative;
+    top: 0px;
+}
 #butt{
     position: relative;
     top: 30px;
 }
 @media (max-width:767px){
 #img{
-    width: 120px;
-    height: 100px;
+    width: 170px;
+    height: 150px;
 }
 #butt{
     position: relative;
     top:5px;
+}
+#text{
+    position: relative;
+    top:-180px;
+    left: 200px;
+}
+#des{
+    position: relative;
+    top:-100px;
 }
 }
 </style>
@@ -34,9 +51,9 @@
     </div>
 
     <div class="col-md-8">
-        <h5><b>Title:-</b>{{product.product_name}}</h5><br>
-        <h6><b>Price:-</b>${{product.price}}</h6><br><br>
-        <p><b>Description</b><br>{{product.des}}</p>
+        <h5 id="text"><b>Title:-</b>{{product.product_name}}</h5><br>
+        <h6 id="text"><b>Price:-</b>${{product.price}}</h6><br><br>
+        <p id ="des"><b>Description</b><br>{{product.des}}</p>
 
 
     </div>
