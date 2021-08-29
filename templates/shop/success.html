@@ -1,7 +1,7 @@
 {% load static %}
 <style>
 body{
-  background-color:red;
+  background-color:#F6F6F6;
 }
 .responsive {
   background-color: transparent;
@@ -17,6 +17,12 @@ body{
 div.text{
   margin-top:-100px;
   text-align: center;
+}
+@media (max-width: 450px){
+.reponsive{
+  width:20px;
+  height:20px;
+}
 }
 </style>
 <img src="{% static "shop\ezgif.com-gif-maker (2).gif" %}" alt="Nature" class="responsive" id="center" width="800px" height="600px;"/>
