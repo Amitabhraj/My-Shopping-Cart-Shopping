@@ -106,7 +106,7 @@
   <div>
     <a href="/shop/productview/{{i.id}}"><h3 class="mt-0" style="margin-left:20px;">{{i.product_name}}</h3></a>
     <h5 class="card-title" style="margin-left:20px;">Price:-${{i.price}}</h5>
-    <h6 style="margin-left:20px;" id="des">{{i.des}}</h6>
+    <h6 style="margin-left:20px;" id="des">{{i.des|slice:"0:80"}}...</h6>
     <a href="/shop/order/{{i.id}}" class="btn btn-primary" style="margin-left:20px;">Buy Now</a>
   </div>
 </div>
