@@ -1,10 +1,7 @@
 {% load static %}
-<img src="{% static "shop\ezgif.com-gif-maker (2).gif" %}" alt="Nature" class="responsive" id="center"/>
-<div class="text"><h1>Your Order Has Successfully Delivered<br><button type="button" onclick="history.back()"><u>Go Back</u></button></h1></div>
-
 <style>
 body{
-	background-color:#F8F8F8;
+  background-color:#F8F8F8;
 }
 .responsive {
   max-width: 100%;
@@ -20,11 +17,14 @@ body{
 }
 
 div.text{
-	margin-top:-100px;
+  margin-top:-100px;
   text-align: center;
 }
 @media(max-width:767px){
 body{
   background-color:red;
 }
+}
 </style>
+<img src="{% static "shop\ezgif.com-gif-maker (2).gif" %}" alt="Nature" class="responsive" id="center"/>
+<div class="text"><h1>Your Order Has Successfully Delivered<br><button type="button" onclick="history.back()"><u>Go Back</u></button></h1></div>
