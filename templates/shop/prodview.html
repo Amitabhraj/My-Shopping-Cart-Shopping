@@ -1,68 +1,41 @@
 {% extends 'shop/basic.html' %}
 {% block title%} {{product.product_name}} - My Awesome Cart{% endblock %}
 {% block body %}
+
 <style>
-#img{
-    width: 270px;
-    height: 240px;
-}
-#text{
-    position: relative;
-    top: 0px;
-}
-#des{
-    position: relative;
-    top: 0px;
-}
 #butt{
     position: relative;
     top: 30px;
 }
-@media (max-width:767px){
-#img{
-    width: 170px;
-    height: 150px;
+#text{
+    position: relative;
 }
+@media (max-width:767px){
 #butt{
     position: relative;
     top:5px;
 }
-#text{
-    position: relative;
-    top:-180px;
-    left: 200px;
-}
-#des{
-    position: relative;
-    top:-100px;
-}
 }
 </style>
-<div class="container my-4">
-    <div class="row">
-    <div class="col-md-4">
-    <div class="row">
-        <img src="/media/{{product.image}}" id="img">
-    </div>
-
-        <a href="/shop/order/{{product.id}}"><button class="btn btn-primary mx-3" id="butt">Buy Now</button></a>
 
 
-    </div>
-
-    <div class="col-md-8">
-        <h5 id="text"><b>Title:-</b>{{product.product_name}}</h5><br>
-        <h6 id="text"><b>Price:-</b>${{product.price}}</h6><br><br>
-        <p id ="des"><b>Description</b><br>{{product.des}}</p>
 
 
-    </div>
-    </div>
 
-
+<div class="row g-0 bg-light position-relative">
+  <div class="col-md-2 mb-md-0 p-md-1">
+    <img src="/media/{{product.image}}" class="w-100" alt="...">
+    <a href="/shop/order/{{product.id}}"><button class="btn btn-primary mx-3" id="butt">Buy Now</button></a>
+    <br>
+  </div>
+  <div class="col-md-6 p-4 ps-md-0">
+    <h4 class="mt-0">Product Name:- {{product.product_name}}</h5>
+    <br>
+    <h5>Price:- ${{product.price}}</h5>
+    <br>
+    <p id ="des"><b>Description</b><br>{{product.des}}</p>
+  </div>
 </div>
-
-
 
 
 {% endblock %}
