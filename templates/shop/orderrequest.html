@@ -12,8 +12,11 @@
 }
 @media (max-width: 767px){
 .flex-shrink-0{
-    width: 140px;
+    width: 130px;
     height: 120px;
+}
+h3,h4,a{
+	font-size:12px;
 }
 }
 </style>
@@ -22,10 +25,11 @@
 <div class="d-flex position-relative">
   <img src="/media/{{order.product_image}}" class="flex-shrink-0 me-3" alt="...">
   <div>
-    <h3 class="mt-0">Buyer Name:-{{order.name}}</h3>
-    <h4>Email Address:-{{order.email}}</h4>
-    <h4>Address:-{{order.address2}},{{order.address1}}</h4>
-    <h4>Phone number:-<b>{{order.phone}}</b></h4>
+    <h3 class="mt-0"><b>Buyer Name:-</b>{{order.name}}</h3>
+    <h4><b>Email Address:-</b>{{order.email}}</h4>
+    <h4><b>Address:-</b>{{order.address1}},{{order.address2}}</h4>
+    <h4><b>Phone number:-</b>{{order.phone}}</h4>
+    <a href="/shop/moredetail/{{order.id}}">More details></a>
   </div>
 </div>
 <br>

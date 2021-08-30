@@ -125,6 +125,56 @@
 
 
 
+{% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/vieworder">My orders</a>
+      </li>
+{% else %}
+<style>
+#button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    color: white;       
+}
+</style>
+
+<li class="nav-item active">
+<button class="nav-link active" type="button" data-toggle="modal" data-target="#contact" id="button">
+  My orders
+</button>
+</li>
+
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You can't See Your Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        for seeing Your Order, you have to login first:-
+      </div>
+      <div class="modal-footer">
+        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -206,7 +256,6 @@
   {% if user.is_authenticated %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/vieworder"><p style="color:black;"><b>My Orders</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>Order request</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Your product</b></p></a></li>
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login with another account</b></p></a></li>

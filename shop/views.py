@@ -155,6 +155,13 @@ def orderrequest(requests):
 
 
 
+def moredetail(requests,myid):
+    order= Order.objects.filter(id=myid)
+    context={'order':order[0]}
+    return render(requests, 'shop/moredetail.html',context)
+
+
+
 
 def yourproduct(requests):
     product= Product.objects.all()
@@ -168,7 +175,7 @@ def yourproduct(requests):
 def delete(request,myid):
     data=Order.objects.filter(id=myid)
     data.delete()
-    return redirect('shop/vieworder.html')
+    return redirect('/shop/vieworder')
 
 
 

@@ -1,0 +1,74 @@
+{% extends 'shop/basic.html' %}
+{% block body %}
+
+
+
+      <div class="container">
+        <h2><u>Buyer Details Are Here:-</u></h2>
+                <b><div class="form-group col-md-6">
+                    <label for="name">Product Name</label>
+                    <input readonly="readonly" class="form-control" id="name" value="{{order.product_name}}">
+                </div><br>
+
+
+
+                <div class="form-group col-md-6">
+                	<label for="pr">Buyer Name:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.name}}"></input><br>
+    			</div>
+
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer Address:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.address1}},{{order.address2}}"></input><br>
+    			</div>
+
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer Zip:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.zip}}" ></input><br>
+    			</div>
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer Phone No:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.phone}}"></input><br>
+    			</div>
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer City:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.city}}"></input><br>
+    			</div>
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer State:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.state}}"></input><br>
+    			</div>
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer Email Address:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.email}}"></input><br>
+    			</div>
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Buyer Order Method:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.order_method}}"></input><br>
+    			</div>
+
+
+
+    			<div class="form-group col-md-6">
+                	<label for="pr">Product ID:-</label>
+    				<input id="pr" readonly="readonly" class="form-control" value="{{order.product_id}}"></input><br>
+    			</div><br></b>
+
+
+
+
+{% endblock %}
