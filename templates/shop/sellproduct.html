@@ -9,10 +9,18 @@
     width:1200px;
     height:530px;
 }
+#butt{
+  color: white;
+  background-color: green;
+}
+#butt:hover{
+  color:black;
+  background-color: green;
+}
 @media(max-width: 767px){
 .d-block{
     width:700px;
-    height:180px;
+    height:170px;
 
 }
 }
@@ -69,14 +77,20 @@
 
         <div class="form-group">
           <label for="{{form.file_price.id_for_label}}">Product Price</label>
-          {{form.file_price}}         
+          {{form.file_price}}        
         </div><br>
 
 
         <div class="form-group">
           <label for="{{form.file_des.id_for_label}}">description of the Product</label>
           {{form.file_des}}     
-        </div><br>
+        </div>
+
+
+        <div class="form-group">
+          <label for="{{form.file_id.id_for_label}}"></label>
+          <input type="hidden" value="{{request.user.id}}" id={{form.file_id}}
+        </div>
 
 
         <div class="form-group" rows="3">
@@ -85,8 +99,9 @@
         </div><br>
         
         
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn" id="butt">Submit</button>
       </form></b>
+      <br>
 
 </div>
 

@@ -81,9 +81,10 @@ def order(request, myid):
         phone=request.POST.get('phone','')
         order_method=request.POST.get('order_method','')
         product_id=request.POST.get('product_id','')
+        admin_id=request.POST.get('admin_id','')
         user_uid=request.POST.get('user_uid','')
         
-        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,product_id=product_id,user_uid=user_uid)
+        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,product_id=product_id,admin_id=admin_id,user_uid=user_uid)
         order.save()
         return redirect("success")
     product = Product.objects.filter(id=myid)
@@ -105,9 +106,10 @@ def sellproduct(request):
             subcategory = form.cleaned_data['file_subcategory']
             price = form.cleaned_data['file_price']
             des = form.cleaned_data['file_des']
+            admin_id=form.cleaned_data['file_id']
             the_files = form.cleaned_data['files_data']
 
-            Product(product_name=name, category=category, subcategory=subcategory, price=price ,des=des, image=the_files).save()
+            Product(product_name=name, category=category, subcategory=subcategory, price=price ,des=des,admin_id=admin_id, image=the_files).save()
             return redirect("success2")
         
         else:
@@ -143,6 +145,21 @@ def vieworder(requests):
     order= Order.objects.all()
     context={'order':order}
     return render(requests, 'shop/vieworder.html',context)
+
+
+
+def orderrequest(requests):
+    order= Order.objects.all()
+    context={'order':order}
+    return render(requests, 'shop/orderrequest.html',context)
+
+
+
+
+def yourproduct(requests):
+    product= Product.objects.all()
+    context={'product':product}
+    return render(requests, 'shop/yourproduct.html',context)
  
 
 

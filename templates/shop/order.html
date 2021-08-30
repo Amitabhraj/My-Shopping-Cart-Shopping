@@ -28,13 +28,13 @@ width:60%;
 
 #order1{
     color:black;
-    background-color:#00FCEB;
+    background-color:#04FF00;
 }
 
 
 #order2{
     color:black;
-    background-color:#00FCEB;
+    background-color:#04FF00;
 }
 
 #order1:hover{
@@ -55,6 +55,7 @@ width:60%;
     <div class="row">
     <div class="col-md-4">
     <div class="row-md-8">
+        <br>
         <label for="image"><img src="/media/{{product.image}}" width="287px" height="300px"></label>
         <input type="hidden" id="image"readonly="readonly" class="form-control" value="{{product.image}}" name="product_image">
     </div>
@@ -151,9 +152,13 @@ width:60%;
             </div></b>
 
 
-            <div class="form-group col-md-7">
-                <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid">
-            </div><br>
+        <div class="form-group col-md-7">
+            <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid">
+        </div><br>
+
+        <div class="form-group col-md-7">
+            <input type="hidden" id="inputorder" class="form-control" value="{{product.admin_id}}" readonly="readonly" name="admin_id">
+        </div>
 
 
 
@@ -163,7 +168,7 @@ width:60%;
 
 {% if user.is_authenticated %}
             <a type="button" class="btn btn-dark" data-toggle="modal" data-target="#order" id="order1">
-            Place Order
+            <b>Place Order</b>
             </a>
 
             <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -187,7 +192,7 @@ width:60%;
 {% else %}
 
 <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#order" id="order2">
-Place Order
+<b>Place Order</b>
 </button>
 
 <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -20,5 +20,7 @@ urlpatterns = [
     path('view/', views.show_file,       name="view"),
     path('profile/', views.profile,       name="profile"),
     path('vieworder/', views.vieworder,       name="vieworder"),
+    path('orderrequest/', views.orderrequest,       name="orderrequest"),
+    path('yourproduct/', views.yourproduct,       name="yourproduct"),
     path('delete/<int:myid>', views.delete,       name="profile"),
 ]

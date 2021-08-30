@@ -12,6 +12,7 @@ class Product(models.Model):
     subcategory=models.CharField(max_length=50, default="")
     price=models.CharField(max_length=10, default="0")
     des=models.CharField(max_length=300)
+    admin_id=models.IntegerField(default="")
     image=models.ImageField(upload_to="shop/images")
     
     def __str__(self):
@@ -48,6 +49,7 @@ class Order(models.Model):
     phone=models.CharField(max_length=10,default="0")
     order_method=models.CharField(max_length=50, default="")
     product_id=models.CharField(max_length=1,default=0)
+    admin_id=models.IntegerField(default="")
     user_uid=models.IntegerField(default=0)
     
     def __str__(self):

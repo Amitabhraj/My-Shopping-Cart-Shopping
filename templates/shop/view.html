@@ -11,14 +11,6 @@
 </head>
 
 <body>
-<style>
-@media (max-width: 767px){
-.login-form form {
-    width: 90%;
-    padding: 20px 15px 20px;
-}
-}
-</style>
 
     <div class="container mt-1">
         <div class="row">
@@ -26,19 +18,32 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th><h5>S/N</h5></th>
-                        <th><h5>Product Image</h5></th>
-                        <th><h5>Product Name</h5></th>
-                        <th><h5>Product Price</h5></th>
+                        <th><h5 id="text">Product Image</h5></th>
+                        <th><h5 id="text">Product Name</h5></th>
+                        <th><h5 id="text">Product Price</h5></th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for d in data %}
                       <tr>
-                        <th>{{forloop.counter}}</th>
-                        <th><img src="{{d.image.url}}" width="260px" height="270px"></a></th>
-                        <th><h4><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
-                        <th><h5>${{d.price}}</h5></th>
+<style>
+#img{
+    width: 200px;
+    height: 200px;
+}
+@media (max-width: 767px){
+#img{
+    width: 95px;
+    height: 95px;
+}
+#text{
+    font-size:15px;
+}
+}
+</style>
+                        <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
+                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
+                        <th><h5 id="text">${{d.price}}</h5></th>
                       {% endfor %}
                     </tbody>
                   </table>
