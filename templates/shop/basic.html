@@ -142,12 +142,12 @@
 </style>
 
 <li class="nav-item active">
-<button class="nav-link active" type="button" data-toggle="modal" data-target="#contact" id="button">
-  My orders
+<button class="nav-link active" type="button" data-toggle="modal" data-target="#order" id="button">
+  My order
 </button>
 </li>
 
-<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -193,33 +193,64 @@
     overflow: hidden; 
     color: white;       
 }
+@media(min-width: 780px){
+  .btn{
+    position: relative;
+    top:0px;
+  }
+}
 </style>
 
 <li class="nav-item active">
-<button class="nav-link" type="button" data-toggle="modal" data-target="#product" id="product_button">
+<button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" id="product_button">
   Sell Your Product
 </button>
 </li>
 
-<div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Please,Signup</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="exampleModalLabel">You can't Sell Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        for visiting Sell product page,you have to login first:-
+        For selling product You have to login first:-
       </div>
       <div class="modal-footer">
-        <a href="/" class="btn btn-secondary">Signup/Login</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button>
       </div>
     </div>
   </div>
 </div>
 {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
