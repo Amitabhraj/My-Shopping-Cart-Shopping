@@ -60,7 +60,8 @@ def search(requests):
 
 def prodview(requests, myid):
     product = Product.objects.filter(id=myid)
-    return render(requests,'shop/prodview.html', {'product':product[0]})
+    prod=Product.objects.all()
+    return render(requests,'shop/prodview.html', {'product':product[0],'prod':prod})
 
 
 
