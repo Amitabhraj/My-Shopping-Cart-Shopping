@@ -43,12 +43,11 @@
   </div>
 </div>
 <h3>Related Products:-</h3>
-{{prod.product_name}}
 <hr></hr>
     {% for prod in prod %}
     {% if prod.category == product.category and prod.product_name != product.product_name %}
     <label for="img"></label>
-    <h3><img src="/media/{{prod.image}}" width="190px"height="170px" id="img"><a href="/shop/productview/{{prod.id}}">{{prod.product_name}}</a></img></h3><br>
+    <h3><img src="/media/{{product.image}}" width="190px"height="170px" id="img"><a href="/shop/productview/{{prod.id}}">{{product.product_name}}</a></img></h3><br>
     {% else %}
     <p></p>
       {% endif %}
