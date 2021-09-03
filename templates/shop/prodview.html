@@ -40,14 +40,24 @@
 <br>
 <br>
 <br>
-  </div>
 </div>
-<h3>Related Products:-</h3>
+</div>
+<style>
+h3 {
+  font-size: 25px;
+}
+@media (max-width: 768px){
+  h3{
+    font-size: 16px;
+  }
+}
+</style>
+<h4><b><u>Related Products:-</b></u></h4>
 <hr></hr>
     {% for prod in prod %}
     {% if prod.category == product.category and prod.product_name != product.product_name %}
     <label for="img"></label>
-    <h3><img src="/media/{{prod.image}}" width="190px"height="170px" id="img"><a href="/shop/productview/{{prod.id}}">{{prod.product_name}}</a></img></h3><br>
+    <h3><img src="/media/{{prod.image}}" width="190px"height="170px" id="img">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/shop/productview/{{prod.id}}">{{prod.product_name}}</a></img></h3><br>
     {% else %}
     <p></p>
       {% endif %}
