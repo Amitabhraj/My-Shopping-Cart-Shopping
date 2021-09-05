@@ -159,6 +159,13 @@ def orderrequest(requests):
 
 
 
+
+def destroy(request,myid):  
+    order = Order.objects.get(id=myid)  
+    order.delete()  
+    return redirect("/shop/vieworder") 
+
+
 def moredetail(requests,myid):
     order= Order.objects.filter(id=myid)
     context={'order':order[0]}
