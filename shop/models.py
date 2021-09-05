@@ -13,7 +13,7 @@ class Product(models.Model):
     price=models.CharField(max_length=10, default="0")
     des=models.CharField(max_length=300)
     admin_id=models.IntegerField(default="")
-    image=models.ImageField(upload_to="shop/images")
+    image=models.ImageField(upload_to="shop/images") 
     
     def __str__(self):
         return self.product_name

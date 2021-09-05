@@ -1,0 +1,79 @@
+{% extends 'shop/basic.html' %}
+{% block body %}
+    <form method="POST" action="update/{{product.id }}">
+        {% csrf_token %}
+        <div class="container">
+        	<h3><u>Edit You Product:-</u></h3>
+        <div class="form-group">
+        	<br>
+            <label for="name"><h5>Enter Product Name:-</h5></label>
+            <input type="text" id="name" name="product_name" value="{{ product.product_name }}" class="form-control" />
+        </div>
+        <br>
+
+
+        <div class="form-group">
+            <label for="category"><h5>Enter Product Category:-</h5></label>
+            <input type="text" id="category" name="category" value="{{ product.category }}" class="form-control" />
+        </div>
+        <br>
+
+
+
+        <div class="form-group">
+            <label for="subcategory"><h5>Enter Product SubCategory:-</h5></label>
+            <input type="text" id="subcategory" name="subcategory" value="{{ product.subcategory }}" class="form-control" />
+        </div>
+        <br>
+
+
+
+        <div class="form-group">
+            <label for="price"><h5>Enter Product Price:-</h5></label>
+            <input type="text" id="price" name="price" value="{{ product.price }}" class="form-control" />
+        </div>
+        <br>
+
+
+
+        <div class="form-group">
+            <label for="des"><h5>Enter Product Description:-</h5></label>
+            <input type="text" id="des" name="des" value="{{ product.des }}" class="form-control" />
+        </div>
+        <br>
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark">Update</button>
+        </div>
+    </div>
+    </form>
+<br>
+<h3>&nbsp;&nbsp;&nbsp;&nbsp;DELETE PRODUCT:-</h3>
+<hr></hr>
+
+
+
+&nbsp;&nbsp;<button class="btn btn-danger" data-toggle="modal" data-target="#delete" >Delete This Product</button>
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><p style="color:red"><u>WARNING</u></p></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ARE YOU SURE YOU WANT TO DELETE THIS PRODUCT:-</b>
+      </div>
+      <div class="modal-footer">
+        <a href="delete/{{product.id}}" class="btn btn-secondary" >YES,I AM SURE!</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+{% endblock %}

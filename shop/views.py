@@ -142,10 +142,12 @@ def profile(request):
 
 
 
+
 def vieworder(requests):
     order= Order.objects.all()
     context={'order':order}
     return render(requests, 'shop/vieworder.html',context)
+
 
 
 
@@ -156,27 +158,41 @@ def orderrequest(requests):
 
 
 
+
 def moredetail(requests,myid):
     order= Order.objects.filter(id=myid)
     context={'order':order[0]}
     return render(requests, 'shop/moredetail.html',context)
 
 
+def delete(request,myid):  
+    product = Product.objects.get(id=myid)  
+    product.delete()  
+    return redirect("/shop/yourproduct")  
 
 
 def yourproduct(requests):
     product= Product.objects.all()
     context={'product':product}
     return render(requests, 'shop/yourproduct.html',context)
- 
 
 
 
+def edit(request,myid):  
+    product = Product.objects.get(id=myid)  
+    return render(request,'shop/edit.html', {'product':product}) 
 
-def delete(request,myid):
-    data=Order.objects.filter(id=myid)
-    data.delete()
-    return redirect('/shop/vieworder')
+
+
+def update(request,myid):
+    product = Product.objects.get(id=myid)
+    product.product_name = request.POST['product_name']
+    product.category = request.POST['category']
+    product.subcategory = request.POST['subcategory']
+    product.price = request.POST['price']
+    product.des = request.POST['des']
+    product.save()
+    return redirect('/shop/yourproduct')
 
 
 
