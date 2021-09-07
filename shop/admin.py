@@ -7,4 +7,4 @@ admin.site.register(Contact)
 
 class ProductAdmin(admin.ModelAdmin):
     class Media:
-        js= ('static/tiny.js',)
+        js= ('My-Awesome-Cart-Website/static/tiny.js',)
