@@ -7,4 +7,4 @@ admin.site.register(Contact)
 
 class ProductAdmin(admin.ModelAdmin):
     class Media:
-        js= ('tiny.js',)
+        js= ('static/tiny.js',)
