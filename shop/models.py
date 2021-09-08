@@ -11,7 +11,7 @@ class Product(models.Model):
     category=models.CharField(max_length=30, default="")
     subcategory=models.CharField(max_length=50, default="")
     price=models.CharField(max_length=10, default="0")
-    des=models.CharField(max_length=300)
+    des=models.CharField(max_length=10000)
     admin_id=models.IntegerField(default="")
     image=models.ImageField(upload_to="shop/images") 
     
