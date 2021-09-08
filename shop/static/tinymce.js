@@ -6,7 +6,7 @@ document.head.appendChild(script);
 script.onload=function(){
 tinymce.init({
     selector: "#id_des",
-    width:1400,
+    width:1130,
     height:656,
     plugins: [
         'advlist autolink link image lists charmap print preview hr anchor pagebreak',
