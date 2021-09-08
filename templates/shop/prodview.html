@@ -10,10 +10,16 @@
 #text{
     position: relative;
 }
+#des{
+  font-size:25px;
+}
 @media (max-width:767px){
 #butt{
     position: relative;
     top:5px;
+}
+#des{
+  font-size:20px;
 }
 }
 </style>
@@ -32,7 +38,7 @@
     <p class="mt-0" style="font-size:25px;">Product Name:-<b>{{product.product_name}}</b></p>
     <h5>Price:- ${{product.price}}</h5>
     <br>
-    <p id ="des"><b>Description</b><br>{{product.des|safe}}</p>
+    <p id ="des"><b><u>Description:-</u></b></p>{{product.des|safe}}
 <br>
 <br>
 <br>
