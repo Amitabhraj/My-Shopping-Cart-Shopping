@@ -50,8 +50,11 @@ def contact(request):
 
 
 
-def search(requests):
-   return render(requests,'shop/search.html')
+def search(request):
+    search=request.GET['search']
+    product= Product.objects.filter(product_name__icontains=search)
+    params={'product': product}
+    return render(request, 'shop/search.html', params)
 
 
 
