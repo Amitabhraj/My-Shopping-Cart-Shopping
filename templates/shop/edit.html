@@ -34,13 +34,37 @@
         </div>
         <br>
 
-
-
-        <div class="form-group">
-            <label for="des"><h5>Enter Product Description:-</h5></label>
-            <input type="text" id="des" name="des" value="{{ product.des }}" class="form-control" />
-        </div>
-        <br>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/soqyplka7sxal4ddpt6rdne1vaw393qhhvtqhd9wvlx6dpck/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#des',
+        height:400,
+        plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template paste help'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+      'forecolor backcolor emoticons | help',
+    menu: {
+      favs: {title: 'My Awesome Cart Shopping', items: 'code visualaid | searchreplace | emoticons'}
+    },
+    menubar: 'favs file edit view insert format tools table help',
+    content_css: 'css/content.css'
+      });
+    </script>
+  </head>
+<body>
+  <label for="des"><h5>Description:-</h5></label>
+  <input name="des" id="des" value="{{product.des}}"></input>
+  </body>
+</html><br>
 
 
         <div class="form-group">

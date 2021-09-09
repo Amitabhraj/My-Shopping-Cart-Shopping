@@ -106,7 +106,7 @@ def sellproduct(request):
             category = form.cleaned_data['file_category']
             subcategory = form.cleaned_data['file_subcategory']
             price = form.cleaned_data['file_price']
-            des = form.cleaned_data['file_des']
+            des = request.POST.get('des','')
             admin_id=form.cleaned_data['file_id']
             the_files = form.cleaned_data['files_data']
 

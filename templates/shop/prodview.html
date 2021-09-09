@@ -10,10 +10,16 @@
 #text{
     position: relative;
 }
+#des{
+  font-size:25px;
+}
 @media (max-width:767px){
 #butt{
     position: relative;
     top:5px;
+}
+#des{
+  font-size:20px;
 }
 }
 </style>
@@ -23,19 +29,16 @@
 
 
 <div class="row g-0 bg-light position-relative">
-  <div class="col-md-2 mb-md-0 p-md-1">
+  <div class="col-md-2 mb-md-0 p-md-3">
     <img src="/media/{{product.image}}" class="w-100" alt="...">
-    <a href="/shop/order/{{product.id}}"><button class="btn btn-primary mx-3" id="butt">Buy Now</button></a>
+    <a href="/shop/order/{{product.id}}"><button class="btn btn-dark mx-3" id="butt">Buy Now</button></a>
     <br>
   </div>
   <div class="col-md-6 p-4 ps-md-0">
-    <p class="mt-0" style="font-size:25px;">Product Name:-<b>{{product.product_name}}</b></p>
-    <h5>Price:- ${{product.price}}</h5>
+    <p class="mt-0" style="font-size:25px;"><u>{{product.product_name}}</u></p>
+    <p><span style="color: #000000;"><b>Price:-</b><strong> <span style="color: #FFBA67;font-size:25px;">${{product.price}}</span></strong></span></p>
     <br>
-    <p id ="des"><b>Description</b><br>{{product.des}}</p>
-<br>
-<br>
-<br>
+    <p id ="des"><b><u>Description:-</u></b></p>{{product.des|safe}}
 <br>
 <br>
 <br>
