@@ -1,44 +1,326 @@
-{% extends 'shop/basic.html' %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block title %} Search Results {% endblock title %}
-{% block blogactive %} active {% endblock blogactive %} 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
-{% block body %}
+
+<title>{%block title%}{%endblock %}</title>
+<style>{% block css %}{% endblock %}</style>
+
 
 <style>
-#img{
-	width: 200px;
-	height:200px;
+::-webkit-scrollbar {
+    width: 17px;
+    background-color: #343535
 }
-@media(max-width: 768px){
-#img{
-	width: 120px;
-	height: 120px;
-}	
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #909596;
+}
+#cart{
+  position: relative;
+  left:15px;
+}
+.nav-link{
+  position: relative;
+  left: 10px;
 }
 </style>
 
-<div class="container my-3">
-    <h2>Search results : </h2>
-    {% for product in product %}
-    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-		<div class="d-flex position-relative">
-		  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
-		  <div>
-		    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
-		    <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
-		    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
-		  </div>
-		</div>
 
 
-        </div>
-        </div>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/shop" id="cart">My Awesome Cart</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
 
 
-        {% endfor %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop">Home</a>
+      </li>
+
+
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/about">About us</a>
+      </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/contact">Contact Us</a>
+      </li>
+{% else %}
+<style>
+#button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    color: white;       
+}
+</style>
+
+<li class="nav-item active">
+<button class="nav-link active" type="button" data-toggle="modal" data-target="#contact" id="button">
+  Contact Us
+</button>
+</li>
+
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You can't Contact Us</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        for Contacting us,you have to login first:-
+      </div>
+      <div class="modal-footer">
+        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
+      </div>
     </div>
- {% endblock %}
+  </div>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/vieworder">My orders</a>
+      </li>
+{% else %}
+<style>
+#button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    color: white;       
+}
+</style>
+
+<li class="nav-item active">
+<button class="nav-link active" type="button" data-toggle="modal" data-target="#order" id="button">
+  My order
+</button>
+</li>
+
+<div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You can't See Your Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        for seeing Your Order, you have to login first:-
+      </div>
+      <div class="modal-footer">
+        <a href="/" class="btn btn-secondary" >Signup/Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/sellproduct" data-target="#exampleModal">Sell Your Products</a>
+    </li>
+
+{% else %}
+<style>
+#product_button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    color: white;       
+}
+@media(min-width: 780px){
+  .btn{
+    position: relative;
+    top:0px;
+  }
+}
+</style>
+
+<li class="nav-item active">
+<button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" id="product_button">
+  Sell Your Product
+</button>
+</li>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You can't Sell Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        For selling product You have to login first:-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button>
+        <a href="/"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="nav-item dropdown">
+  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    MORE
+  </a>
+
+<style>
+#droplist{
+    background-color:#CECECE;
+}
+#navbarDropdown{
+  position:relative;
+  left:2px;
+}
+</style>
+
+  {% if user.is_authenticated %}
+<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
+  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>Order request</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Your product</b></p></a></li>
+  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login with another account</b></p></a></li>
+  <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
+  </ul>
+
+
+{% else %}
+<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
+  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
+{% endif %}
+</ul>
+</li>
+
+      <form class="d-flex" method="get" action="/shop/search">
+        <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+
+</nav>
+{% block body %}
+{% endblock %}
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  </body>
+</html>
