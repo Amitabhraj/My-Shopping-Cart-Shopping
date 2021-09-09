@@ -1,7 +1,38 @@
 {% extends 'shop/basic.html' %}
 
+{% block title %} Search Results {% endblock title %}
+{% block blogactive %} active {% endblock blogactive %} 
 
-{%block title%}Search Result{%endblock %}
+
+{% block body %}
+
+<style>
+#img{
+	width: 200px;
+	height:200px;
+}
+</style>
+
+<div class="container my-3">
+    <h2>Search results : </h2>
+    {% for product in product %}
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+		<div class="d-flex position-relative">
+		  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
+		  <div>
+		    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
+		    <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
+		    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
+		  </div>
+		</div>
 
 
-{%block body%}<h1>hello this is Search Result page</h1>{%endblock %}
+        </div>
+        </div>
+
+
+
+        {% endfor %}
+    </div>
+ {% endblock %}
