@@ -5,7 +5,7 @@ from .models import Contact
 from .models import Order
 from math import ceil
 from .forms import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 # Create your views here.
 
@@ -46,15 +46,6 @@ def contact(request):
         return redirect("success1")
     return render(request, "shop/contact.html")
 
-
-
-
-
-def search(request):
-    search=request.GET['search']
-    product= Product.objects.filter(product_name__icontains=search)
-    params={'product': product}
-    return render(request, 'shop/search.html', params)
 
 
 
@@ -156,7 +147,8 @@ def vieworder(requests):
 
 def orderrequest(requests):
     order= Order.objects.all()
-    context={'order':order}
+    name="You don't Have Get Any Order Request Till Now!"
+    context={'order':order,'name':name}
     return render(requests, 'shop/orderrequest.html',context)
 
 
@@ -181,10 +173,23 @@ def delete(request,myid):
     return redirect("/shop/yourproduct")  
 
 
+
+
+
+def search(request):
+    search=request.GET['search']
+    product= Product.objects.filter(product_name__icontains=search)
+    params={'product': product,'search':search}
+    return render(request, 'shop/search.html', params)
+
+
+
+
 def yourproduct(requests):
-    product= Product.objects.all()
+    product = Product.objects.all()
     context={'product':product}
     return render(requests, 'shop/yourproduct.html',context)
+
 
 
 
