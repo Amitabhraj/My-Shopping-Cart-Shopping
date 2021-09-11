@@ -219,6 +219,7 @@
         For selling product You have to login first:-
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button>
         <a href="/"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button></a>
       </div>
     </div>
@@ -294,14 +295,18 @@
   <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Your product</b></p></a></li>
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login with another account</b></p></a></li>
   <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
+  {% if request.user.id == 21 or request.user.id == 1 %}
+  <li><a class="dropdown-item" href="/admin"><p style="color:black;"><b>Admin Panel</b></p></a></li>
   </ul>
-
+  {% endif %}
 
 {% else %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>change view</b></p></a></li>
 {% endif %}
+
+
 </ul>
 </li>
 <style>
@@ -324,7 +329,6 @@
         <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-
 
 </nav>
 {% block body %}
