@@ -33,17 +33,18 @@ h3,h4{
 </div>
 <br>
 <br>
-
 {% endif %}
 {% endfor %}
 
 <hr style="height:2px;color:black;"></hr>
 <center><h3><u>You Don't Have More Products</u></h3>
-  <a href="/shop/sellproduct"><button class="btn btn-dark">Sell Product</button></a></center>
-  <hr style="height:2px;color:black;"></hr><br>
+<a href="/shop/sellproduct"><button class="btn btn-dark">Sell Products</button></a></center>
+<hr style="height:2px;color:black;"></hr><br>
 
-{%else%}
+
+
+{% else %}
 <h2>Please sign in to see your Selled Products</h2>
 <a href="/" class="btn btn-danger">Sign in Here</a>
-{%endif%}
+{% endif %}
 {%endblock%}
