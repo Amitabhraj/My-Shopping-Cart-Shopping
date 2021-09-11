@@ -120,11 +120,14 @@ def sellproduct(request):
 
 
 def show_file(request):
-    all_data = Product.objects.all()
-    context = {
-        'data':all_data 
-        }
-
+    product = Product.objects.all()
+    paginator=Paginator(product,12)
+    page_number = request.GET.get('page', 1)
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(1)
+    context = {'data':page }
     return render(request, 'shop/view.html', context)
 
 
