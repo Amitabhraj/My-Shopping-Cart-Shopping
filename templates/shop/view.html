@@ -38,9 +38,25 @@
                       {% endfor %}
                     </tbody>
                   </table>
-
-
             </div>
         </div>
     </div>
+    <br>
+
+<style>
+#butt{
+  float:right;
+}
+</style>
+        {% if data.has_previous %}
+          <a href="/shop/view/?page={{data.previous_page_number}}"><button class="btn btn-secondary">&laquo;Previous</button></a>
+        {% endif %}
+
+        {% if data.has_next %}
+          <a href="/shop/view/?page={{ data.next_page_number }}"><button class="btn btn-secondary" id="butt">next&raquo;</button></a>
+        {% endif %}
+
+<br>
+<br>
+
 {%endblock%}
