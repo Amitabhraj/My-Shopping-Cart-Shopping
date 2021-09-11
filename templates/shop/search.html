@@ -1,51 +1,74 @@
 {% extends 'shop/basic.html' %}
-
 {% block title %} Search Results {% endblock title %}
-
-
 {% block body %}
 
 <style>
 #img{
 	width: 200px;
 	height:200px;
+	margin-right:0px;
 }
 @media(max-width: 768px){
 #img{
-	width: 120px;
-	height: 120px;
+	width: auto;
+	height: auto;
 }	
 }
 </style>
 
 
 <div class="container my-3">
-	{% if product|length < 1 %}
+
+
+	{% if search == "" or search == " " %}
+	<h1>You Have Not Searched Anything,Please Search Something!</h1>
+
+
+	{% elif product|length < 1 %}
     <h2><u>No Search Result</u></h2><br>
     <h5>Your search - <b>{{search}}</b> - did not match any documents.<br>
 	Suggestions:<br>
 	Try different keywords..</h5>
+
+
 	{% else %}
-    <h2>Search results : </h2>
+    <h2><u>Search results:-</u></h2>
     {% for product in product %}
-    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
-        <div>
-		<div class="d-flex position-relative">
-		  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}"  alt="..." id="img"></a>
-		  <div>
-		    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
-		    <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
-		    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
-		  </div>
-		</div>
-
-
-        </div>
-        </div>
 
 
 
-        {% endfor %}
+<style>
+#horii{
+	height: 2px;
+
+}
+</style>
+<br>
+    <div class="d-flex position-relative">
+  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
+  <div>
+    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
+    <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
+    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
+  </div>
+</div>
+<hr id="horii"></hr>
+
+{% endfor %}
+{% endif %}
+
+<style>
+#butt{
+	float: right;
+}
+</style>
+        {% if product.has_previous and search != "" and search != " " %}
+        	<a href="/shop/search/?search={{search}}&page={{product.previous_page_number}}"><button class="btn btn-secondary">&laquo;Previous</button></a>
         {% endif %}
+
+        {% if product.has_next and search != "" and search != " " and search != "   " %}
+	        <a href="/shop/search/?search={{search}}&page={{ product.next_page_number }}"><button class="btn btn-secondary" id="butt">next&raquo;</button></a>
+        {% endif %}
+
     </div>
  {% endblock %}
