@@ -72,11 +72,11 @@
 </div>
 
 
-{% for product, range, nSlides in allprods %}
+{% for prod in allprods %}
     <hr id="hori"></hr>
-    <h5><li>Newly Released <b><u>{{product.0.category}}</u></b> Products</li></h5>
+    <h5><li>Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
     <hr id="hori"></hr>
-    {%for product in product %}
+    {%for product in prod %}
 
 <div class="d-flex position-relative">
   <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
@@ -89,24 +89,6 @@
 <hr id="horii"></hr>
 {%endfor%}
 {%endfor%}
-
-
-<style>
-#butt{
-  float: right;
-}
-</style>
-        {% if product.has_previous %}
-          <a href="/shop/?page={{product.previous_page_number}}"><button class="btn btn-secondary">Previous</button></a>
-        {% endif %}
-
-        {% if product.has_next %}
-          <a href="/shop/?page={{ product.next_page_number }}"><button class="btn btn-secondary" id="butt">next</button></a>
-        {% endif %}
-        <br>
-        <br>
-<h1></h1>
-
 
 
 {% endblock %} 
