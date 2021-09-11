@@ -73,8 +73,15 @@
 
 
 {% for prod in allprods %}
+<style>
+@media(max-width: 768px){
+#cate{
+  font-size: 17px;
+}
+}
+</style>
     <hr id="hori"></hr>
-    <h5><li>Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
+    <h5 id="cate">&nbsp;&nbsp;&bull;Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
     <hr id="hori"></hr>
     {%for product in prod %}
 
