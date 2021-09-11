@@ -279,6 +279,9 @@
 #droplist{
     background-color:#CECECE;
 }
+.dropdown-item:hover{
+  background-color: #EAE8E6;
+}
 #navbarDropdown{
   position:relative;
   left:2px;
@@ -302,8 +305,23 @@
 {% endif %}
 </ul>
 </li>
-
-      <form class="d-flex" method="get" action="/shop/search">
+<style>
+#bar{
+  margin-left:200px;
+}
+#search{
+  width:320px;
+}
+@media(max-width: 768px){
+#bar{
+  margin-left:0px
+}
+#search{
+  width:390px;
+}
+}
+</style>
+      <form class="d-flex" id="bar" method="get" action="/shop/search">
         <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
