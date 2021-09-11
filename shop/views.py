@@ -5,17 +5,19 @@ from .models import Contact
 from .models import Order
 from math import ceil
 from .forms import *
+from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 # Create your views here.
 
+
+
 def index(request):
-    products= Product.objects.all()
     allprods=[]
     catprods= Product.objects.values('category', 'id')
     cats= {item["category"] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)
+        prod=Product.objects.filter(category=cat)[::-1][:3]
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allprods.append([prod, range(1, nSlides), nSlides])
@@ -179,7 +181,13 @@ def delete(request,myid):
 def search(request):
     search=request.GET['search']
     product= Product.objects.filter(product_name__icontains=search)
-    params={'product': product,'search':search}
+    paginator=Paginator(product,12)
+    page_number = request.GET.get('page', 1)
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(1)
+    params={'product': page,'search':search}
     return render(request, 'shop/search.html', params)
 
 
