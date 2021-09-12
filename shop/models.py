@@ -54,3 +54,15 @@ class Order(models.Model):
     
     def __str__(self):
         return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Product ID:-)"+str(self.product_id)
+
+
+
+class Cart(models.Model):
+    image_p=models.ImageField(upload_to="shop/images")
+    cart_id=models.IntegerField(default=0)
+    name_p=models.CharField(max_length=200)
+    price_p=models.CharField(max_length=200)
+    product_id=models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.name_p
