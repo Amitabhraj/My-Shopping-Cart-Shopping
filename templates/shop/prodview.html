@@ -32,7 +32,14 @@
   <div class="col-md-2 mb-md-0 p-md-3">
     <img src="/media/{{product.image}}" class="w-100" alt="...">
     <a href="/shop/order/{{product.id}}"><button class="btn btn-dark mx-3" id="butt">Buy Now</button></a>
-    <br>
+    <form method="POST" action="/shop/search/">{% csrf_token %}
+    <input type="hidden" name="cart_id" value="{{request.user.id}}">
+    <input type="hidden" name="image_p" value="{{product.image}}">
+    <input type="hidden" name="name_p" value="{{product.product_name}}">
+    <input type="hidden" name="price_p" value="{{product.price}}">
+    <input type="hidden" name="product_id" value="{{product.id}}"><br><br>
+    <button class="btn btn-dark mx-3" style="margin-left:20px;" type="submit">Add To Cart</button>
+    </form>
   </div>
   <div class="col-md-6 p-4 ps-md-0">
     <p class="mt-0" style="font-size:25px;"><u>{{product.product_name}}</u></p>
@@ -69,6 +76,7 @@ h3 {
     <p></p>
       {% endif %}
       {% endfor %}
+
 
 
 
