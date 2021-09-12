@@ -12,6 +12,7 @@
                         <th><h5 id="text">Product Image</h5></th>
                         <th><h5 id="text">Product Name</h5></th>
                         <th><h5 id="text">Product Price</h5></th>
+                        <th><h5 id="text">Add To Cart</h5></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,27 @@
                         <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
                         <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4></th>
                         <th><h5 id="text">${{d.price}}</h5></th>
+                        {% if user.is_authenticated %}
+<style>
+@media(max-width: 768px){
+#add_button {
+    padding:10px 10px;
+    font-size:9px;
+    height:30px;
+    width:70px;
+    border-radius:5px;
+}
+}
+</style>
+                        <form method="POST" action="/shop/">{% csrf_token %}
+                        <input type="hidden" name="cart_id" value="{{request.user.id}}">
+                        <input type="hidden" name="image_p" value="{{d.image}}">
+                        <input type="hidden" name="name_p" value="{{d.product_name}}">
+                        <input type="hidden" name="price_p" value="{{d.price}}">
+                        <input type="hidden" name="product_id" value="{{d.id}}">
+                        <th><button id="add_button" class="btn btn-dark" style="margin-left:20px;" type="submit">Add To Cart</button></th>
+                        </form>
+                        {% endif %}
                       {% endfor %}
                     </tbody>
                   </table>
