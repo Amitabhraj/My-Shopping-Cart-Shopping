@@ -94,6 +94,14 @@
     <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" id="name" style="margin-left:20px;">{{product.product_name}}</h3></a>
     <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
     <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
+    <form method="POST" action="/shop/">{% csrf_token %}
+    <input type="hidden" name="cart_id" value="{{request.user.id}}">
+    <input type="hidden" name="image_p" value="{{product.image}}">
+    <input type="hidden" name="name_p" value="{{product.product_name}}">
+    <input type="hidden" name="price_p" value="{{product.price}}">
+    <input type="hidden" name="product_id" value="{{product.id}}"><br>
+    <button class="btn btn-dark" style="margin-left:20px;" type="submit">Add To Cart</button>
+    </form>
   </div>
 </div>
 <hr id="horii"></hr>
@@ -102,3 +110,4 @@
 
 
 {% endblock %} 
+
