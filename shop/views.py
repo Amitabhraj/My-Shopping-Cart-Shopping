@@ -19,6 +19,15 @@ def index(request):
     for cat in cats:
         prod=Product.objects.filter(category=cat)[::-1][:3]
         allprods.append(prod)
+    if request.method == "POST":
+        cart_id=request.POST.get('cart_id','')
+        image_p=request.POST.get('image_p','')
+        name_p=request.POST.get('name_p','')
+        price_p=request.POST.get('price_p','')
+        product_id=request.POST.get('product_id','')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id)
+        cart.save()
+        return redirect('cart')
     return render(request, 'shop/index.html',{'allprods':allprods})
 
 
@@ -51,10 +60,19 @@ def contact(request):
 
 
 
-def prodview(requests, myid):
+def prodview(request, myid):
+    if request.method == "POST":
+        cart_id=request.POST.get('cart_id','')
+        image_p=request.POST.get('image_p','')
+        name_p=request.POST.get('name_p','')
+        price_p=request.POST.get('price_p','')
+        product_id=request.POST.get('product_id','')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id)
+        cart.save()
+        return redirect('cart')
     product = Product.objects.filter(id=myid)
     prod=Product.objects.all()
-    return render(requests,'shop/prodview.html', {'product':product[0],'prod':prod})
+    return render(request,'shop/prodview.html', {'product':product[0],'prod':prod})
 
 
 
@@ -179,6 +197,15 @@ def delete(request,myid):
 
 
 def search(request):
+    if request.method == "POST":
+        cart_id=request.POST.get('cart_id','')
+        image_p=request.POST.get('image_p','')
+        name_p=request.POST.get('name_p','')
+        price_p=request.POST.get('price_p','')
+        product_id=request.POST.get('product_id','')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id)
+        cart.save()
+        return redirect('cart')
     search=request.GET['search']
     product= Product.objects.filter(product_name__icontains=search)
     paginator=Paginator(product,12)
@@ -216,6 +243,22 @@ def update(request,myid):
     product.des = request.POST['des']
     product.save()
     return redirect('/shop/yourproduct')
+
+
+
+
+
+def cart(request):
+    cart=Cart.objects.all()
+    context={'cart':cart}
+    return render(request,'shop/cart.html',context) 
+
+
+def cart_delete(request,myid):
+    cart_delete = Cart.objects.get(id=myid)  
+    cart_delete.delete() 
+    return redirect('cart') 
+    return render(request,'shop/cart.html')
 
 
 
