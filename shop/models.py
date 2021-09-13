@@ -63,6 +63,7 @@ class Cart(models.Model):
     name_p=models.CharField(max_length=200)
     price_p=models.CharField(max_length=200)
     product_id=models.IntegerField(default=0)
+    quantity=models.IntegerField(default=1)
     
     def __str__(self):
         return self.name_p
