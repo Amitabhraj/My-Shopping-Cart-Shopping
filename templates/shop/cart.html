@@ -1,4 +1,5 @@
 {% extends 'shop/basic.html' %}
+{% block title %}My Cart{% endblock %}
 {% block body %}
 {%if user.is_authenticated%}
 </style>
@@ -10,7 +11,7 @@
                   <tr>
                     <th><h5 id="text">Product Image</h5></th>
                     <th><h5 id="text">Product Name/Price</h5></th>
-                    <th><h5 id="text">Delete</h5></th>
+                    <th><h5 id="text">Remove From Add To Cart</h5></th>
                   </tr>
                 </thead>
                 <tbody>
