@@ -8,8 +8,7 @@
                 <thead>
                   <tr>
                     <th><h5 id="text">Product Image</h5></th>
-                    <th><h5 id="text">Product Name</h5></th>
-                    <th><h5 id="text">Product Price</h5></th>
+                    <th><h5 id="text">Product Name/Price</h5></th>
                     <th><h5 id="text">Delete</h5></th>
                   </tr>
                 </thead>
@@ -40,8 +39,7 @@
 }
 </style>
                         <th><img src="/media/{{cart.image_p}}" id="img"></a></th>
-                        <th><a href="/shop/productview/{{cart.product_id}}"><h4 id="text">{{cart.name_p}}</h4></a></th>
-                        <th><h5 id="text">${{cart.price_p}}</h5></th>
+                        <th><a href="/shop/productview/{{cart.product_id}}"><h4 id="text">{{cart.name_p}}</h4></a><br><h4 id="text">${{cart.price_p}}</h4></th>
                         <th><a href="cart_delete/{{cart.id}}"><button id="add_button" class="btn btn-danger">Remove</button></a></th>
                         {% endif %}
                         {% endfor %}
