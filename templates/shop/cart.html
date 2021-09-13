@@ -43,7 +43,7 @@
 }
 }
 </style>
-                        <th><img src="/media/{{cart.image_p}}" id="img" ></a></th>
+                        <th><a href="/shop/productview/{{cart.product_id}}"><img src="/media/{{cart.image_p}}" id="img" ></a></th>
                         <th><a href="/shop/productview/{{cart.product_id}}"><h4 id="text">{{cart.name_p}}</h4></a><h4 id="text">${{cart.price_p}}</h4></th>
                         <th><a href="cart_delete/{{cart.id}}"><button id="add_button" class="btn btn-danger">Remove</button></a></th>
                         {% endif %}
