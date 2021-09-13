@@ -100,8 +100,45 @@
     <input type="hidden" name="name_p" value="{{product.product_name}}">
     <input type="hidden" name="price_p" value="{{product.price}}">
     <input type="hidden" name="product_id" value="{{product.id}}"><br>
-    <button class="btn btn-dark" style="margin-left:20px;" type="submit">Add To Cart</button>
-    </form>
+    <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
+
+
+<div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="{{product.id}}" >
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Quantity?</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+<style>
+#quantity{
+width: 200px;
+}
+</style>
+      <label for="quantity"><h5>Please Choose quantity of the Item</h5></label><br>
+       <select name="quantity" id="quantity">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+       </select>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-dark" >Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</form>
+
+
   </div>
 </div>
 <hr id="horii"></hr>
