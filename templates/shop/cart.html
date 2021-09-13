@@ -1,6 +1,13 @@
 {% extends 'shop/basic.html' %}
 {% block body %}
 {%if user.is_authenticated%}
+<style>
+@media (max-width: 767px){
+.col-11{
+    margin-right:10px;
+}
+}
+</style>
 <div class="container mt-1">
     <div class="row">
         <div class="col-11">
