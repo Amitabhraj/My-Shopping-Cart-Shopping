@@ -54,15 +54,6 @@
       </li>
 
 
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop/about">About us</a>
-      </li>
-
-
-
-
-
-
 
 
 
@@ -116,6 +107,54 @@
 {% endif %}
 
 
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+      <li class="nav-item active">
+        <a class="nav-link active" href="/shop/cart">My Cart</a>
+      </li>
+{% else %}
+<style>
+#button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    color: white;       
+}
+</style>
+
+<li class="nav-item active">
+<button class="nav-link active" type="button" data-toggle="modal" data-target="#AddToCart" id="button">
+  Add To Cart
+</button>
+</li>
+
+<div class="modal fade" id="AddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You can't Go To Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        for Seeing,your Add To Cart Button You Have To Login First:-
+      </div>
+      <div class="modal-footer">
+        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 
 
@@ -266,7 +305,7 @@
   {% if user.is_authenticated %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>All Products</b></p></a></li>
- <li><a class="dropdown-item" href="/shop/cart"><p style="color:black;"><b>My Cart</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/about"><p style="color:black;"><b>About Us</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>Order request</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Your product</b></p></a></li>
   <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
@@ -277,8 +316,9 @@
 
 {% else %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>All Product</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/about"><p style="color:black;"><b>About Us</b></p></a></li>
+  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
 {% endif %}
 
 
