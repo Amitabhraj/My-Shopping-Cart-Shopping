@@ -1,6 +1,7 @@
 {% extends 'shop/basic.html' %}
 {% block title %} All Products {% endblock %}
 {%block body%}
+{% if user.is_authenticated %}
 <body>
 
     <div class="container mt-1">
@@ -11,9 +12,7 @@
                       <tr>
                         <th><h5 id="text">Product Image</h5></th>
                         <th><h5 id="text">Product Name/Price</h5></th>
-                        {% if user.is_authenticated %}
                         <th><h5 id="text">Add To Cart</h5></th>
-                        {% endif %}
                       </tr>
                     </thead>
                     <tbody>
@@ -36,7 +35,6 @@
 </style>
                         <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
                         <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4><h5 id="text">${{d.price}}</h5></th>
-                        {% if user.is_authenticated %}
 <style>
 @media(max-width: 768px){
 #add_button {
@@ -94,7 +92,6 @@ width: 200px;
 
 
                         </form>
-                        {% endif %}
                       {% endfor %}
                     </tbody>
                   </table>
@@ -119,4 +116,71 @@ width: 200px;
 <br>
 <br>
 
+
+
+
+
+
+
+
+
+
+
+{% else %}
+
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th><h5 id="text">Product Image</h5></th>
+                        <th><h5 id="text">Product Name/Price</h5></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for d in data %}
+                      <tr>
+<style>
+#img{
+    width: 200px;
+    height: 200px;
+}
+@media (max-width: 767px){
+#img{
+    width: 95px;
+    height: 95px;
+}
+#text{
+    font-size:15px;
+}
+}
+</style>
+                        <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
+                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4><h5 id="text">${{d.price}}</h5></th>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+    <br>
+
+<style>
+#butt{
+  float:right;
+}
+</style>
+        {% if data.has_previous %}
+          <a href="/shop/view/?page={{data.previous_page_number}}"><button class="btn btn-secondary">&laquo;Previous</button></a>
+        {% endif %}
+
+        {% if data.has_next %}
+          <a href="/shop/view/?page={{ data.next_page_number }}"><button class="btn btn-secondary" id="butt">next&raquo;</button></a>
+        {% endif %}
+
+<br>
+<br>
+
+{% endif %}
 {%endblock%}
