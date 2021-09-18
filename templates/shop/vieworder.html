@@ -4,7 +4,29 @@
 {%if user.is_authenticated%}
 {% for order in order %}
 {% if request.user.id == order.user_uid %}
+{% if order.order_status == "Pending" %}
 
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Your Order is <strong>Pending</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+{% elif order.order_status == "Dispatched" %}
+
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  Your Order has been <strong>Dispatched</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+{% elif order.order_status == "Delivered" %}
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Your Order has been Successfully <strong>Delivered</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+{% endif %}
 <style>
 .flex-shrink-0{
     width: 200px;

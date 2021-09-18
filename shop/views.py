@@ -97,8 +97,25 @@ def order(request, myid):
         product_id=request.POST.get('product_id','')
         admin_id=request.POST.get('admin_id','')
         user_uid=request.POST.get('user_uid','')
+        order_status=request.POST.get('order_status','')
         
-        order = Order(product_image=product_image, product_price=product_price, product_name=product_name,name=name, email=email,  address1=address1, address2=address2, city=city, state=state, zip=zip, phone=phone,order_method=order_method,product_id=product_id,admin_id=admin_id,user_uid=user_uid)
+        order = Order(product_image=product_image,
+        product_price=product_price,
+        product_name=product_name,
+        name=name,
+        email=email,  
+        address1=address1, 
+        address2=address2, 
+        city=city, state=state, 
+        zip=zip, 
+        phone=phone,
+        order_method=order_method,
+        product_id=product_id,
+        admin_id=admin_id,
+        user_uid=user_uid,
+        order_status=order_status)
+
+
         order.save()
         return redirect("success")
     product = Product.objects.filter(id=myid)
@@ -169,8 +186,7 @@ def vieworder(requests):
 
 def orderrequest(requests):
     order= Order.objects.all()
-    name="You don't Have Get Any Order Request Till Now!"
-    context={'order':order,'name':name}
+    context={'order':order}
     return render(requests, 'shop/orderrequest.html',context)
 
 
@@ -246,6 +262,14 @@ def update(request,myid):
     product.des = request.POST['des']
     product.save()
     return redirect('/shop/yourproduct')
+
+
+
+def update2(request,myid):
+    order = Order.objects.get(id=myid)
+    order.order_status = request.POST['order_status']
+    order.save()
+    return redirect('/shop/orderrequest')
 
 
 

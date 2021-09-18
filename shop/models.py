@@ -51,6 +51,7 @@ class Order(models.Model):
     product_id=models.CharField(max_length=1,default=0)
     admin_id=models.IntegerField(default="")
     user_uid=models.IntegerField(default=0)
+    order_status=models.CharField(max_length=200,default="Pending")
     
     def __str__(self):
         return "(Email Id:-)"+self.email+"~~~~~~~~~~~~"+"(Product ID:-)"+str(self.product_id)

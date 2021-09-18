@@ -56,17 +56,87 @@
     			</div>
 
 
-    			<div class="form-group col-md-6">
-                	<label for="pr">Buyer Order Method:-</label>
-    				<input id="pr" readonly="readonly" class="form-control" value="{{order.order_method}}"></input><br>
-    			</div>
+                <div class="form-group col-md-6">
+                    <label for="pr">Buyer Order Method :-</label>
+                    <input id="pr" readonly="readonly" class="form-control" value="{{order.order_method}}"></input><br>
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <label for="pr">Product ID:-</label>
+                    <input id="pr" readonly="readonly" class="form-control" value="{{order.product_id}}"></input><br>
+                </div>
+
+
+                <hr>
+                <div class="form-group col-md-6">
+                    <label for="pr">Current Order Status :-</label>
+                    <input id="pr" readonly="readonly" class="form-control" value="{{order.order_status}}"></input>
+                </div>
+                <br>
 
 
 
-    			<div class="form-group col-md-6">
-                	<label for="pr">Product ID:-</label>
-    				<input id="pr" readonly="readonly" class="form-control" value="{{order.product_id}}"></input><br>
-    			</div><br></b>
+
+<form method="post" action="update2/{{order.id}}">{% csrf_token %}
+
+{% if order.order_status == "Dispatched" %}
+                <style>
+               #order_status{
+                width: 200px;
+               }
+               </style>
+                <label for="order_status">Change order status:-</label><br>
+                 <select name="order_status" id="order_status">
+                    <option value="Dispatched">Dispatched</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Delivered">Delivered</option>
+                 </select>
+                 <hr>
+                 <br>
+
+{% elif order.order_status == "Pending" %}
+
+
+                <style>
+               #order_status{
+                width: 200px;
+               }
+               </style>
+                <label for="order_status">Change order status:-</label><br>
+                 <select name="order_status" id="order_status">
+                    <option value="Pending">Pending</option>
+                    <option value="Dispatched">Dispatched</option>
+                    <option value="Delivered">Delivered</option>
+                 </select>
+                 <hr>
+                 <br>
+
+{% elif order.order_status == "Delivered" %}
+
+
+                <style>
+               #order_status{
+                width: 200px;
+               }
+               </style>
+                <label for="order_status">Change order status:-</label><br>
+                 <select name="order_status" id="order_status">
+                    <option value="Pending">Delivered</option>
+                    <option value="Dispatched">Dispatched</option>
+                    <option value="Delivered">Pending</option>
+                 </select>
+                 <hr>
+                 <br></b>
+
+
+{% endif %}
+
+                 <div class="form-group">
+            <button type="submit" class="btn btn-dark">Update</button>
+        </div><br>
+</form>
+
 
 
 
