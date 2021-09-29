@@ -7,6 +7,7 @@ boto3==1.17.17
 botocore==1.20.112
 cachetools==4.2.2
 celery==4.4.2
+django-allauth==0.45.0
 certifi==2021.5.30
 cffi==1.14.6
 charset-normalizer==2.0.4
