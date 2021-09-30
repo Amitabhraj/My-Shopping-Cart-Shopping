@@ -79,6 +79,9 @@ def prodview(request, myid):
 
 
 
+from django.views.decorators.csrf import csrf_exempt
+from shop.paytm import Checksum
+MERCHANT_KEY = 'bKMfNxPPf_QdZppa'
 
 def order(request, myid):
     if request.method=="POST":
@@ -117,10 +120,50 @@ def order(request, myid):
 
 
         order.save()
-        return redirect("success")
+
+        string_amount=order.product_price
+        spliting_amount=string_amount.split('$')
+        real_amount=spliting_amount[1]
+
+        o= order.id + 999
+
+
+        param_dict = {
+
+                'MID':'DIY12386817555501617',
+                'ORDER_ID': 'OREDRID_'+ str(order.id),
+                'TXN_AMOUNT': real_amount,
+                'CUST_ID': email,
+                'INDUSTRY_TYPE_ID': 'Retail',
+                'WEBSITE': 'WEBSTAGING',
+                'CHANNEL_ID': 'WEB',
+                'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
+
+        }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'shop/paytm.html', {'param_dict': param_dict})
+
     product = Product.objects.filter(id=myid)
     return render(request,'shop/order.html', {'product':product[0]})
 
+
+@csrf_exempt
+def handlerequest(request):
+    # paytm will send you post request here
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            checksum = form[i]
+
+    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successful')
+        else:
+            print('order was not successful because' + response_dict['RESPMSG'])
+    return render(request, 'shop/paymentstatus.html', {'response': response_dict})
 
 
 

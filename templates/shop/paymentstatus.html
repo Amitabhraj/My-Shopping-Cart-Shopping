@@ -1,0 +1,30 @@
+{% extends 'shop/basic.html' %}
+{% block title%} My Awesome Cart Tracker{% endblock %}
+{% block body %}
+<style>
+body{
+	background-color: #B2FFF1;
+}
+</style>
+
+<br>
+        {% if response.RESPCODE == '01' %}
+        <center><h2>₹{{response.TXNAMOUNT}} Successfully Transferred of Order ID:-{{response.ORDERID}}</h2></center>
+
+        <center><h3>YOUR ORDER SUCCESSFULLY COMPLETED<br>
+        Thank You!</h3></center>
+
+
+
+        {% else %}
+        <center><h2>₹{{response.TXNAMOUNT}} Not Transferred of Order ID:-{{response.ORDERID}}</h2></center>
+
+        <center><h3>YOUR ORDER GET FAILED!<br>Try Again!</h3>
+        {% endif%}
+{% endblock %}
+{% block js %}
+<script>
+
+
+</script>
+{% endblock %}
