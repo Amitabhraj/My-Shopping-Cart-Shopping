@@ -132,7 +132,7 @@ def order(request, myid):
         real_amount=spliting_amount[1]
 
         param_dict = {
-                'ORDER_ID': 'OREDRID_'+ str(order.id),
+                'ORDER_ID': 'OREDR_ID:'+ str(order.id),
                 'MID':'DIY12386817555501617',
                 'TXN_AMOUNT': real_amount,
                 'CUST_ID': email,
