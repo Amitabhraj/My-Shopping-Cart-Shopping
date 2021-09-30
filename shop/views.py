@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Product
 from .models import Contact
 from .models import Order
+from django.db.models import Count
 from math import ceil
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage
@@ -78,6 +79,12 @@ def prodview(request, myid):
 
 
 
+# order_id=[]
+# for order in Order.objects.all():
+#     order_id.append(order.id)
+# last_order_id=order_id[len(order_id)-1]
+# print(last_order_id)
+# last_order_id_plus=last_order_id+1
 
 from django.views.decorators.csrf import csrf_exempt
 from shop.paytm import Checksum
@@ -118,30 +125,25 @@ def order(request, myid):
         user_uid=user_uid,
         order_status=order_status)
 
-
         order.save()
 
         string_amount=order.product_price
         spliting_amount=string_amount.split('$')
         real_amount=spliting_amount[1]
 
-        o= order.id + 999
-
-
         param_dict = {
-
-                'MID':'DIY12386817555501617',
                 'ORDER_ID': 'OREDRID_'+ str(order.id),
+                'MID':'DIY12386817555501617',
                 'TXN_AMOUNT': real_amount,
                 'CUST_ID': email,
                 'INDUSTRY_TYPE_ID': 'Retail',
                 'WEBSITE': 'WEBSTAGING',
                 'CHANNEL_ID': 'WEB',
                 'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
-
         }
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
         return render(request, 'shop/paytm.html', {'param_dict': param_dict})
+
 
     product = Product.objects.filter(id=myid)
     return render(request,'shop/order.html', {'product':product[0]})
@@ -162,7 +164,7 @@ def handlerequest(request):
         if response_dict['RESPCODE'] == '01':
             print('order successful')
         else:
-            print('order was not successful because' + response_dict['RESPMSG'])
+            print('order was not successful because ' + response_dict['RESPMSG'])
     return render(request, 'shop/paymentstatus.html', {'response': response_dict})
 
 
