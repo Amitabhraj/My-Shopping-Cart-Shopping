@@ -126,24 +126,26 @@ def order(request, myid):
         order_status=order_status)
         order.save()
 
-        string_amount=order.product_price
-        spliting_amount=string_amount.split('$')
-        real_amount=spliting_amount[1]
+        if order.order_method == "CARD METHOD":
+            string_amount=order.product_price
+            spliting_amount=string_amount.split('$')
+            real_amount=spliting_amount[1]
 
-        param_dict = {
-                'ORDER_ID': 'OREDR_ID-'+ str(order.id),
-                'MID':'DIY12386817555501617',
-                'TXN_AMOUNT': real_amount,
-                'CUST_ID': email,
-                'INDUSTRY_TYPE_ID': 'Retail',
-                'WEBSITE': 'WEBSTAGING',
-                'CHANNEL_ID': 'WEB',
-                'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
-                # 'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
-        }
-        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        return render(request, 'shop/paytm.html', {'param_dict': param_dict})
-
+            param_dict = {
+                    'ORDER_ID': 'OREDR_ID-'+ str(order.id),
+                    'MID':'DIY12386817555501617',
+                    'TXN_AMOUNT': real_amount,
+                    'CUST_ID': email,
+                    'INDUSTRY_TYPE_ID': 'Retail',
+                    'WEBSITE': 'WEBSTAGING',
+                    'CHANNEL_ID': 'WEB',
+                    'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
+                    # 'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
+            }
+            param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+            return render(request, 'shop/paytm.html', {'param_dict': param_dict})
+        else:
+            return redirect('/shop/success')
 
     product = Product.objects.filter(id=myid)
     return render(request,'shop/order.html', {'product':product[0]})

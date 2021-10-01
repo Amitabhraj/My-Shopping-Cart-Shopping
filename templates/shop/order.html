@@ -77,6 +77,8 @@ width:60%;
         <h2>Enter Address & Other Details</h2>
         <b><form>
 
+
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
@@ -85,11 +87,14 @@ width:60%;
 
 
 
+
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Email</label>
                     <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
                 </div>
             </div><br>
+
+
 
 
             <div class="form-group">
@@ -114,11 +119,12 @@ width:60%;
 
 
 
-                <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Enter Your State Name" name="state">
-                    </select>
-                </div><br>
+            <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Enter Your State Name" name="state">
+                </select>
+            </div><br>
+
 
 
                 <div class="form-group col-md-2">
@@ -137,18 +143,17 @@ width:60%;
             
 
 
-<style>
-#method{
-    width: 200px;
-}
-</style>
+            <style>
+            #method{
+                width: 200px;
+            }
+            </style>
                
-                <label for="order_method" >Choose Method of Payment</label><br>
-                 <select class="form-select" aria-label="Default select example" name="order_method" id="method">
-                    <option selected>Choose Method</option>
-                    <option value="CASH ON DELIVERY">CASH ON DELIVERY</option>
-                    <option value="CARD METHOD">CARD METHOD</option>
-                 </select><br>
+            <label for="order_method" >Choose Method of Payment</label><br>
+             <select class="form-select" aria-label="Default select example" name="order_method" id="method">
+                <option value="CASH ON DELIVERY" selected>CASH ON DELIVERY</option>
+                <option value="CARD METHOD">CARD METHOD</option>
+             </select><br>
 
 
 
@@ -158,18 +163,18 @@ width:60%;
             </div></b>
 
 
-        <div class="form-group col-md-7">
-            <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid">
-        </div><br>
+            <div class="form-group col-md-7">
+                <input type="hidden" id="inputorder" class="form-control" value="{{request.user.id}}" readonly="readonly" name="user_uid">
+            </div><br>
 
 
-        <div class="form-group col-md-7">
-            <input type="hidden" id="inputorder" class="form-control" value="{{product.admin_id}}" readonly="readonly" name="admin_id">
-        </div>
+            <div class="form-group col-md-7">
+                <input type="hidden" id="inputorder" class="form-control" value="{{product.admin_id}}" readonly="readonly" name="admin_id">
+            </div>
 
-        <div class="form-group col-md-7">
-            <input type="hidden" id="inputorder" class="form-control" value="Pending" name="order_status">
-        </div>
+            <div class="form-group col-md-7">
+                <input type="hidden" id="inputorder" class="form-control" value="Pending" name="order_status">
+            </div>
 
 
 
@@ -205,11 +210,5 @@ width:60%;
 <button type="button" class="btn btn-danger" id="order2">
 <b>You Cannot Place Order</b>
 </button>
-{% endif %}
-
-
-
-
-
-                    
+{% endif %}       
 {%endblock %}
