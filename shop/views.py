@@ -124,7 +124,6 @@ def order(request, myid):
         admin_id=admin_id,
         user_uid=user_uid,
         order_status=order_status)
-
         order.save()
 
         string_amount=order.product_price
@@ -139,7 +138,8 @@ def order(request, myid):
                 'INDUSTRY_TYPE_ID': 'Retail',
                 'WEBSITE': 'WEBSTAGING',
                 'CHANNEL_ID': 'WEB',
-                'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
+                'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
+                # 'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
         }
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
         return render(request, 'shop/paytm.html', {'param_dict': param_dict})
