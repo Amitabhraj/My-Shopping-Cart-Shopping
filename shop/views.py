@@ -128,7 +128,7 @@ def order(request, myid):
 
         if order.order_method == "CARD METHOD":
             string_amount=order.product_price
-            spliting_amount=string_amount.split('$')
+            spliting_amount=string_amount.split('₹')
             real_amount=spliting_amount[1]
 
             param_dict = {
