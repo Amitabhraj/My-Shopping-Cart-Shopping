@@ -92,7 +92,7 @@
   <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
   <div>
     <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" id="name" style="margin-left:20px;">{{product.product_name}}</h3></a>
-    <h5 class="card-title" style="margin-left:20px;">Price:-${{product.price}}</h5>
+    <h5 class="card-title" style="margin-left:20px;">Price:-₹{{product.price}}</h5>
     <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;">Buy Now</a>
     {% if user.is_authenticated %}
     <form method="POST" action="/shop/">{% csrf_token %}
