@@ -1,7 +1,14 @@
 {% extends 'shop/basic.html' %}
 {% block title %}Order Request{% endblock %}
 {%block body%}
+
 {%if user.is_authenticated%}
+
+{% if order_request == "no" %}
+<center><img src="https://static8.depositphotos.com/1431107/919/i/600/depositphotos_9199988-stock-photo-oops-icon.jpg" width="200px" height="200px"><h3><u>You Don't recieved any Order Request</u></h3></center>
+{% endif %}
+
+
 {% for order in order %}
 {% if request.user.id == order.admin_id %}
 
@@ -39,13 +46,11 @@
 {% endif %}
 {% endfor %}
 
-<hr style="height:2px;color:black;"></hr>
-<center><h3><u>You Don't Have More Order Request</u></h3></center>
-<hr style="height:2px;color:black;"></hr><br>
-
 
 {%else%}
 <h2>Please sign in to see your Orders Request</h2>
 <a href="/" class="btn btn-danger">Sign in Here</a>
 {%endif%}
+
+
 {%endblock%}

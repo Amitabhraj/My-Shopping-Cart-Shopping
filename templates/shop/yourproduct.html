@@ -2,6 +2,13 @@
 {% block title %}View Product{% endblock %}
 {%block body%}
 {%if user.is_authenticated%}
+
+{% if your_product == "no" %}
+<center><img src="https://static8.depositphotos.com/1431107/919/i/600/depositphotos_9199988-stock-photo-oops-icon.jpg" width="200px" height="200px"><h3><u>You Don't Have any Product</u></h3>
+<a href="/shop/sellproduct"><button class="btn btn-dark">Sell Products</button></a></center>
+{% endif %}
+
+
 {% for product in product %}
 {% if request.user.id == product.admin_id %}
 <style>
@@ -31,15 +38,11 @@ h3,h4{
     <a href="/shop/edit/{{product.id}}"><button class="btn btn-success">Edit</button></a>
   </div>
 </div>
+<hr>
 <br>
 <br>
 {% endif %}
 {% endfor %}
-
-<hr style="height:2px;color:black;"></hr>
-<center><h3><u>You Don't Have More Products</u></h3>
-<a href="/shop/sellproduct"><button class="btn btn-dark">Sell Products</button></a></center>
-<hr style="height:2px;color:black;"></hr><br>
 
 
 

@@ -2,6 +2,14 @@
 {% block title %}View Order{% endblock %}
 {%block body%}
 {%if user.is_authenticated%}
+
+
+{% if my_order == "no" %}
+<center><img src="https://static8.depositphotos.com/1431107/919/i/600/depositphotos_9199988-stock-photo-oops-icon.jpg" width="200px" height="200px"><h3><u>You Have Not Ordered any Product Till Now!</u></h3>
+<a href="/shop"><button class="btn btn-dark">Buy Now</button></a></center>
+{% endif %}
+
+
 {% for order in order %}
 {% if request.user.id == order.user_uid %}
 {% if order.order_status == "Pending" %}
@@ -63,13 +71,6 @@ h4,h5,a{
 
 {% endif %}
 {% endfor %}
-
-
-
-<hr style="height:2px;color:black;"></hr>
-<center><h3><u>You Don't Have More Order</u></h3>
-<a href="/shop"><button class="btn btn-dark">Buy More</button></a></center>
-<hr style="height:2px;color:black;"></hr><br>
 
 
 

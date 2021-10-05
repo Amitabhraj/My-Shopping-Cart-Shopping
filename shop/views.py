@@ -225,7 +225,13 @@ def profile(request):
 
 def vieworder(requests):
     order= Order.objects.all()
-    context={'order':order}
+    user=requests.user
+    my_order=""
+    if Order.objects.filter(user_uid=user.id):
+        my_order="yes"
+    else:
+        my_order="no"
+    context={'order':order, 'my_order':my_order}
     return render(requests, 'shop/vieworder.html',context)
 
 
@@ -233,7 +239,13 @@ def vieworder(requests):
 
 def orderrequest(requests):
     order= Order.objects.all()
-    context={'order':order}
+    user=requests.user
+    order_request=""
+    if Order.objects.filter(admin_id=user.id):
+        order_request="yes"
+    else:
+        order_request="no"
+    context={'order':order, 'order_request':order_request}
     return render(requests, 'shop/orderrequest.html',context)
 
 
@@ -288,7 +300,13 @@ def search(request):
 
 def yourproduct(requests):
     product = Product.objects.all()
-    context={'product':product}
+    user=requests.user
+    your_product=""
+    if Product.objects.filter(admin_id=user.id):
+        your_product="yes"
+    else:
+        your_product="no"
+    context={'product':product, 'your_product':your_product}
     return render(requests, 'shop/yourproduct.html',context)
 
 
@@ -324,7 +342,13 @@ def update2(request,myid):
 
 def cart(request):
     cart=Cart.objects.all()
-    context={'cart':cart}
+    user=request.user
+    cart_is=""
+    if Cart.objects.filter(cart_id=user.id):
+        cart_is="yes"
+    else:
+        cart_is="no"
+    context={'cart':cart, 'cart_is':cart_is}
     return render(request,'shop/cart.html',context) 
 
 

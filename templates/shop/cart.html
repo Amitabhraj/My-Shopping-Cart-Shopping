@@ -2,6 +2,12 @@
 {% block title %}My Cart{% endblock %}
 {% block body %}
 {%if user.is_authenticated%}
+
+{% if cart_is == "no" %}
+<center><img src="https://static8.depositphotos.com/1431107/919/i/600/depositphotos_9199988-stock-photo-oops-icon.jpg" width="200px" height="200px"><h2><u>You have not added any product into cart</u></h2>
+<a href="/shop"><button class="btn btn-dark">Add Product</button></a></center>
+
+{% else %}
 <h1></h1>
 <center><h2><u>Add To Cart Products</u></h2></center>
 <p></p>
@@ -53,6 +59,7 @@
             </div>
         </div>
     </div>
+{% endif %}
 {% else %}
 <center><h3>You Are Not Logined Please Login First To see Your Add To Cart Products</h3>
 <a href="/"><button class="btn btn-danger">Sign In/Sign Up</button></a></center>
