@@ -1,6 +1,6 @@
 *.log
 *.pot
-*.pyc
+*shop/__pycache__/.pyc
 __pycache__
 *.sqlite3
 media
