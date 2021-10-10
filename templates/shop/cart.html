@@ -63,10 +63,14 @@
     </div>
 {% endif %}
 <br>
+{% if cart_is == "no" %}
+<p></p>
+{% else %}
 <div class="container">
 <h2><u>Grand Total:-₹{{grand_total}}</u></h2>
 <br>
 </div>
+{% endif %}
 {% else %}
 <center><h3>You Are Not Logined Please Login First To see Your Add To Cart Products</h3>
 <a href="/"><button class="btn btn-danger">Sign In/Sign Up</button></a></center>
