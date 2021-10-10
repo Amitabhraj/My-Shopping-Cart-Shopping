@@ -8,7 +8,9 @@ from math import ceil
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.models import *
+from django.db.models import Count
 from django.contrib.auth import authenticate, logout
+from django.template import RequestContext
 # Create your views here.
 
 
@@ -20,6 +22,7 @@ def index(request):
     for cat in cats:
         prod=Product.objects.filter(category=cat)[::-1][:3]
         allprods.append(prod)
+    user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
         image_p=request.POST.get('image_p','')
@@ -27,7 +30,8 @@ def index(request):
         price_p=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity)
+        user_id=request.POST.get('user_id',f'{user.id}')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
     return render(request, 'shop/index.html',{'allprods':allprods})
@@ -63,6 +67,7 @@ def contact(request):
 
 
 def prodview(request, myid):
+    user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
         image_p=request.POST.get('image_p','')
@@ -70,7 +75,8 @@ def prodview(request, myid):
         price_p=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity)
+        user_id=request.POST.get('user_id',f'{user.id}')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
     product = Product.objects.filter(id=myid)
@@ -274,6 +280,7 @@ def delete(request,myid):
 
 
 def search(request):
+    user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
         image_p=request.POST.get('image_p','')
@@ -281,7 +288,8 @@ def search(request):
         price_p=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity)
+        user_id=request.POST.get('user_id',f'{user.id}')
+        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
     search=request.GET['search']
@@ -343,12 +351,21 @@ def update2(request,myid):
 def cart(request):
     cart=Cart.objects.all()
     user=request.user
+    cartt=Cart.objects.filter(user_id=user.id)
+    price_list = ([(item.price_p) for item in cartt])
+    quantity_list = ([(item.quantity) for item in cartt])
+    count=len(price_list)
+    grand_total=[]
+    for i in range(0,count):
+        w=price_list[i]*quantity_list[i]
+        s=grand_total.append(w)
+    grand_total=sum(grand_total)
     cart_is=""
     if Cart.objects.filter(cart_id=user.id):
         cart_is="yes"
     else:
         cart_is="no"
-    context={'cart':cart, 'cart_is':cart_is}
+    context={'cart':cart, 'cart_is':cart_is,'quantity_list':quantity_list,'price_list':price_list,'grand_total':grand_total}
     return render(request,'shop/cart.html',context) 
 
 

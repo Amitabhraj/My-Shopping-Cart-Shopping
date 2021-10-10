@@ -74,6 +74,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
             ],
+        'libraries':{
+            'custom_filter': 'shop.template_tags.custom_filter',
+            
+            }
         },
     },
 ]

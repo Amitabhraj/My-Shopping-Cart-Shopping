@@ -62,9 +62,10 @@ class Cart(models.Model):
     image_p=models.ImageField(upload_to="shop/images")
     cart_id=models.IntegerField(default=0)
     name_p=models.CharField(max_length=200)
-    price_p=models.CharField(max_length=200)
+    price_p=models.IntegerField(default="")
     product_id=models.IntegerField(default=0)
     quantity=models.IntegerField(default=1)
+    user_id=models.IntegerField(default="")
     
     def __str__(self):
         return self.name_p

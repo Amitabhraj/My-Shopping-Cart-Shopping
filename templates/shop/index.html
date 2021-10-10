@@ -100,7 +100,8 @@
     <input type="hidden" name="image_p" value="{{product.image}}">
     <input type="hidden" name="name_p" value="{{product.product_name}}">
     <input type="hidden" name="price_p" value="{{product.price}}">
-    <input type="hidden" name="product_id" value="{{product.id}}"><br>
+    <input type="hidden" name="product_id" value="{{product.id}}">
+    <input type="hidden" name="user_id" value="{{request.user.id}}"><br>
     <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
 
 
