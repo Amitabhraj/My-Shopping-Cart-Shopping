@@ -157,6 +157,51 @@ def order(request, myid):
     return render(request,'shop/order.html', {'product':product[0]})
 
 
+
+
+
+def order1(request, myid):
+    if request.method=="POST":
+        product_image=request.POST.get('product_image', '')
+        product_name=request.POST.get('product_name', '')
+        product_price=request.POST.get('product_price', '')
+        name=request.POST.get('name', '')
+        email=request.POST.get('email', '')
+        address1=request.POST.get('address1', '')
+        address2=request.POST.get('address2', '')
+        city=request.POST.get('city','')
+        state=request.POST.get('state','')
+        zip=request.POST.get('zip','')
+        phone=request.POST.get('phone','')
+        order_method=request.POST.get('order_method','')
+        product_id=request.POST.get('product_id','')
+        admin_id=request.POST.get('admin_id','')
+        user_uid=request.POST.get('user_uid','')
+        order_status=request.POST.get('order_status','')
+        
+        order = Order(product_image=product_image,
+        product_price=product_price,
+        product_name=product_name,
+        name=name,
+        email=email,  
+        address1=address1, 
+        address2=address2, 
+        city=city, state=state, 
+        zip=zip, 
+        phone=phone,
+        order_method=order_method,
+        product_id=product_id,
+        admin_id=admin_id,
+        user_uid=user_uid,
+        order_status=order_status)
+        order.save()
+        return redirect('/shop/success')
+    product = Product.objects.filter(id=myid)
+    return render(request, 'shop/order1.html',{'product':product[0]})
+
+
+
+
 @csrf_exempt
 def handlerequest(request):
     # paytm will send you post request here

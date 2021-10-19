@@ -87,7 +87,7 @@
                }
                </style>
                 <label for="order_status">Change order status:-</label><br>
-                 <select name="order_status" id="order_status">
+                 <select class="form-select" aria-label="Default select example" name="order_status" id="order_status">
                     <option value="Dispatched">Dispatched</option>
                     <option value="Pending">Pending</option>
                     <option value="Delivered">Delivered</option>
@@ -98,13 +98,14 @@
 {% elif order.order_status == "Pending" %}
 
 
+
                 <style>
                #order_status{
                 width: 200px;
                }
                </style>
                 <label for="order_status">Change order status:-</label><br>
-                 <select name="order_status" id="order_status">
+                 <select class="form-select" aria-label="Default select example" name="order_status" id="order_status">
                     <option value="Pending">Pending</option>
                     <option value="Dispatched">Dispatched</option>
                     <option value="Delivered">Delivered</option>
@@ -121,7 +122,7 @@
                }
                </style>
                 <label for="order_status">Change order status:-</label><br>
-                 <select name="order_status" id="order_status">
+                 <select class="form-select" aria-label="Default select example" name="order_status" id="order_status">
                     <option value="Pending">Delivered</option>
                     <option value="Dispatched">Dispatched</option>
                     <option value="Delivered">Pending</option>

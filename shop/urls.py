@@ -11,6 +11,7 @@ urlpatterns = [
     path("search/", views.search,      name="search"),
     path("productview/<int:myid>", views.prodview,        name="ProductView"),
     path("order/<int:myid>", views.order,     name="checkout"),
+    path("order1/<int:myid>", views.order1,     name="order1"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name = 'sellproduct.html'),        name = 'home'),
     path('social-auth/', include('social_django.urls',       namespace='social')),
