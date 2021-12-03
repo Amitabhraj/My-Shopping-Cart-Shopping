@@ -26,12 +26,22 @@ def index(request):
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
         image_p=request.POST.get('image_p','')
-        name_p=request.POST.get('name_p','')
+        name_pp=request.POST.get('name_p','')
         price_p=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
+
+        name_p=Product.objects.get(id=name_pp)
+
+        cart=Cart(
+            cart_id=cart_id,
+            image_of_product=image_p,
+            product_name=name_p,
+            price_of_the_product=price_p,
+            product_id=product_id,
+            quantity=quantity,
+            user_id=user_id)
         cart.save()
         return redirect('cart')
     return render(request, 'shop/index.html',{'allprods':allprods})
@@ -96,10 +106,15 @@ from django.views.decorators.csrf import csrf_exempt
 from shop.paytm import Checksum
 MERCHANT_KEY = 'bKMfNxPPf_QdZppa'
 
+
+def order1(request, myid):
+    product = Product.objects.filter(id=myid)
+    return render(request, 'shop/order1.html',{'product':product[0]})
+
 def order(request, myid):
     if request.method=="POST":
         product_image=request.POST.get('product_image', '')
-        product_name=request.POST.get('product_name', '')
+        product_namee=request.POST.get('product_name', '')
         product_price=request.POST.get('product_price', '')
         name=request.POST.get('name', '')
         email=request.POST.get('email', '')
@@ -113,7 +128,9 @@ def order(request, myid):
         product_id=request.POST.get('product_id','')
         admin_id=request.POST.get('admin_id','')
         user_uid=request.POST.get('user_uid','')
-        order_status=request.POST.get('order_status','')
+
+
+        product_name=Product.objects.get(id=product_namee)
         
         order = Order(product_image=product_image,
         product_price=product_price,
@@ -128,8 +145,7 @@ def order(request, myid):
         order_method=order_method,
         product_id=product_id,
         admin_id=admin_id,
-        user_uid=user_uid,
-        order_status=order_status)
+        user_uid=user_uid)
         order.save()
 
         if order.order_method == "CARD METHOD":
@@ -138,7 +154,7 @@ def order(request, myid):
             real_amount=spliting_amount[1]
 
             param_dict = {
-                    'ORDER_ID': 'OREDR_ID-'+ str(order.id),
+                    'ORDER_ID': 'OREDR_IDfff-'+ str(order.id),
                     'MID':'DIY12386817555501617',
                     'TXN_AMOUNT': real_amount,
                     'CUST_ID': email,
@@ -151,53 +167,14 @@ def order(request, myid):
             param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
             return render(request, 'shop/paytm.html', {'param_dict': param_dict})
         else:
+            change_paid=Order.objects.get(id=order.id)
+            change_paid.paid=True
+            change_paid.save()
             return redirect('/shop/success')
-
     product = Product.objects.filter(id=myid)
     return render(request,'shop/order.html', {'product':product[0]})
 
 
-
-
-
-def order1(request, myid):
-    if request.method=="POST":
-        product_image=request.POST.get('product_image', '')
-        product_name=request.POST.get('product_name', '')
-        product_price=request.POST.get('product_price', '')
-        name=request.POST.get('name', '')
-        email=request.POST.get('email', '')
-        address1=request.POST.get('address1', '')
-        address2=request.POST.get('address2', '')
-        city=request.POST.get('city','')
-        state=request.POST.get('state','')
-        zip=request.POST.get('zip','')
-        phone=request.POST.get('phone','')
-        order_method=request.POST.get('order_method','')
-        product_id=request.POST.get('product_id','')
-        admin_id=request.POST.get('admin_id','')
-        user_uid=request.POST.get('user_uid','')
-        order_status=request.POST.get('order_status','')
-        
-        order = Order(product_image=product_image,
-        product_price=product_price,
-        product_name=product_name,
-        name=name,
-        email=email,  
-        address1=address1, 
-        address2=address2, 
-        city=city, state=state, 
-        zip=zip, 
-        phone=phone,
-        order_method=order_method,
-        product_id=product_id,
-        admin_id=admin_id,
-        user_uid=user_uid,
-        order_status=order_status)
-        order.save()
-        return redirect('/shop/success')
-    product = Product.objects.filter(id=myid)
-    return render(request, 'shop/order1.html',{'product':product[0]})
 
 
 
@@ -215,11 +192,14 @@ def handlerequest(request):
     verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
     if verify:
         if response_dict['RESPCODE'] == '01':
+            order_id=response_dict['ORDERID'].split('-')
+            change_paid=Order.objects.get(id=order_id[1])
+            change_paid.paid=True
+            change_paid.save()
             print('order successful')
         else:
             print('order was not successful because ' + response_dict['RESPMSG'])
     return render(request, 'shop/paymentstatus.html', {'response': response_dict})
-
 
 
 
@@ -274,16 +254,35 @@ def profile(request):
 
 
 
-def vieworder(requests):
-    order= Order.objects.all()
-    user=requests.user
+def vieworder(request):
+    user=request.user
+    user_order=Order.objects.filter(user_uid=user.id,paid=True)
     my_order=""
-    if Order.objects.filter(user_uid=user.id):
+    if user_order:
         my_order="yes"
     else:
         my_order="no"
-    context={'order':order, 'my_order':my_order}
-    return render(requests, 'shop/vieworder.html',context)
+
+
+    alert=""
+    arr=""
+    for order in user_order:
+        if order.order_status == "Pending":
+            alert="warning"
+            arr="Pending"
+
+        elif order.order_status == "Dispatched":
+            alert="info"
+            arr="Dispatched"
+
+        else:
+            alert="success"
+            arr="Delivered"
+
+
+
+    context={'arr':arr,'alert':alert,'order':user_order, 'my_order':my_order}
+    return render(request, 'shop/vieworder.html',context)
 
 
 
@@ -304,9 +303,11 @@ def orderrequest(requests):
 
 
 def destroy(request,myid):  
-    order = Order.objects.get(id=myid)  
-    order.delete()  
-    return redirect("/shop/vieworder") 
+    order = Order.objects.get(id=myid) 
+    if order.user_uid == request.user.id: 
+        order.delete()  
+    else:
+        return redirect("/shop/vieworder") 
 
 
 def moredetail(requests,myid):
@@ -397,14 +398,19 @@ def cart(request):
     cart=Cart.objects.all()
     user=request.user
     cartt=Cart.objects.filter(user_id=user.id)
-    price_list = ([(item.price_p) for item in cartt])
+
+    price_listt = ([(item.price_of_the_product) for item in cartt])
+
+    integer_map = map(int, price_listt)
+    price_list = list(integer_map)
+
     quantity_list = ([(item.quantity) for item in cartt])
+
     count=len(price_list)
+
     grand_total=[]
     for i in range(0,count):
-        w=price_list[i]*quantity_list[i]
-        s=grand_total.append(w)
-    grand_total=sum(grand_total)
+        grand_total=price_list[i]*quantity_list[i]
     cart_is=""
     if Cart.objects.filter(cart_id=user.id):
         cart_is="yes"
