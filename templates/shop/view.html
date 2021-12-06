@@ -49,7 +49,7 @@
                         <form method="POST" action="/shop/">{% csrf_token %}
                         <input type="hidden" name="cart_id" value="{{request.user.id}}">
                         <input type="hidden" name="image_p" value="{{d.image}}">
-                        <input type="hidden" name="name_p" value="{{d.product_name}}">
+                        <input type="hidden" name="name_p" value="{{d.id}}">
                         <input type="hidden" name="price_p" value="{{d.price}}">
                         <input type="hidden" name="product_id" value="{{d.id}}">
                         <th><button data-toggle="modal" data-target="#myModal{{d.id}}" id="add_button" class="btn btn-dark" type="button">Add To Cart</button></th>

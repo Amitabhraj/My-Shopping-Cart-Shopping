@@ -64,7 +64,12 @@ width:60%;
 
     <div class="col-md-7"><br>
         <label for="pn">Product Name:-</label>
-    <input id="pn" readonly="readonly" class="form-control" name="product_name" value="{{product.product_name}}"></input><br>
+    <input id="pn" readonly="readonly" class="form-control" value="{{product.product_name}}"></input><br>
+
+
+    <input id="pn" readonly="readonly" type="hidden" class="form-control" name="product_name" value="{{product.id}}"></input><br>
+
+
         <label for="pr">Product price:-</label>
     <input id="pr" readonly="readonly" class="form-control" value="₹{{product.price}}" name="product_price"></input><br>
 
@@ -169,11 +174,6 @@ width:60%;
             <div class="form-group col-md-7">
                 <input type="hidden" id="inputorder" class="form-control" value="{{product.admin_id}}" readonly="readonly" name="admin_id">
             </div>
-
-            <div class="form-group col-md-7">
-                <input type="hidden" id="inputorder" class="form-control" value="Pending" name="order_status">
-            </div>
-
 
 
 

@@ -120,7 +120,7 @@
     <form method="POST" action="/shop/">{% csrf_token %}
     <input type="hidden" name="cart_id" value="{{request.user.id}}">
     <input type="hidden" name="image_p" value="{{product.image}}">
-    <input type="hidden" name="name_p" value="{{product.product_name}}">
+    <input type="hidden" name="name_p" value="{{product.id}}">
     <input type="hidden" name="price_p" value="{{product.price}}">
     <input type="hidden" name="product_id" value="{{product.id}}">
     <input type="hidden" name="user_id" value="{{request.user.id}}"><br>

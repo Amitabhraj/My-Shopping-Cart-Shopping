@@ -47,6 +47,10 @@ def index(request):
     return render(request, 'shop/index.html',{'allprods':allprods})
 
 
+def check_login(request):
+    if request.user.is_authenticated:
+        return redirect('/shop')
+    return render(request, 'accounts/login.html')
 
 
 

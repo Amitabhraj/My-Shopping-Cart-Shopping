@@ -49,9 +49,9 @@
 }
 }
 </style>
-                        <th><a href="/shop/productview/{{cart.product_id}}"><img src="/media/{{cart.image_p}}" id="img" ></a></th>
+                        <th><a href="/shop/productview/{{cart.product_id}}"><img src="/media/{{cart.image_of_product}}" id="img" ></a></th>
 
-                        <th><a href="/shop/productview/{{cart.product_id}}"><h4 id="text">{{cart.name_p}}</h4></a><h4 id="text">₹{{cart.price_p}}</h4><h6 id="text">Quantity:-{{cart.quantity}}</h6><h6>Subtotal:-₹{{cart.price_p|mul:cart.quantity}}</th>
+                        <th><a href="/shop/productview/{{cart.product_id}}"><h4 id="text">{{cart.name_of_the_product}}</h4></a><h4 id="text">₹{{cart.price_of_the_product}}</h4><h6 id="text">Quantity:-{{cart.quantity}}</h6><h6>Subtotal:-₹{{cart.price_of_the_product|mul:cart.quantity}}</th>
 
                         <th><a href="cart_delete/{{cart.id}}"><button id="add_button" class="btn btn-danger">Remove</button></a></th>
                         {% endif %}

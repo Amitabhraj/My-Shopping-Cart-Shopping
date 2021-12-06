@@ -1,40 +1,22 @@
 {% extends 'shop/basic.html' %}
 {% block title %}View Order{% endblock %}
 {%block body%}
-{%if user.is_authenticated%}
+{% if user.is_authenticated %}
 
 
 {% if my_order == "no" %}
 <center><img src="https://static8.depositphotos.com/1431107/919/i/600/depositphotos_9199988-stock-photo-oops-icon.jpg" width="200px" height="200px"><h3><u>You Have Not Ordered any Product Till Now!</u></h3>
 <a href="/shop"><button class="btn btn-dark">Buy Now</button></a></center>
-{% endif %}
-
+{% else %}
 
 {% for order in order %}
-{% if request.user.id == order.user_uid %}
-{% if order.order_status == "Pending" %}
 
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  Your Order is <strong>Pending</strong>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-{% elif order.order_status == "Dispatched" %}
-
-<div class="alert alert-info alert-dismissible fade show" role="alert">
-  Your Order has been <strong>Dispatched</strong>
+<div class="alert alert-{{alert}} alert-dismissible fade show" role="alert">
+  Your Order is <strong>{{arr}}</strong>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
 
-{% elif order.order_status == "Delivered" %}
-
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-  Your Order has been Successfully <strong>Delivered</strong>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-{% endif %}
 <style>
 .flex-shrink-0{
     width: 200px;
@@ -65,14 +47,8 @@ h4,h5,a{
 <br>
 
 
-
-
-
-
-{% endif %}
 {% endfor %}
-
-
+{% endif %}
 
 {%else%}
 <center><h2>Please sign in to see your Orders</h2>
