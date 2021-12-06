@@ -1,8 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
-from .models import Product
-from .models import Contact
-from .models import Order
+from .models import *
 from django.db.models import Count
 from math import ceil
 from .forms import *
@@ -13,6 +11,11 @@ from django.contrib.auth import authenticate, logout
 from django.template import RequestContext
 # Create your views here.
 
+# def basic(request):
+#     user=request.user
+#     cart_count = Cart.objects.filter(user_id=user.id).count()
+#     context={'cart_count':cart_count}
+#     return render(request, 'shop/basic.html',context)
 
 
 def index(request):

@@ -38,8 +38,35 @@
 
   </head>
   <body>
+
+<style>
+@media(min-width: 768px){
+#bar{
+  margin-left:15px;
+}
+#search{
+  width:320px;
+}
+}
+@media(max-width: 768px){
+#bar{
+  margin-left:10px;
+}
+#search{
+  width:220px;
+}
+#navbar-brand{
+  display: none;
+}
+}
+</style>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" width="100%">
-  <a class="navbar-brand" href="/shop" id="cart">My Awesome Cart</a>
+    <a class="navbar-brand mx-2" href="/shop" id="navbar-brand" style="font-size:22px">My Awesome Cart</a><form class="d-flex" id="bar" method="get" action="/shop/search">
+        <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -53,8 +80,6 @@
       <li class="nav-item active">
         <a class="nav-link active" href="/shop">Home</a>
       </li>
-
-
 
 
 {% if user.is_authenticated %}
@@ -109,7 +134,7 @@
 
 {% if user.is_authenticated %}
       <li class="nav-item active">
-        <a class="nav-link active" href="/shop/cart">My Cart</a>
+        <a class="nav-link active" href="/shop/cart">My Cart {{cart_count}}</a>
       </li>
 {% else %}
 <style>
@@ -262,21 +287,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <li class="nav-item dropdown">
   <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MORE
@@ -294,43 +304,37 @@
   left:2px;
 }
 </style>
-
-  {% if user.is_authenticated %}
 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
   <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>All Products</b></p></a></li>
   <li><a class="dropdown-item" href="/shop/about"><p style="color:black;"><b>About Us</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>Order request</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Your product</b></p></a></li>
+</ul>
+</li>
+
+
+{% if user.is_authenticated %}
+<li class="nav-item dropdown">
+  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <b>{{request.user.username}}</b>
+  </a>
+
+
+<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
+  <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>My Profile</b></p></a></li>
+  <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Switch To Seller</b></p></a></li>
   <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
   {% if request.user.id == 21 or request.user.id == 1 %}
   <li><a class="dropdown-item" href="/admin"><p style="color:black;"><b>Admin Panel</b></p></a></li>
   </ul>
   {% endif %}
-
 {% else %}
-<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>All Product</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/about"><p style="color:black;"><b>About Us</b></p></a></li>
-  <li><a class="dropdown-item" href="/"><p style="color:black;"><b>Login/Signup</b></p></a></li>
+<a href="/"><button class="btn btn-danger">Login/signup</button></a>
 {% endif %}
+
 
 
 </ul>
 </li>
-<style>
-@media(min-width: 768px){
-#bar{
-  margin-left:200px;
-}
-#search{
-  width:320px;
-}
-}
-</style>
-      <form class="d-flex" id="bar" method="get" action="/shop/search">
-        <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+
 
 </nav>
 {% block body %}
