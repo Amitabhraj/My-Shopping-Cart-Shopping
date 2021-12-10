@@ -18,6 +18,16 @@ from django.template import RequestContext
 #     return render(request, 'shop/basic.html',context)
 
 
+def starter(request):
+    if request.method == "POST":
+        search=request.POST.get('search','')
+        print(search)
+        product= Product.objects.filter(product_name__icontains=search)
+        context={'product':product}
+        return render(request,'shop/search.html',context)
+    return render(request, 'colorlib-search-25/starter.html')
+
+
 def index(request):
     allprods=[]
     catprods= Product.objects.values('category', 'id')
