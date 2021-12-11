@@ -83,50 +83,67 @@
 }
 }
 </style>
+
+
+
+<style>
+.bd-placeholder-img {
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+</style>
+
+
+<style>
+#quantity{
+width: 200px;
+margin: 10px 10px 10px 10px;
+}
+#choose{
+  margin: 10px 10px 10px 10px;
+}
+</style>
+
+
+
     <hr id="hori"></hr>
     <h5 id="cate">&nbsp;&nbsp;&bull;Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
     <hr id="hori"></hr>
-    {%for product in prod %}
-
-<div class="d-flex position-relative">
-  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
-  <div>
-    
-    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" id="name" style="margin-left:20px;">{{product.product_name}}</h3></a>
-    <h5 class="card-title" style="margin-left:20px;">Price:-₹{{product.price}}</h5>
 
 
+  <div class="album py-1 bg-light">
+    <div class="cont mx-3">
+      <div class="row row-cols-1 row-cols-sm-7 row-cols-md-3 g-3">
+        
+        {%for product in prod %}
+        <div class="col">
+          <div class="card shadow-sm">
 
-    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModall{{product.id}}">Buy Now</a>
+            <div class="card-body">
+              <img src="/media/{{product.image}}" width="100%">
+              <p class="card-text" style="font-size:25px;">{{product.product_name}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a href="/shop/productview/{{product.id}}"><button type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
 
-    <div class="modal fade" id="myModall{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" id="{{product.id}}" >
-    <div class="modal-content" >
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Choose Payment Method</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
-      <div class="modal-footer">
-      <a href="/shop/order1/{{product.id}}"><button class="btn btn-dark">Cash on Delivery</button></a>
-      <a href="/shop/order/{{product.id}}"><button class="btn btn-dark">Online Payment(PayTm)</button></a>
-    </div>
-    </div>
-  </div>
-</div>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
 
-
-
-    {% if user.is_authenticated %}
-    <form method="POST" action="/shop/">{% csrf_token %}
-    <input type="hidden" name="cart_id" value="{{request.user.id}}">
-    <input type="hidden" name="image_p" value="{{product.image}}">
-    <input type="hidden" name="name_p" value="{{product.id}}">
-    <input type="hidden" name="price_p" value="{{product.price}}">
-    <input type="hidden" name="product_id" value="{{product.id}}">
-    <input type="hidden" name="user_id" value="{{request.user.id}}"><br>
+                </div>
+                <small class="text-muted" style="font-size:18px;">Price:-₹{{product.price}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
-    <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
 
 
 <div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -136,12 +153,15 @@
         <h4 class="modal-title" id="myModalLabel">Quantity?</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-<style>
-#quantity{
-width: 200px;
-}
-</style>
-      <label for="quantity"><h5>Please Choose quantity of the Item</h5></label><br>
+{% if user.is_authenticated %}
+    <form method="POST" action="/shop/">{% csrf_token %}
+    <input type="hidden" name="cart_id" value="{{request.user.id}}">
+    <input type="hidden" name="image_p" value="{{product.image}}">
+    <input type="hidden" name="name_p" value="{{product.id}}">
+    <input type="hidden" name="price_p" value="{{product.price}}">
+    <input type="hidden" name="product_id" value="{{product.id}}">
+    <input type="hidden" name="user_id" value="{{request.user.id}}"><br>
+      <label for="quantity" id="choose"><h5>Please Choose quantity of the Item</h5></label><br>
        <select name="quantity" id="quantity">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -156,20 +176,21 @@ width: 200px;
        </select>
       <div class="modal-footer">
         <button type="submit" class="btn btn-dark" >Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+        </div>
 
 </form>
 {% endif %}
 
-  </div>
-</div>
-<hr id="horii"></hr>
-{%endfor%}
-{%endfor%}
 
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+
+
+{% endfor %}
 
 {% endblock %} 

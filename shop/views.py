@@ -33,7 +33,7 @@ def index(request):
     catprods= Product.objects.values('category', 'id')
     cats= {item["category"] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)[::-1][:3]
+        prod=Product.objects.filter(category=cat)[::-1][:4]
         allprods.append(prod)
     user=request.user
     if request.method == "POST":
