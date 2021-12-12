@@ -48,6 +48,7 @@ width:60%;
 }
 
 {% endblock %}
+
 {% block body %}
 <form action="/shop/order/{{product.id}}" method="post">{% csrf_token %}
 <div class="container">

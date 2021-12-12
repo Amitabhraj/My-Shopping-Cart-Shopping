@@ -440,7 +440,7 @@ def cart(request):
 def cart_delete(request,myid):
     cart_delete = Cart.objects.get(id=myid)  
     cart_delete.delete() 
-    return redirect('cart') 
+    return redirect('cart')
     return render(request,'shop/cart.html')
 
 
