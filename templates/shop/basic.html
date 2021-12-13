@@ -47,50 +47,38 @@
 </head>
 <div class="wrapper">
         <!-- Sidebar  -->
-        <nav id="sidebar">
+        <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
+                <h3>My Awesome Cart</h3>
             </div>
 
-            <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
+            <ul class="list-unstyled components mx-0.5">
                 <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
+                    <a href="/shop">Home</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a href="/shop/about">About</a>
                 </li>
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                    <a href="/shop/cart">My Cart</a>
                 </li>
                 <li>
-                    <a href="#">Portfolio</a>
+                    <a href="/shop/vieworder">My Order</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="/shop/view">All Products</a>
                 </li>
+                {% if user.is_authenticated %}
+              <li>
+                <a href="/signout">Sign Out</a>
+              </li>
+              {% else %}
+              <li>
+                <div>
+                <a href="/"><button class="btn btn-danger">Login/Signup</button></a>
+                </div>
+              </li>
+              {% endif %}
             </ul>
         </nav>
 
@@ -100,28 +88,32 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                <button type="button" id="sidebarCollapse" class="btn btn-dark">
                         <i class="fas fa-align-left"></i>
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-<div class="text-left">
-      <form class="d-flex" method="get" action="/shop/search">
-        <input class="form-control" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
-        <button class="btn btn-outline-success mx-2" id="search_button" type="submit">Search</button>
-      </form>
+
+<div class="container mx-1">
+<a href="/shop"><h2 id="text-head" style="color:white;margin-bottom:0px;">My Awesome cart</h2></a>
 </div>
+          <div class="text-left">
+                <form class="d-flex mx-1" method="get" action="/shop/search">
+                  <input class="form-control" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search" style="width:500px;">
+                  <button class="btn btn-outline-success mx-2" id="search_button" type="submit">Search</button>
+                </form>
+          </div>
 
 <style>
 .d-flex{
   margin-bottom:0px;
-  width: 500px;
 }
 @media (max-width: 768px) {
+#text-head{
+  display: none;
+}
 .d-flex{
-  margin-right: -15px;
-  margin-bottom:0px;
-  width: 280px;
+  width: 200px;
 }
 }
 </style>
@@ -180,6 +172,7 @@ a:focus {
 }
 
 .navbar {
+    width: 100%;
     padding: 15px 10px;
     background: #fff;
     border: none;
@@ -188,6 +181,7 @@ a:focus {
 }
 
 .navbar-btn {
+    width: 100%;
     box-shadow: none;
     outline: none !important;
     border: none;
@@ -211,6 +205,7 @@ a:focus {
 }
 
 #sidebar {
+    width: 100%;
     min-width: 250px;
     max-width: 250px;
     background: black;
@@ -219,10 +214,12 @@ a:focus {
 }
 
 #sidebar.active {
+  width: 100%;
     margin-left: -250px;
 }
 
 #sidebar .sidebar-header {
+  width: 100%;
     padding: 20px;
     background: black;
 }
@@ -249,7 +246,7 @@ a:focus {
 }
 
 #sidebar ul li.active>a,
-a[aria-expanded="true"] {
+a[aria-expanded="false"] {
     color: #fff;
     background: black;
 }
@@ -320,8 +317,12 @@ $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
-        });
+        });          
 </script>
+
+
+
+
 </body>
 </html>
     
