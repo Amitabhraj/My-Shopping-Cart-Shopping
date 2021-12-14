@@ -171,18 +171,30 @@ margin: 10px 10px 10px 10px;
               <p class="card-text" style="font-size:25px;">{{product.product_name}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <a href="/shop/productview/{{product.id}}"><button type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
+                  <a href="/shop/productview/{{product.id}}"><button id="button-font-size" type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
 
-                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
+                  <button type="button" id="button-font-size" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
 
                 </div>
-                <small class="text-muted" style="font-size:18px;margin-left:-1100px;">Price:-₹{{product.price}}</small>
               </div>
             </div>
+            <p class="container mx-1" id="text-font-size"><b>Price:-₹{{product.price}}</b></p>
           </div>
         </div>
 
-
+<style>
+@media (min-width: 275px) {
+#text-font-size{
+  font-size: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#button-font-size{
+  width: 100%;
+  font-size: 10px;
+}
+}
+</style>
 
 
 <div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

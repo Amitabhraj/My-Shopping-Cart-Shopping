@@ -89,31 +89,51 @@
                 <div class="container-fluid">
 
                 <button type="button" id="sidebarCollapse" class="btn btn-dark">
-                        <i class="fas fa-align-left"></i>
-                        <span class="navbar-toggler-icon"></span>
+                        <i class="fas fa-align-left" ></i>
+                        <span class="navbar-toggler-icon" id="navbar-toggler-icon"></span>
                     </button>
 
 
-<div class="container mx-1">
-<a href="/shop"><h2 id="text-head" style="color:white;margin-bottom:0px;">My Awesome cart</h2></a>
-</div>
-          <div class="text-left">
-                <form class="d-flex mx-1" method="get" action="/shop/search">
-                  <input class="form-control" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search" style="width:500px;">
+
+                <form class="d-flex" method="get" action="/shop/search">
+                  <input class="form-control" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
                   <button class="btn btn-outline-success mx-2" id="search_button" type="submit">Search</button>
                 </form>
-          </div>
 
 <style>
 .d-flex{
   margin-bottom:0px;
+  width:80%;
 }
-@media (max-width: 768px) {
+@media (min-width: 765px) {
 #text-head{
   display: none;
 }
-.d-flex{
-  width: 200px;
+#search{
+  width: 40%;
+}
+}
+@media (min-width: 440px) {
+#text-head{
+  display: none;
+}
+#search{
+  width: 100%;
+}
+}
+@media (min-width: 275px) {
+#text-head{
+  display: none;
+}
+#search{
+  width: 1000%;
+}
+#sidebarCollapse{
+    width: 0.5%;
+    height: 0.5%
+}
+#navbar-toggler-icon{
+    margin-left: -10px;
 }
 }
 </style>
