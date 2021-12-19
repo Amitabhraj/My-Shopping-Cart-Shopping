@@ -28,12 +28,34 @@ def starter(request):
     return render(request, 'colorlib-search-25/starter.html')
 
 
+
+
+def dashboard(requests):
+    user=requests.user
+    product_count=Product.objects.filter(admin_id=user.id)
+    product=Product.objects.filter(admin_id=user.id)[::-1][:5]
+
+
+    arg1="<center><h2>Your Products</h2></center><hr style='border-top: 2px solid black;'>"
+
+    arg="You Have Not Added any Product For Sale yet, add your Product to Start Your Business on MyAwesomeCart"
+    button="<a href='/shop/sellproduct' class='btn btn-secondary'>Sell Your Product</a>"
+    
+
+    if product_count:
+        context={'product':product,'arg1':arg1}
+    else:
+        context={'arg':arg,'button':button}
+    return render(requests,'shop/dashboard.html',context)
+
+
+
 def index(request):
     allprods=[]
     catprods= Product.objects.values('category', 'id')
     cats= {item["category"] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)[::-1][:4]
+        prod=Product.objects.filter(category=cat)[::-1][:5]
         allprods.append(prod)
     user=request.user
     if request.method == "POST":

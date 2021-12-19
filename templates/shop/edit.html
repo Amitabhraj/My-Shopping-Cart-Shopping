@@ -1,5 +1,6 @@
-{% extends 'shop/basic.html' %}
+{% extends 'shop/seller.html' %}
 {% block body %}
+<br>
     <form method="POST" action="update/{{product.id }}">
         {% csrf_token %}
         <div class="container">

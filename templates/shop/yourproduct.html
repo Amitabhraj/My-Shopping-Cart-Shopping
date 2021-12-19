@@ -1,4 +1,4 @@
-{% extends 'shop/basic.html' %}
+{% extends 'shop/seller.html' %}
 {% block title %}View Product{% endblock %}
 {%block body%}
 {%if user.is_authenticated%}
@@ -28,9 +28,9 @@ h3,h4{
 </style>
 
 <br>
-<div class="d-flex position-relative">
+<div class="container mx-1 d-flex position-relative">
   <img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="...">
-  <div>
+  <div class="container">
     <h3 class="mt-0"><b>Product name:-</b>{{product.product_name}}</h3>
     <h4><b>Product price:-</b>${{product.price}}</h4>
     <h4><b>Product Category:-</b>{{product.category}}</h4>
