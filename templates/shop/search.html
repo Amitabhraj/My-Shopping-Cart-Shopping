@@ -15,9 +15,9 @@
 }	
 }
 </style>
+<br>
 
-
-<div class="container my-1">
+<div class="container mx-1">
 
 
 	{% if search == "" or search == " " %}
@@ -46,9 +46,9 @@
   margin: 10px 10px 10px 10px;
 }
 </style>
-</div>
 <br>
-    <div class="d-flex position-relative">
+
+    <div class="d-flex position-relative mx-1">
   <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
   <div>
     <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
@@ -70,7 +70,7 @@
     </div>
   </div>
 </div>
-
+</div>
 
 {% if user.is_authenticated %}
     <form method="POST" action="/shop/search/">{% csrf_token %}
