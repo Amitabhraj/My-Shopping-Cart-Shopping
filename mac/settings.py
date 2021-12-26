@@ -134,7 +134,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
 
 #managing media
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
@@ -164,6 +163,9 @@ LOGIN_REDIRECT_URL = '/shop/starter'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 SOCIALACCOUNT_PROVIDERS = {
