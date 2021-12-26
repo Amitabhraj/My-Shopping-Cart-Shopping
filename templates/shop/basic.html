@@ -11,6 +11,9 @@
 <meta name="apple-mobile-web-app-title" content="CodePen">
 
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
 <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
 
 
@@ -362,7 +365,7 @@ html { height: 100%;}
 
        <li><a href="/shop/about"><i class="fa fa-address-card-o" style="color:white;width:20px;height:20px;"></i> About Us</a></li>
 
-       <li><a href="/shop/contact"><i class="fas fa-paper-plane"></i>Contact Us</a></li>
+       <li><a href="/shop/contact"><i class="fas fa-address-book"></i> Contact Us</a></li>
 
 
        <li><a href="/shop/cart"><i class="fa fa-shopping-cart" style="color:white;width:20px;height:20px;"></i>My cart</a></li>
@@ -384,30 +387,29 @@ html { height: 100%;}
 
 
 
+  <style>
+  .navbarr {
+    overflow: hidden;
+    background-color: #212531;
+    position: fixed;
+    top: -1%;
+    width: 100%;
+    z-index: 999;
+  }
+  #signout{
+      padding-top: 190px;
+  }
+  </style>
+  <div id="navbarr">
+    <nav class="navbarr navbar-expand-lg navbar-light" id="mainNav">
+              <div class="container mx-4">
 
-<style>
-.navbarr {
-  overflow: hidden;
-  background-color: #212531;
-  position: fixed;
-  top: -1%;
-  width: 100%;
-  z-index: 999;
-}
-#signout{
-    padding-top: 100px;
-}
-</style>
-<div id="navbarr">
-  <nav class="navbarr navbar-expand-lg navbar-light" id="mainNav">
-            <div class="container mx-2">
 
-
-<button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-    <span class="hamb-top"></span>
-    <span class="hamb-middle"></span>
-    <span class="hamb-bottom"></span>
-</button>
+  <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+      <span class="hamb-top"></span>
+      <span class="hamb-middle"></span>
+      <span class="hamb-bottom"></span>
+  </button>
 
 
                 <form class="d-flex" method="get" action="/shop/search" id="kk">
@@ -421,6 +423,7 @@ html { height: 100%;}
 </div>
 <br>
 <br>
+
 
 
 <style>
