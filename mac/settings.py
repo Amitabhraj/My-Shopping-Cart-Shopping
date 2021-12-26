@@ -165,9 +165,6 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
