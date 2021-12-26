@@ -208,6 +208,9 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
+STATIC_ROOT = "/home/MyAwesomeCartShopping/My-Shopping-Cart-Shopping-/shop/static/"
+
+
 PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 
 # SOCIAL_AUTH_FACEBOOK_KEY = '534560934481071' 
