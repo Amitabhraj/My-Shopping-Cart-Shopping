@@ -468,6 +468,20 @@ def cart_delete(request,myid):
 
 
 
+def seller_contact(request):
+    if request.method=="POST":
+        name=request.POST.get('name', '')
+        email=request.POST.get('email', '')
+        phone=request.POST.get('phone', '')
+        des=request.POST.get('des', '')
+        contact = Contact(name=name, email=email, phone=phone, des=des)
+        contact.save()
+        return redirect("success1")
+    return render(request, "shop/seller_contactus.html")
+
+
+
+
 def success(request):
     return render(request,'shop/success.html')
 

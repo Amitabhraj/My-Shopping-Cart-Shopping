@@ -34,4 +34,5 @@ urlpatterns = [
     path('edit/delete/<int:myid>', views.delete,       name="delete"),
     path('edit/<int:myid>', views.edit, name='edit'),
     path('edit/update/<int:myid>', views.update, name='update'), 
+    path('seller/contactus/', views.seller_contact, name='seller-contact'), 
 ]
