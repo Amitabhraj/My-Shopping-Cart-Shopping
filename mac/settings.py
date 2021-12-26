@@ -208,7 +208,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-STATIC_ROOT = "/My-Shopping-Cart-Website/shop/static/"
+STATIC_ROOT = "/My-Shopping-Cart-Shopping/shop/static/"
 
 
 
