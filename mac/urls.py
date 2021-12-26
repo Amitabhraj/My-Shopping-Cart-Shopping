@@ -21,7 +21,14 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView, LoginView
 
+
+from django.views.static import serve
+from django.conf.urls import url
+
 urlpatterns = [
+    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
