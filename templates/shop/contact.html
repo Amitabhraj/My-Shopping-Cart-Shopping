@@ -2,6 +2,8 @@
 {% block title %} Contact Us {% endblock %}
 {% block body %}
 {%if user.is_authenticated%}
+<br>
+<br>
  <div class="container">
      <h2><u>Contact Us</u></h2><br>
 <form action="/shop/contact/" method="post">{% csrf_token %}
