@@ -22,15 +22,12 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView, LoginView
 
 
-from django.views.static import serve
-
 urlpatterns = [
-    path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
-
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
     path('', views.check_login, name='check_login'),
     path('', LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('signout/', LogoutView.as_view(), name='logout'),
-    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
