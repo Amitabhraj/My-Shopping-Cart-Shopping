@@ -20,7 +20,7 @@ from . import views
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView, LoginView
-
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
