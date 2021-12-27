@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -208,29 +207,27 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'shop')
+# # Static files (CSS, JavaScript, Images)
+# # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# STATIC_ROOT = os.path.join(BASE_DIR, 'shop')
+# STATIC_URL = '/static/'
+
+# # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+
+
+
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 
 
 PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 
 # SOCIAL_AUTH_FACEBOOK_KEY = '534560934481071' 
 # SOCIAL_AUTH_FACEBOOK_SECRET = '21e1d4b891b76d2008e89833176ca745'  # App 
-
-
-heroku config:set DISABLE_COLLECTSTATIC=1
-
-
-django_heroku.settings(locals())
 
 
