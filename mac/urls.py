@@ -29,6 +29,7 @@ urlpatterns = [
     path('', views.check_login, name='check_login'),
     path('', LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('signout/', LogoutView.as_view(), name='logout'),
-    re_path(r'^media/(?p<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})
+    re_path('media/(?p<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})
     ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
