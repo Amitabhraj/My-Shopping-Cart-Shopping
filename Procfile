@@ -1,1 +1,1 @@
-web: gunicorn CCMS.wsgi --log-file -s
+web: gunicorn mac.wsgi
