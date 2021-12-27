@@ -22,9 +22,11 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView, LoginView
 
 
-
+from django.views.static import serve
 
 urlpatterns = [
+    path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
