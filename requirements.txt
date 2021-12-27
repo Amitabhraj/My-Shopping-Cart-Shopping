@@ -7,6 +7,7 @@ charset-normalizer==2.0.9
 cryptography==36.0.1
 defusedxml==0.7.1
 dj-database-url==0.5.0
+dj-static==0.0.6
 Django==4.0
 django-allauth==0.47.0
 django-heroku==0.3.1
@@ -38,6 +39,7 @@ six==1.16.0
 social-auth-app-django==5.0.0
 social-auth-core==4.1.0
 sqlparse==0.4.2
+static3==0.7.0
 tzdata==2021.5
 uritemplate==4.1.1
 urllib3==1.26.7
