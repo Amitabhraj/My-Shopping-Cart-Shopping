@@ -231,4 +231,5 @@ PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 # SOCIAL_AUTH_FACEBOOK_SECRET = '21e1d4b891b76d2008e89833176ca745'  # App 
 
 
-django_heroku.settings(locals()
+django_heroku.settings(locals())
+
