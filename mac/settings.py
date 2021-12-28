@@ -143,12 +143,10 @@ STATIC_URL = '/shop/static/'
   
 
 
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'shop')]
-
-# else:
-
-#   STATIC_ROOT = os.path.join(BASE_DIR, 'shop')
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'shop')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'shop/static')
 
   
 
