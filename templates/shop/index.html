@@ -1,4 +1,5 @@
 {% extends 'shop/basic.html' %}
+{% load static %}
 {% block title %}Home{% endblock %}
 {% block body %}
 
@@ -221,7 +222,7 @@ body {
 
 {%for product in prod %}
   <div class="column my-3">
-    <img src="{% static 'images/{{product.image}}' %}" width="100%">
+    <img src="/{{product.image}}" width="100%">
     
     <div class="card">{{product.product_name}}
     <br>
