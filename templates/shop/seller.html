@@ -380,7 +380,12 @@ html { height: 100%;}
     
       <li><a href="/shop"><i class="fa fa-exchange"></i> Switch To Buyer Mode</a></li>
 
+      {% if request.user.is_authenticated %}
       <div id="signout"><li><h5><a href="/signout">Sign Out <i class="fa fa-sign-out"></i></a></h5></li></div>
+{% else %}
+<div id="signout" class="container mx-2"><h5><a href="/"><button class="btn btn-danger">Login Now</button></a></h5></div>
+      {% endif %}
+      
       </ul>
 
   </nav>
