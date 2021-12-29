@@ -57,6 +57,8 @@
 
     <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;"data-toggle="modal" data-target="#myModall{{product.id}}">Buy Now</a>
 
+    <button type="button" class="btn btn-dark mx-3 my-2" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
+
     <div class="modal fade" id="myModall{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="{{product.id}}" >
     <div class="modal-content" >
@@ -72,15 +74,13 @@
 </div>
 </div>
 
-{% if user.is_authenticated %}
+   {% if user.is_authenticated %}
     <form method="POST" action="/shop/search/">{% csrf_token %}
     <input type="hidden" name="cart_id" value="{{request.user.id}}">
     <input type="hidden" name="image_p" value="{{product.image}}">
     <input type="hidden" name="name_p" value="{{product.id}}">
     <input type="hidden" name="price_p" value="{{product.price}}">
-    <input type="hidden" name="product_id" value="{{product.id}}"><br>
-    <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
-
+    <input type="hidden" name="product_id" value="{{product.id}}"><br><br>
 
 <div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="{{product.id}}" >

@@ -119,13 +119,13 @@ def prodview(request, myid):
     user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
-        image_p=request.POST.get('image_p','')
-        name_p=request.POST.get('name_p','')
-        price_p=request.POST.get('price_p','')
+        image_of_product=request.POST.get('image_p','')
+        product_name=request.POST.get('name_p','')
+        price_of_the_product=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
+        cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
     product = Product.objects.filter(id=myid)
@@ -368,13 +368,16 @@ def search(request):
     user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
-        image_p=request.POST.get('image_p','')
-        name_p=request.POST.get('name_p','')
-        price_p=request.POST.get('price_p','')
+        image_of_product=request.POST.get('image_p','')
+        product_namee=request.POST.get('name_p','')
+        price_of_the_product=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
+        
+        product_name=Product.objects.get(id=product_namee)
+
+        cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
     search=request.GET['search']
