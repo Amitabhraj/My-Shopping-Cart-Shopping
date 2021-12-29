@@ -231,7 +231,10 @@ body {
 
     <a href="/shop/productview/{{product.id}}"><button id="button-font-size" type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
 
+{% if request.user.is_authenticated %}
     <button type="button" id="button-font-size" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
+{% else %}
+{% endif %}
 
 </div>
 

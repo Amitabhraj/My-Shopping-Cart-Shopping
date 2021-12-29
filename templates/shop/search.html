@@ -57,18 +57,25 @@
 
     <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;"data-toggle="modal" data-target="#myModall{{product.id}}">Buy Now</a>
 
+{% if request.user.is_authenticated %}
     <button type="button" class="btn btn-dark mx-3 my-2" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
+{% else %}
+{% endif %}
 
     <div class="modal fade" id="myModall{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="{{product.id}}" >
     <div class="modal-content" >
       <div class="modal-header">
+        {% if request.user.is_authenticated %}
         <h4 class="modal-title" id="myModalLabel">Choose Payment Method</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-footer">
       <a href="/shop/order1/{{product.id}}"><button class="btn btn-dark">Cash on Delivery</button></a>
       <a href="/shop/order/{{product.id}}"><button class="btn btn-dark">Online Payment(PayTm)</button></a>
+      {% else %}
+      <h2><li>You have not Logined to Website, please login for buying any product</li></h2>
+      {% endif %}
     </div>
   </div>
 </div>
