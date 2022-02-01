@@ -22,7 +22,7 @@ class Product(models.Model):
     price=models.IntegerField(default=0)
     des=models.CharField(max_length=10000)
     admin_id=models.IntegerField(default="")
-    image=models.ImageField(upload_to="media/shop/images") 
+    image=models.ImageField(upload_to="shop/images") 
     
     def __str__(self):
         return self.product_name
@@ -45,7 +45,7 @@ class Contact(models.Model):
     
 
 class Order(models.Model):
-    product_image=models.ImageField(upload_to="media/shop/images")
+    product_image=models.ImageField(upload_to="shop/images")
     product_name=models.ForeignKey(Product, on_delete=models.CASCADE)
     product_price=models.CharField(max_length=200)
     name=models.CharField(max_length=50)
