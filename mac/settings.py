@@ -137,8 +137,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/shop/static/'
-
-# MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'
 
   
 
