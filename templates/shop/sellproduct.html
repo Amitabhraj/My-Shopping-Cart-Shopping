@@ -121,17 +121,16 @@
           {{form.file_name}}         
         </div><br>
 
-
-        <div class="form-group">
-          <label for="{{form.file_category.id_for_label}}">Product Category</label>
-          {{form.file_category}}
-        </div><br>
-
-
-        <div class="form-group">
-          <label for="{{form.file_subcategory.id_for_label}}">Product Subcategory</label>
-          {{form.file_subcategory}}     
-        </div><br>
+      
+      <div class="form-group">
+            <label for="category"><h5>Enter Product Category:-</h5></label><br>
+        <select class="form-select" aria-label="Default select example" name="category">
+            <option selected>Select category</option>
+            {% for category in category %}
+            <option value="{{category.id}}">{{category}}</option>
+            {% endfor %}
+        </select>
+      </div><br>
 
 
         <div class="form-group">
@@ -184,6 +183,11 @@
           <label for="{{form.files_data.id_for_label}}">Upload Image</label>
             {{form.files_data}}
         </div><br>
+
+
+        <div class="form-group">
+          <input readonly="readonly" type="hidden" name="product_id" value="{{integer_product_id}}">
+        </div>
         
         
         <button type="submit" class="btn" id="butt">Submit</button>

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import *
 from django.db.models import Count
 from math import ceil
@@ -9,6 +9,7 @@ from django.contrib.auth.models import *
 from django.db.models import Count
 from django.contrib.auth import authenticate, logout
 from django.template import RequestContext
+from django.contrib import messages
 # Create your views here.
 
 # def basic(request):
@@ -22,10 +23,10 @@ def starter(request):
     if request.method == "POST":
         search=request.POST.get('search','')
         print(search)
-        product= Product.objects.filter(product_name__icontains=search)
+        product= Product.objects.filter(product_name__icontains=search, on_sale=True)
         context={'product':product}
         return render(request,'shop/search.html',context)
-    return render(request, 'colorlib-search-25/starter.html')
+    return render(request, 'starter.html')
 
 
 
@@ -52,10 +53,11 @@ def dashboard(requests):
 
 def index(request):
     allprods=[]
-    catprods= Product.objects.values('category', 'id')
+    filter_product=Product.objects.filter(on_sale=True)
+    catprods= filter_product.values('category', 'id')
     cats= {item["category"] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)[::-1][:5]
+        prod=Product.objects.filter(category=cat,on_sale=True)[::-1][:5]
         allprods.append(prod)
     user=request.user
     if request.method == "POST":
@@ -67,7 +69,7 @@ def index(request):
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
 
-        name_p=Product.objects.get(id=name_pp)
+        name_p=Product.objects.get(id=name_pp,on_sale=True)
 
         cart=Cart(
             cart_id=cart_id,
@@ -80,6 +82,7 @@ def index(request):
         cart.save()
         return redirect('cart')
     return render(request, 'shop/index.html',{'allprods':allprods})
+
 
 
 def check_login(request):
@@ -96,18 +99,34 @@ def about(requests):
 
 
 
-
-
 def contact(request):
+    contact_idd=Contact.objects.all()
+    if contact_idd.count()==0:
+        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
+        demo_contact.save()
+        integer_contact_id=int(demo_contact.id)+1
+    else:
+        contact_id=contact_idd[len(contact_idd)-1].id
+        integer_contact_id=int(contact_id)+1
+
+    context={"contact_id":integer_contact_id}
     if request.method=="POST":
         name=request.POST.get('name', '')
         email=request.POST.get('email', '')
         phone=request.POST.get('phone', '')
         des=request.POST.get('des', '')
-        contact = Contact(name=name, email=email, phone=phone, des=des)
-        contact.save()
-        return redirect("success1")
-    return render(request, "shop/contact.html")
+        contact_id=request.POST.get('contact_id','')
+        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
+        if Contact.objects.filter(id=contact_id):
+            return redirect(request.path)
+        else:
+            contact.save()
+            main_context="Submitted"
+            line_context="You Have Successfully Submitted"
+            last_context="Thank You! We will Soon Contact on Your Email-Id"
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request,"shop/success.html",context)
+    return render(request, "shop/contact.html",context)
 
 
 
@@ -128,18 +147,11 @@ def prodview(request, myid):
         cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
-    product = Product.objects.filter(id=myid)
-    prod=Product.objects.all()
+    product = Product.objects.filter(id=myid,on_sale=True)
+    prod=Product.objects.filter(on_sale=True)
     return render(request,'shop/prodview.html', {'product':product[0],'prod':prod})
 
 
-
-# order_id=[]
-# for order in Order.objects.all():
-#     order_id.append(order.id)
-# last_order_id=order_id[len(order_id)-1]
-# print(last_order_id)
-# last_order_id_plus=last_order_id+1
 
 from django.views.decorators.csrf import csrf_exempt
 from shop.paytm import Checksum
@@ -147,10 +159,38 @@ MERCHANT_KEY = 'bKMfNxPPf_QdZppa'
 
 
 def order1(request, myid):
-    product = Product.objects.filter(id=myid)
-    return render(request, 'shop/order1.html',{'product':product[0]})
+    order_idd=Order.objects.all()
+    if order_idd.count()==0:
+        demo_order=Order(product_image=None,
+                         product_price=999,
+                         product_name=None,
+                         admin_id=0,
+                         user_uid=0
+                         )
+        demo_order.save()
+        integer_order_id=int(demo_order.id)+1
+    else:
+        order_id=order_idd[len(order_idd)-1].id
+        integer_order_id=int(order_id)+1
+
+    product = Product.objects.filter(id=myid,on_sale=True)
+    return render(request, 'shop/order1.html',{'product':product[0],'order_id':integer_order_id})
 
 def order(request, myid):
+    order_idd=Order.objects.all()
+    if order_idd.count()==0:
+        demo_order=Order(product_image=None,
+                         product_price=999,
+                         product_name=None,
+                         admin_id=0,
+                         user_uid=0
+                         )
+        demo_order.save()
+        integer_order_id=int(demo_order.id)+1
+    else:
+        order_id=order_idd[len(order_idd)-1].id
+        integer_order_id=int(order_id)+1
+
     if request.method=="POST":
         product_image=request.POST.get('product_image', '')
         product_namee=request.POST.get('product_name', '')
@@ -167,6 +207,7 @@ def order(request, myid):
         product_id=request.POST.get('product_id','')
         admin_id=request.POST.get('admin_id','')
         user_uid=request.POST.get('user_uid','')
+        order_id=request.POST.get('order_id','')
 
 
         product_name=Product.objects.get(id=product_namee)
@@ -184,8 +225,17 @@ def order(request, myid):
         order_method=order_method,
         product_id=product_id,
         admin_id=admin_id,
-        user_uid=user_uid)
-        order.save()
+        user_uid=user_uid,
+        order_id=order_id)
+        if Order.objects.filter(id=order_id):
+            return redirect(request.path)
+        else:
+            order.save()
+            main_context="Ordered"
+            line_context="You Have Successfully Ordered the Product"
+            last_context="Thank You! We will Deliver You the product at your Home very Soon.."
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request,"shop/success.html",context)
 
         if order.order_method == "CARD METHOD":
             string_amount=order.product_price
@@ -209,9 +259,15 @@ def order(request, myid):
             change_paid=Order.objects.get(id=order.id)
             change_paid.paid=True
             change_paid.save()
-            return redirect('/shop/success')
-    product = Product.objects.filter(id=myid)
-    return render(request,'shop/order.html', {'product':product[0]})
+
+            main_context="Ordered"
+            line_context="You Have Successfully Ordered the Product"
+            last_context="Thank You! We will Deliver You the product at your Home very Soon.."
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request, "shop/success.html",context)
+
+    product = Product.objects.filter(id=myid,on_sale=True)
+    return render(request,'shop/order.html', {'product':product[0],'order_id':integer_order_id})
 
 
 
@@ -245,26 +301,53 @@ def handlerequest(request):
 
  
 def sellproduct(request):
+    category=Category.objects.all()
+    product_idd=Product.objects.all()
+    if product_idd.count()==0:
+        demo_product=Product(image=None,
+                             product_name="demo",
+                             category=None,
+                             price=0,
+                             admin_id=0,
+                             on_sale=False
+                            )
+        demo_product.save()
+        integer_product_id=int(demo_product.id)+1
+    else:
+        product_id=product_idd[len(product_idd)-1].id
+        integer_product_id=int(product_id)+1
+
     if request.method == 'POST':
         form = MyfileUploadForm(request.POST, request.FILES)
         
         if form.is_valid():
             name = form.cleaned_data['file_name']
-            category = form.cleaned_data['file_category']
-            subcategory = form.cleaned_data['file_subcategory']
+            get_category = request.POST.get('category', '')
             price = form.cleaned_data['file_price']
             des = request.POST.get('des','')
             admin_id=form.cleaned_data['file_id']
             the_files = form.cleaned_data['files_data']
+            product_id=request.POST.get('product_id','')
 
-            Product(product_name=name, category=category, subcategory=subcategory, price=price ,des=des,admin_id=admin_id, image=the_files).save()
-            return redirect("success2")
-        
+            category=Category.objects.get(id=get_category)
+
+            product=Product(product_name=name, category=category, price=price ,des=des,admin_id=admin_id, image=the_files, product_id=product_id)
+            if Product.objects.filter(id=product_id):
+                return redirect(request.path)
+            else:
+                product.save()
+                main_context="Delivered"
+                line_context="Your Have Successfully Ordered The Product"
+                last_context="Thank You! For Purchasing"
+                context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+                return render(request, "shop/success.html",context)
         else:
             return HttpResponse('<h1>Error</h1>')
     else:
         context = {
-            'form':MyfileUploadForm()
+            'form':MyfileUploadForm(),
+            'category':category,
+            'integer_product_id':integer_product_id
         }
         return render(request, 'shop/sellproduct.html', context)
         
@@ -274,7 +357,7 @@ def sellproduct(request):
 
 
 def show_file(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(on_sale=True)
     paginator=Paginator(product,12)
     page_number = request.GET.get('page', 1)
     try:
@@ -356,7 +439,7 @@ def moredetail(requests,myid):
 
 
 def delete(request,myid):  
-    product = Product.objects.get(id=myid)  
+    product = Product.objects.get(id=myid,on_sale=True)  
     product.delete()  
     return redirect("/shop/yourproduct")  
 
@@ -381,7 +464,7 @@ def search(request):
         cart.save()
         return redirect('cart')
     search=request.GET['search']
-    product= Product.objects.filter(product_name__icontains=search)
+    product= Product.objects.filter(product_name__icontains=search,on_sale=True)
     paginator=Paginator(product,12)
     page_number = request.GET.get('page', 1)
     try:
@@ -410,17 +493,24 @@ def yourproduct(requests):
 
 def edit(request,myid):  
     product = Product.objects.get(id=myid)  
-    return render(request,'shop/edit.html', {'product':product}) 
+    product_category = Category.objects.get(category=product.category)
+    all_category = Category.objects.all()
+    return render(request,'shop/edit.html', {'product':product, 'product_category':product_category,'all_category':all_category}) 
 
 
 
 def update(request,myid):
     product = Product.objects.get(id=myid)
     product.product_name = request.POST['product_name']
-    product.category = request.POST['category']
-    product.subcategory = request.POST['subcategory']
+    category = request.POST['category']
+    product.category = Category.objects.get(id=category)
     product.price = request.POST['price']
     product.des = request.POST['des']
+    sale=request.POST['sale']
+    if sale=="On Sale":
+        product.on_sale=True
+    else:
+        product.on_sale=False
     product.save()
     return redirect('/shop/yourproduct')
 
@@ -472,26 +562,36 @@ def cart_delete(request,myid):
 
 
 def seller_contact(request):
+    contact_idd=Contact.objects.all()
+    if contact_idd.count()==0:
+        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
+        demo_contact.save()
+        integer_contact_id=int(demo_contact.id)+1
+    else:
+        contact_id=contact_idd[len(contact_idd)-1].id
+        integer_contact_id=int(contact_id)+1
+
+    context={"contact_id":integer_contact_id}
     if request.method=="POST":
         name=request.POST.get('name', '')
         email=request.POST.get('email', '')
         phone=request.POST.get('phone', '')
         des=request.POST.get('des', '')
-        contact = Contact(name=name, email=email, phone=phone, des=des)
-        contact.save()
-        return redirect("success1")
-    return render(request, "shop/seller_contactus.html")
-
+        contact_id=request.POST.get('contact_id','')
+        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
+        if Contact.objects.filter(id=contact_id):
+            return redirect(request.path)
+        else:
+            contact.save()
+            main_context="Submitted"
+            line_context="You Have Successfully Submitted"
+            last_context="Thank You! We will Soon Contact on Your Email-Id"
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request, "shop/success.html",context)
+    return render(request, "shop/seller_contactus.html",context)
 
 
 
 def success(request):
-    return render(request,'shop/success.html')
+    return render(request, 'shop/success.html')
 
-
-def success1(request):
-    return render(request,'shop/success1.html')
-
-
-def success2(request):
-    return render(request,'shop/success2.html')
