@@ -130,6 +130,37 @@ def contact(request):
 
 
 
+def seller_contact(request):
+    contact_idd=Contact.objects.all()
+    if contact_idd.count()==0:
+        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
+        demo_contact.save()
+        integer_contact_id=int(demo_contact.id)+1
+    else:
+        contact_id=contact_idd[len(contact_idd)-1].id
+        integer_contact_id=int(contact_id)+1
+
+    context={"contact_id":integer_contact_id}
+    if request.method=="POST":
+        name=request.POST.get('name', '')
+        email=request.POST.get('email', '')
+        phone=request.POST.get('phone', '')
+        des=request.POST.get('des', '')
+        contact_id=request.POST.get('contact_id','')
+        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
+        if Contact.objects.filter(id=contact_id):
+            return redirect(request.path)
+        else:
+            contact.save()
+            main_context="Submitted"
+            line_context="You Have Successfully Submitted"
+            last_context="Thank You! We will Soon Contact on Your Email-Id"
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request, "shop/success.html",context)
+    return render(request, "shop/seller_contactus.html",context)
+
+
+
 
 
 
@@ -150,6 +181,19 @@ def prodview(request, myid):
     product = Product.objects.filter(id=myid,on_sale=True)
     prod=Product.objects.filter(on_sale=True)
     return render(request,'shop/prodview.html', {'product':product[0],'prod':prod})
+
+
+
+def show_file(request):
+    product = Product.objects.filter(on_sale=True)
+    paginator=Paginator(product,12)
+    page_number = request.GET.get('page', 1)
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(1)
+    context = {'data':page }
+    return render(request, 'shop/view.html', context)
 
 
 
@@ -350,22 +394,6 @@ def sellproduct(request):
             'integer_product_id':integer_product_id
         }
         return render(request, 'shop/sellproduct.html', context)
-        
-
-
-
-
-
-def show_file(request):
-    product = Product.objects.filter(on_sale=True)
-    paginator=Paginator(product,12)
-    page_number = request.GET.get('page', 1)
-    try:
-        page = paginator.page(page_number)
-    except EmptyPage:
-        page = paginator.page(1)
-    context = {'data':page }
-    return render(request, 'shop/view.html', context)
 
 
 
@@ -407,13 +435,30 @@ def vieworder(request):
     return render(request, 'shop/vieworder.html',context)
 
 
+def destroy(request,myid):
+    if Order.objects.filter(id=myid):
+        order=Order.objects.get(id=myid)
+        main_context="Cancelled"
+        line_context="Your Have Successfully Cancelled your Order"
+        context={'main_context':main_context,'line_context':line_context}
+        if order.user_uid == request.user.id:
+            order.delete()  
+            return render(request, 'shop/success.html',context)
+        else:
+            return redirect("/shop") 
+    else:
+        return redirect(request.path)
+
+
+
+
 
 
 def orderrequest(requests):
-    order= Order.objects.all()
     user=requests.user
+    order= Order.objects.filter(admin_id=user.id,paid=True)
     order_request=""
-    if Order.objects.filter(admin_id=user.id):
+    if Order.objects.filter(admin_id=user.id,paid=True):
         order_request="yes"
     else:
         order_request="no"
@@ -422,26 +467,25 @@ def orderrequest(requests):
 
 
 
-
-
-def destroy(request,myid):  
-    order = Order.objects.get(id=myid) 
-    if order.user_uid == request.user.id: 
-        order.delete()  
+def moredetail(request,myid):
+    if Order.objects.filter(admin_id=request.user.id,id=myid,paid=True):
+        order= Order.objects.filter(admin_id=request.user.id,id=myid,paid=True)
+        context={'order':order[0]}
     else:
-        return redirect("/shop/vieworder") 
+        return redirect('/shop/orderrequest')
+    return render(request, 'shop/moredetail.html',context)
 
 
-def moredetail(requests,myid):
-    order= Order.objects.filter(id=myid)
-    context={'order':order[0]}
-    return render(requests, 'shop/moredetail.html',context)
 
 
-def delete(request,myid):  
-    product = Product.objects.get(id=myid,on_sale=True)  
-    product.delete()  
-    return redirect("/shop/yourproduct")  
+def update2(request,myid):
+    if Order.objects.filter(admin_id=request.user.id,id=myid,paid=True):
+        order = Order.objects.get(admin_id=request.user.id,id=myid,paid=True)
+        order.order_status = request.POST['order_status']
+        order.save()
+    else:
+        return redirect('/shop/orderrequest')
+    return redirect('/shop/orderrequest')
 
 
 
@@ -477,6 +521,9 @@ def search(request):
 
 
 
+
+
+
 def yourproduct(requests):
     product = Product.objects.all()
     user=requests.user
@@ -490,37 +537,55 @@ def yourproduct(requests):
 
 
 
-
 def edit(request,myid):  
-    product = Product.objects.get(id=myid)  
-    product_category = Category.objects.get(category=product.category)
-    all_category = Category.objects.all()
+    if Product.objects.filter(id=myid,admin_id=request.user.id):
+        product = Product.objects.get(id=myid,admin_id=request.user.id) 
+        product_category = Category.objects.get(category=product.category)
+        all_category = Category.objects.all()
+    else:
+        return redirect('/shop/yourproduct')  
     return render(request,'shop/edit.html', {'product':product, 'product_category':product_category,'all_category':all_category}) 
 
 
 
 def update(request,myid):
-    product = Product.objects.get(id=myid)
-    product.product_name = request.POST['product_name']
-    category = request.POST['category']
-    product.category = Category.objects.get(id=category)
-    product.price = request.POST['price']
-    product.des = request.POST['des']
-    sale=request.POST['sale']
-    if sale=="On Sale":
-        product.on_sale=True
+    if Product.objects.filter(id=myid,admin_id=request.user.id):
+        product = Product.objects.get(id=myid)
+        product.product_name = request.POST['product_name']
+        category = request.POST['category']
+        product.category = Category.objects.get(id=category)
+        product.price = request.POST['price']
+        product.des = request.POST['des']
+        sale=request.POST['sale']
+        if sale=="On Sale":
+            product.on_sale=True
+        else:
+            product.on_sale=False
+        product.save()
     else:
-        product.on_sale=False
-    product.save()
+        return redirect(request.path)
     return redirect('/shop/yourproduct')
 
 
 
-def update2(request,myid):
-    order = Order.objects.get(id=myid)
-    order.order_status = request.POST['order_status']
-    order.save()
-    return redirect('/shop/orderrequest')
+
+def delete(request,myid):  
+    if Product.objects.filter(id=myid):
+        product = Product.objects.get(id=myid)  
+        if product.admin_id==request.user.id:
+            product.delete()  
+            main_context="Deleted"
+            line_context=f"Your Have Successfully Deleted {product.product_name} from Your Products"
+            context={'main_context':main_context,'line_context':line_context}
+            return render(request, 'shop/success.html')
+        else:
+            return redirect('/shop/yourproduct')  
+    else:
+        return redirect(request.path)  
+
+
+
+
 
 
 
@@ -558,37 +623,6 @@ def cart_delete(request,myid):
     return redirect('cart')
     return render(request,'shop/cart.html')
 
-
-
-
-def seller_contact(request):
-    contact_idd=Contact.objects.all()
-    if contact_idd.count()==0:
-        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
-        demo_contact.save()
-        integer_contact_id=int(demo_contact.id)+1
-    else:
-        contact_id=contact_idd[len(contact_idd)-1].id
-        integer_contact_id=int(contact_id)+1
-
-    context={"contact_id":integer_contact_id}
-    if request.method=="POST":
-        name=request.POST.get('name', '')
-        email=request.POST.get('email', '')
-        phone=request.POST.get('phone', '')
-        des=request.POST.get('des', '')
-        contact_id=request.POST.get('contact_id','')
-        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
-        if Contact.objects.filter(id=contact_id):
-            return redirect(request.path)
-        else:
-            contact.save()
-            main_context="Submitted"
-            line_context="You Have Successfully Submitted"
-            last_context="Thank You! We will Soon Contact on Your Email-Id"
-            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
-            return render(request, "shop/success.html",context)
-    return render(request, "shop/seller_contactus.html",context)
 
 
 
