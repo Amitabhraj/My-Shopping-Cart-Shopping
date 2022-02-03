@@ -49,6 +49,12 @@ width:60%;
 
 {% endblock %}
 {% block body %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+{% if not payment %}
 <form action="/shop/order/{{product.id}}" method="post">{% csrf_token %}
 <div class="container">
 
@@ -207,10 +213,66 @@ width:60%;
                 </div>
               </div>
             </div>
-{% else %}
+{% endif %}
 
+{% elif user.is_not_authenticated and not payment %}
 <button type="button" class="btn btn-danger" id="order2">
 <b>You Cannot Place Order</b>
 </button>
-{% endif %}       
+{% else %}
+{% endif %}    
+
+
+{% if payment %}
+<br>
+<!-- <form action="/shop/handlerequest" method="POST">{% csrf_token %}
+<button id="rzp-button1">Pay With Razorpay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_RMrYVBgxH8sJdI",
+    "amount": "20000", // 2000 paise = INR 20
+    "name": "Merchant Name",
+    "description": "Purchase Description",
+    "image": "",
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+};
+var rzp1 = new Razorpay(options);
+
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+</form> -->
+
+
+
+<form action="/shop/handlerequest/" method="POST">{% csrf_token %}
+<script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="rzp_test_RMrYVBgxH8sJdI" 
+    data-amount="{{payment.amount}}"
+    data-currency="{{payment.currency}}"
+    data-order_id="{{payment.id}}"
+    data-buttontext="Pay with Razorpay"
+    data-name="BPSC-SCORE"
+    data-description="Test-Series"
+    data-image="https://claymould.suvidhaen.com/static/yaksh/images/main_logo.png"
+    data-prefill.name="{{payment.user_id}}"
+    data-prefill.email=""
+    data-theme.color="#F37254"
+>
+
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+</form>
+
+{% endif %}
+
+
 {%endblock %}

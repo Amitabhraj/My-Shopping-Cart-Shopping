@@ -70,6 +70,7 @@ class Order(models.Model):
     product_id=models.IntegerField(default=0,blank=True,null=True)
     admin_id=models.IntegerField(default=0,blank=True,null=True)
     user_uid=models.IntegerField(default=0,blank=True,null=True)
+    transaction_id=models.CharField(default="",max_length=10000, blank=True,null=True)
     paid=models.BooleanField(default=False)
 
     order_status=models.CharField(choices=delivery_status, default="Pending", max_length=200)

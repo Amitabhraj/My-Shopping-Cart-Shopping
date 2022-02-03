@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import *
+import razorpay
 from django.db.models import Count
 from math import ceil
+from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.models import *
@@ -197,11 +199,6 @@ def show_file(request):
 
 
 
-from django.views.decorators.csrf import csrf_exempt
-from shop.paytm import Checksum
-MERCHANT_KEY = 'bKMfNxPPf_QdZppa'
-
-
 def order1(request, myid):
     order_idd=Order.objects.all()
     if order_idd.count()==0:
@@ -270,45 +267,33 @@ def order(request, myid):
         product_id=product_id,
         admin_id=admin_id,
         user_uid=user_uid,
-        order_id=order_id)
+        order_id=order_id,
+        paid=False,
+        transaction_id="")
         if Order.objects.filter(id=order_id):
             return redirect(request.path)
         else:
-            order.save()
-            main_context="Ordered"
-            line_context="You Have Successfully Ordered the Product"
-            last_context="Thank You! We will Deliver You the product at your Home very Soon.."
-            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
-            return render(request,"shop/success.html",context)
+            if order.order_method=="CASH ON DELIVERY":
+                order.paid=True
+                order.save()
+                main_context="Ordered"
+                line_context="You Have Successfully Ordered the Product"
+                last_context="Thank You! We will Deliver You the product at your Home very Soon.."
+                context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+                return render(request,"shop/success.html",context)
+            else:
+                amount_1=order.product_price.split('₹')
+                amount=int(amount_1[1])
+                client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
+                response_payment=client.order.create(dict(amount=amount,currency='INR',receipt=order_id, payment_capture=1))
+                order_id=response_payment['id']
+                order.transaction_id=order_id
+                order_status=response_payment['status']
+                if order_status=="created":
+                    order.save()
+            context={'payment':response_payment}
+            return render(request, 'shop/order.html',context)
 
-        if order.order_method == "CARD METHOD":
-            string_amount=order.product_price
-            spliting_amount=string_amount.split('₹')
-            real_amount=spliting_amount[1]
-
-            param_dict = {
-                    'ORDER_ID': 'OREDR_IDfff-'+ str(order.id),
-                    'MID':'DIY12386817555501617',
-                    'TXN_AMOUNT': real_amount,
-                    'CUST_ID': email,
-                    'INDUSTRY_TYPE_ID': 'Retail',
-                    'WEBSITE': 'WEBSTAGING',
-                    'CHANNEL_ID': 'WEB',
-                    'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
-                    # 'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
-            }
-            param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-            return render(request, 'shop/paytm.html', {'param_dict': param_dict})
-        else:
-            change_paid=Order.objects.get(id=order.id)
-            change_paid.paid=True
-            change_paid.save()
-
-            main_context="Ordered"
-            line_context="You Have Successfully Ordered the Product"
-            last_context="Thank You! We will Deliver You the product at your Home very Soon.."
-            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
-            return render(request, "shop/success.html",context)
 
     product = Product.objects.filter(id=myid,on_sale=True)
     return render(request,'shop/order.html', {'product':product[0],'order_id':integer_order_id})
@@ -320,25 +305,24 @@ def order(request, myid):
 
 @csrf_exempt
 def handlerequest(request):
-    # paytm will send you post request here
-    form = request.POST
-    response_dict = {}
-    for i in form.keys():
-        response_dict[i] = form[i]
-        if i == 'CHECKSUMHASH':
-            checksum = form[i]
-
-    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
-    if verify:
-        if response_dict['RESPCODE'] == '01':
-            order_id=response_dict['ORDERID'].split('-')
-            change_paid=Order.objects.get(id=order_id[1])
-            change_paid.paid=True
-            change_paid.save()
-            print('order successful')
-        else:
-            print('order was not successful because ' + response_dict['RESPMSG'])
-    return render(request, 'shop/paymentstatus.html', {'response': response_dict})
+    user = request.user
+    response=request.POST
+    print(response)
+    params_dict={
+    'razorpay_order_id':response['razorpay_order_id'],
+    'razorpay_payment_id':response['razorpay_payment_id'],
+    'razorpay_signature':response['razorpay_signature']
+    }
+    #client instance
+    client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
+    try:
+        status=client.utility.verify_payment_signature(params_dict)
+        order=Order.objects.get(transaction_id=response['razorpay_order_id'])
+        order.paid=True
+        order.save()
+        return render(request, 'shop/paymentstatus.html', {'status':True})
+    except:
+        return render(request, 'shop/paymentstatus.html', {'status':False})
 
 
 
