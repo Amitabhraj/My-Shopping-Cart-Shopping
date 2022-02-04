@@ -364,9 +364,9 @@ def sellproduct(request):
                 return redirect(request.path)
             else:
                 product.save()
-                main_context="Delivered"
-                line_context="Your Have Successfully Ordered The Product"
-                last_context="Thank You! For Purchasing"
+                main_context="Added"
+                line_context="Congratulations! Your Have Successfully Selled a Product"
+                last_context="Thank You! For Selling for Choosing us "
                 context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
                 return render(request, "shop/success.html",context)
         else:
@@ -378,13 +378,6 @@ def sellproduct(request):
             'integer_product_id':integer_product_id
         }
         return render(request, 'shop/sellproduct.html', context)
-
-
-
-
-def profile(request):
-    return render(request, 'shop/profile.html')
-
 
 
 
@@ -607,6 +600,9 @@ def cart_delete(request,myid):
     return redirect('cart')
     return render(request,'shop/cart.html')
 
+
+def profile(request):
+    return render(request, 'shop/profile.html')
 
 
 
