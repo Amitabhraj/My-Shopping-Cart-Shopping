@@ -1,10 +1,11 @@
 {% extends 'shop/basic.html' %}
+{% load static %}
 {% block title %}Home{% endblock %}
 {% block body %}
 
 <style>
 .d-block{
-    width:1200px;
+    width:100%;
     height:530px;
 }
 #img{
@@ -44,12 +45,7 @@
 
 
 
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
+<!-- <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="https://static.vecteezy.com/system/resources/previews/002/459/314/non_2x/shopping-online-store-for-sale-mobile-ecommerce-3d-blue-background-shop-online-on-mobile-app-24-hours-shopping-cart-credit-card-minimal-store-online-device-3d-rendered-free-vector.jpg" class="d-block w-100" alt="...">
@@ -61,15 +57,57 @@
       <img src="https://www.digitaldealer.com/wp-content/uploads/2017/11/Screen-Shot-2017-11-03-at-8.18.36-AM.png" class="d-block w-100" alt="...">
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>
+</div> -->
+
+
+
+
+
+  <div class="cont">
+    <div class="carousel slide" id="main-carousel" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#main-carousel" data-slide-to="1"></li>
+        <li data-target="#main-carousel" data-slide-to="2"></li>
+      </ol>     
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block img-fluid" src="https://static.vecteezy.com/system/resources/previews/002/459/314/non_2x/shopping-online-store-for-sale-mobile-ecommerce-3d-blue-background-shop-online-on-mobile-app-24-hours-shopping-cart-credit-card-minimal-store-online-device-3d-rendered-free-vector.jpg" alt="">
+          <div class="carousel-caption d-none d-md-block">
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block img-fluid" src="https://ak.picdn.net/shutterstock/videos/2896216/thumb/7.jpg" alt="">
+          <div class="carousel-caption d-none d-md-block">
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block img-fluid" src="https://www.digitaldealer.com/wp-content/uploads/2017/11/Screen-Shot-2017-11-03-at-8.18.36-AM.png" alt="">
+          <div class="carousel-caption d-none d-md-block">
+          </div>
+        </div>
+      
+      <a href="#main-carousel" class="carousel-control-prev" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a href="#main-carousel" class="carousel-control-next" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+  </div>
+
+
+
+
+
 
 
 {% for prod in allprods %}
@@ -83,50 +121,138 @@
 }
 }
 </style>
+
+
+
+<style>
+.bd-placeholder-img {
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+</style>
+
+
+<style>
+#quantity{
+width: 200px;
+margin: 10px 10px 10px 10px;
+}
+#choose{
+  margin: 10px 10px 10px 10px;
+}
+</style>
+
+
+
     <hr id="hori"></hr>
     <h5 id="cate">&nbsp;&nbsp;&bull;Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
     <hr id="hori"></hr>
-    {%for product in prod %}
-
-<div class="d-flex position-relative">
-  <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
-  <div>
-    
-    <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" id="name" style="margin-left:20px;">{{product.product_name}}</h3></a>
-    <h5 class="card-title" style="margin-left:20px;">Price:-₹{{product.price}}</h5>
 
 
 
-    <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModall{{product.id}}">Buy Now</a>
 
-    <div class="modal fade" id="myModall{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" id="{{product.id}}" >
-    <div class="modal-content" >
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Choose Payment Method</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
-      <div class="modal-footer">
-      <a href="/shop/order1/{{product.id}}"><button class="btn btn-dark">Cash on Delivery</button></a>
-      <a href="/shop/order/{{product.id}}"><button class="btn btn-dark">Online Payment(PayTm)</button></a>
-    </div>
-    </div>
+<!-- <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="/media/{{product.image}}" width="100%" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{product.product_name}}</h5>
+    <p class="card-text">{{product.description}}</p>
+    <a href="#" class="btn btn-primary">Price:-₹{{product.price}}</a>
+    <button type="button" id="button-font-size" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
   </div>
+</div> -->
+
+
+
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+</style>
+
+
+
+<div class="row mx-4">
+
+{%for product in prod %}
+  <div class="column my-3">
+    <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" width="100%"></a>
+    
+    <div class="card">{{product.product_name}}
+    <br>
+
+<div>
+
+    <a href="/shop/productview/{{product.id}}"><button id="button-font-size" type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
+
+{% if request.user.is_authenticated %}
+    <button type="button" id="button-font-size" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal{{product.id}}">Add to Cart</button>
+{% else %}
+{% endif %}
+
 </div>
 
-
-
-    {% if user.is_authenticated %}
-    <form method="POST" action="/shop/">{% csrf_token %}
-    <input type="hidden" name="cart_id" value="{{request.user.id}}">
-    <input type="hidden" name="image_p" value="{{product.image}}">
-    <input type="hidden" name="name_p" value="{{product.id}}">
-    <input type="hidden" name="price_p" value="{{product.price}}">
-    <input type="hidden" name="product_id" value="{{product.id}}">
-    <input type="hidden" name="user_id" value="{{request.user.id}}"><br>
-
-
-    <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
+    </div>
+  </div>
+<style>
+@media (max-width: 285px) {
+#text-font-size{
+  font-size: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#button-font-size{
+  width: 100%;
+  font-size: 10px;
+}
+}
+</style>
 
 
 <div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -136,12 +262,15 @@
         <h4 class="modal-title" id="myModalLabel">Quantity?</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-<style>
-#quantity{
-width: 200px;
-}
-</style>
-      <label for="quantity"><h5>Please Choose quantity of the Item</h5></label><br>
+{% if user.is_authenticated %}
+    <form method="POST" action="/shop/">{% csrf_token %}
+    <input type="hidden" name="cart_id" value="{{request.user.id}}">
+    <input type="hidden" name="image_p" value="{{product.image}}">
+    <input type="hidden" name="name_p" value="{{product.id}}">
+    <input type="hidden" name="price_p" value="{{product.price}}">
+    <input type="hidden" name="product_id" value="{{product.id}}">
+    <input type="hidden" name="user_id" value="{{request.user.id}}"><br>
+      <label for="quantity" id="choose"><h5>Please Choose quantity of the Item</h5></label><br>
        <select name="quantity" id="quantity">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -156,20 +285,18 @@ width: 200px;
        </select>
       <div class="modal-footer">
         <button type="submit" class="btn btn-dark" >Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+        </div>
 
 </form>
 {% endif %}
 
-  </div>
 </div>
-<hr id="horii"></hr>
-{%endfor%}
-{%endfor%}
+</div>
+</div>
 
-
+{% endfor %}
+</div>
+{% endfor %}
+<br>
+<br>
 {% endblock %} 

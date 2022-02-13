@@ -33,8 +33,8 @@
 }
 }
 </style>
-                        <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
-                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4><h5 id="text">₹{{d.price}}</h5></th>
+                        <th><a href="/shop/productview/{{d.id}}"><img src="/media/{{d.image}}" id="img"></a></th>
+                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}" style="color:#212531">{{d.product_name}}</a></h4><h5 id="text">₹{{d.price}}</h5></th>
 <style>
 @media(max-width: 768px){
 #add_button {
@@ -110,7 +110,9 @@ width: 200px;
         {% endif %}
 
         {% if data.has_next %}
+        <div class="container">
           <a href="/shop/view/?page={{ data.next_page_number }}"><button class="btn btn-secondary" id="butt">next&raquo;</button></a>
+        </div>
         {% endif %}
 
 <br>
@@ -157,7 +159,7 @@ width: 200px;
 }
 </style>
                         <th><a href="/shop/productview/{{d.id}}"><img src="{{d.image.url}}" id="img"></a></th>
-                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}">{{d.product_name}}</a></h4><h5 id="text">${{d.price}}</h5></th>
+                        <th><h4 id="text"><a href="/shop/productview/{{d.id}}" style="color:#212531">{{d.product_name}}</a></h4><h5 id="text">${{d.price}}</h5></th>
                       {% endfor %}
                     </tbody>
                   </table>

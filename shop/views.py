@@ -1,29 +1,109 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import *
+import razorpay
 from django.db.models import Count
 from math import ceil
+from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.models import *
 from django.db.models import Count
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
+from django.contrib import messages
 # Create your views here.
 
-# def basic(request):
-#     user=request.user
-#     cart_count = Cart.objects.filter(user_id=user.id).count()
-#     context={'cart_count':cart_count}
-#     return render(request, 'shop/basic.html',context)
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('/shop')
+    if request.method=="POST":
+        username = request.POST.get('username','')
+        password = request.POST.get('password','')
+        if User.objects.filter(username=username):
+            u_d=User.objects.get(username=username)
+            user_password = u_d.check_password(password)
+        else:
+            user_password=False
+
+        if User.objects.filter(username=username) and user_password==True:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/shop/starter")
+            else:
+                messages.error(request,"Invalid username or password.")
+                return redirect(request.path)
+        else:
+            messages.error(request,"Invalid username or password.")
+            return redirect(request.path)
+    
+    return render(request, 'accounts/login.html')
+
+
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('/shop')
+    else:
+        if request.method=="POST":
+            username=request.POST.get('username', '')
+            password=request.POST.get('password','')
+            re_password=request.POST.get('re-password','')
+            email=request.POST.get('email','')
+            phone_number=request.POST.get('phone_number','')
+
+            if password==re_password:
+                user_detail=User.objects.create_user(username=username,
+                                 password=password,
+                                 email=email)
+                user_detail.save()
+                return redirect('/shop/login')
+            else:
+                return HttpResponse('</h1>Error</h1>')
+    return render(request, 'accounts/register.html')
+
+
+def starter(request):
+    if request.method == "POST":
+        search=request.POST.get('search','')
+        print(search)
+        product= Product.objects.filter(product_name__icontains=search, on_sale=True)
+        context={'product':product}
+        return render(request,'shop/search.html',context)
+    return render(request, 'starter.html')
+
+
+
+
+def dashboard(requests):
+    user=requests.user
+    product_count=Product.objects.filter(admin_id=user.id)
+    product=Product.objects.filter(admin_id=user.id)[::-1][:5]
+
+
+    arg1="<hr style='border-top: 2px solid black;'><marquee scrollamount='15'><h2>Welcome To Seller Dashboard</h2></marquee><hr style='border-top: 2px solid black;>'>"
+
+    arg="You Have Not Added any Product For Sale yet, add your Product to Start Your Business on MyAwesomeCart"
+    button="<a href='/shop/sellproduct' class='btn btn-secondary'>Sell Your Product</a>"
+    
+
+    if product_count:
+        context={'product':product,'arg1':arg1}
+    else:
+        context={'arg':arg,'button':button}
+    return render(requests,'shop/dashboard.html',context)
+
 
 
 def index(request):
     allprods=[]
-    catprods= Product.objects.values('category', 'id')
+    filter_product=Product.objects.filter(on_sale=True)
+    catprods= filter_product.values('category', 'id')
     cats= {item["category"] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)[::-1][:3]
+        prod=Product.objects.filter(category=cat,on_sale=True)[::-1][:5]
         allprods.append(prod)
     user=request.user
     if request.method == "POST":
@@ -35,7 +115,7 @@ def index(request):
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
 
-        name_p=Product.objects.get(id=name_pp)
+        name_p=Product.objects.get(id=name_pp,on_sale=True)
 
         cart=Cart(
             cart_id=cart_id,
@@ -48,6 +128,7 @@ def index(request):
         cart.save()
         return redirect('cart')
     return render(request, 'shop/index.html',{'allprods':allprods})
+
 
 
 def check_login(request):
@@ -64,18 +145,65 @@ def about(requests):
 
 
 
-
-
 def contact(request):
+    contact_idd=Contact.objects.all()
+    if contact_idd.count()==0:
+        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
+        demo_contact.save()
+        integer_contact_id=int(demo_contact.id)+1
+    else:
+        contact_id=contact_idd[len(contact_idd)-1].id
+        integer_contact_id=int(contact_id)+1
+
+    context={"contact_id":integer_contact_id}
     if request.method=="POST":
         name=request.POST.get('name', '')
         email=request.POST.get('email', '')
         phone=request.POST.get('phone', '')
         des=request.POST.get('des', '')
-        contact = Contact(name=name, email=email, phone=phone, des=des)
-        contact.save()
-        return redirect("success1")
-    return render(request, "shop/contact.html")
+        contact_id=request.POST.get('contact_id','')
+        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
+        if Contact.objects.filter(id=contact_id):
+            return redirect(request.path)
+        else:
+            contact.save()
+            main_context="Submitted"
+            line_context="You Have Successfully Submitted"
+            last_context="Thank You! We will Soon Contact on Your Email-Id"
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request,"shop/success.html",context)
+    return render(request, "shop/contact.html",context)
+
+
+
+def seller_contact(request):
+    contact_idd=Contact.objects.all()
+    if contact_idd.count()==0:
+        demo_contact=Contact(name="demo", email="demo@gmail.com", phone="demo_phone_number", des="demo", contact_id=0)
+        demo_contact.save()
+        integer_contact_id=int(demo_contact.id)+1
+    else:
+        contact_id=contact_idd[len(contact_idd)-1].id
+        integer_contact_id=int(contact_id)+1
+
+    context={"contact_id":integer_contact_id}
+    if request.method=="POST":
+        name=request.POST.get('name', '')
+        email=request.POST.get('email', '')
+        phone=request.POST.get('phone', '')
+        des=request.POST.get('des', '')
+        contact_id=request.POST.get('contact_id','')
+        contact = Contact(name=name, email=email, phone=phone, des=des, contact_id=contact_id)
+        if Contact.objects.filter(id=contact_id):
+            return redirect(request.path)
+        else:
+            contact.save()
+            main_context="Submitted"
+            line_context="You Have Successfully Submitted"
+            last_context="Thank You! We will Soon Contact on Your Email-Id"
+            context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+            return render(request, "shop/success.html",context)
+    return render(request, "shop/seller_contactus.html",context)
 
 
 
@@ -87,38 +215,52 @@ def prodview(request, myid):
     user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
-        image_p=request.POST.get('image_p','')
-        name_p=request.POST.get('name_p','')
-        price_p=request.POST.get('price_p','')
+        image_of_product=request.POST.get('image_p','')
+        product_name=request.POST.get('name_p','')
+        price_of_the_product=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
+        cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')
-    product = Product.objects.filter(id=myid)
-    prod=Product.objects.all()
+    product = Product.objects.filter(id=myid,on_sale=True)
+    prod=Product.objects.filter(on_sale=True)
     return render(request,'shop/prodview.html', {'product':product[0],'prod':prod})
 
 
 
-# order_id=[]
-# for order in Order.objects.all():
-#     order_id.append(order.id)
-# last_order_id=order_id[len(order_id)-1]
-# print(last_order_id)
-# last_order_id_plus=last_order_id+1
+def show_file(request):
+    product = Product.objects.filter(on_sale=True)
+    paginator=Paginator(product,12)
+    page_number = request.GET.get('page', 1)
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(1)
+    context = {'data':page }
+    return render(request, 'shop/view.html', context)
 
-from django.views.decorators.csrf import csrf_exempt
-from shop.paytm import Checksum
-MERCHANT_KEY = 'bKMfNxPPf_QdZppa'
 
 
-def order1(request, myid):
-    product = Product.objects.filter(id=myid)
-    return render(request, 'shop/order1.html',{'product':product[0]})
+
+
 
 def order(request, myid):
+    order_idd=Order.objects.all()
+    if order_idd.count()==0:
+        demo_order=Order(product_image=None,
+                         product_price=999,
+                         product_name=None,
+                         admin_id=0,
+                         user_uid=0
+                         )
+        demo_order.save()
+        integer_order_id=int(demo_order.id)+1
+    else:
+        order_id=order_idd[len(order_idd)-1].id
+        integer_order_id=int(order_id)+1
+
     if request.method=="POST":
         product_image=request.POST.get('product_image', '')
         product_namee=request.POST.get('product_name', '')
@@ -135,6 +277,7 @@ def order(request, myid):
         product_id=request.POST.get('product_id','')
         admin_id=request.POST.get('admin_id','')
         user_uid=request.POST.get('user_uid','')
+        order_id=request.POST.get('order_id','')
 
 
         product_name=Product.objects.get(id=product_namee)
@@ -152,34 +295,38 @@ def order(request, myid):
         order_method=order_method,
         product_id=product_id,
         admin_id=admin_id,
-        user_uid=user_uid)
-        order.save()
-
-        if order.order_method == "CARD METHOD":
-            string_amount=order.product_price
-            spliting_amount=string_amount.split('₹')
-            real_amount=spliting_amount[1]
-
-            param_dict = {
-                    'ORDER_ID': 'OREDR_IDfff-'+ str(order.id),
-                    'MID':'DIY12386817555501617',
-                    'TXN_AMOUNT': real_amount,
-                    'CUST_ID': email,
-                    'INDUSTRY_TYPE_ID': 'Retail',
-                    'WEBSITE': 'WEBSTAGING',
-                    'CHANNEL_ID': 'WEB',
-                    'CALLBACK_URL':'http://localhost:4000/shop/handlerequest/',
-                    # 'CALLBACK_URL':'https://MyAwesomeCartShopping.pythonanywhere.com/shop/handlerequest/',
-            }
-            param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-            return render(request, 'shop/paytm.html', {'param_dict': param_dict})
+        user_uid=user_uid,
+        order_id=order_id,
+        paid=False,
+        transaction_id="")
+        if Order.objects.filter(id=order_id):
+            return redirect(request.path)
         else:
-            change_paid=Order.objects.get(id=order.id)
-            change_paid.paid=True
-            change_paid.save()
-            return redirect('/shop/success')
-    product = Product.objects.filter(id=myid)
-    return render(request,'shop/order.html', {'product':product[0]})
+            if order.order_method=="CASH ON DELIVERY":
+                order.paid=True
+                order.save()
+                main_context="Ordered"
+                line_context="You Have Successfully Ordered the Product"
+                last_context="Thank You! We will Deliver You the product at your Home very Soon.."
+                context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+                return render(request,"shop/success.html",context)
+            else:
+                amount_1=order.product_price.split('₹')
+                amount_in_int=int(amount_1[1])
+                amount=amount_in_int*10
+                client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
+                response_payment=client.order.create(dict(amount=amount,currency='INR',receipt=order_id, payment_capture=1))
+                order_id=response_payment['id']
+                order.transaction_id=order_id
+                order_status=response_payment['status']
+                if order_status=="created":
+                    order.save()
+            context={'payment':response_payment}
+            return render(request, 'shop/order.html',context)
+
+
+    product = Product.objects.filter(id=myid,on_sale=True)
+    return render(request,'shop/order.html', {'product':product[0],'order_id':integer_order_id})
 
 
 
@@ -188,76 +335,79 @@ def order(request, myid):
 
 @csrf_exempt
 def handlerequest(request):
-    # paytm will send you post request here
-    form = request.POST
-    response_dict = {}
-    for i in form.keys():
-        response_dict[i] = form[i]
-        if i == 'CHECKSUMHASH':
-            checksum = form[i]
-
-    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
-    if verify:
-        if response_dict['RESPCODE'] == '01':
-            order_id=response_dict['ORDERID'].split('-')
-            change_paid=Order.objects.get(id=order_id[1])
-            change_paid.paid=True
-            change_paid.save()
-            print('order successful')
-        else:
-            print('order was not successful because ' + response_dict['RESPMSG'])
-    return render(request, 'shop/paymentstatus.html', {'response': response_dict})
+    user = request.user
+    response=request.POST
+    print(response)
+    params_dict={
+    'razorpay_order_id':response['razorpay_order_id'],
+    'razorpay_payment_id':response['razorpay_payment_id'],
+    'razorpay_signature':response['razorpay_signature']
+    }
+    #client instance
+    client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
+    try:
+        status=client.utility.verify_payment_signature(params_dict)
+        order=Order.objects.get(transaction_id=response['razorpay_order_id'])
+        order.paid=True
+        order.save()
+        return render(request, 'shop/paymentstatus.html', {'status':True})
+    except:
+        return render(request, 'shop/paymentstatus.html', {'status':False})
 
 
 
 
  
 def sellproduct(request):
+    category=Category.objects.all()
+    product_idd=Product.objects.all()
+    if product_idd.count()==0:
+        demo_product=Product(image=None,
+                             product_name="demo",
+                             category=None,
+                             price=0,
+                             admin_id=0,
+                             on_sale=False
+                            )
+        demo_product.save()
+        integer_product_id=int(demo_product.id)+1
+    else:
+        product_id=product_idd[len(product_idd)-1].id
+        integer_product_id=int(product_id)+1
+
     if request.method == 'POST':
         form = MyfileUploadForm(request.POST, request.FILES)
         
         if form.is_valid():
             name = form.cleaned_data['file_name']
-            category = form.cleaned_data['file_category']
-            subcategory = form.cleaned_data['file_subcategory']
+            get_category = request.POST.get('category', '')
             price = form.cleaned_data['file_price']
             des = request.POST.get('des','')
             admin_id=form.cleaned_data['file_id']
             the_files = form.cleaned_data['files_data']
+            product_id=request.POST.get('product_id','')
 
-            Product(product_name=name, category=category, subcategory=subcategory, price=price ,des=des,admin_id=admin_id, image=the_files).save()
-            return redirect("success2")
-        
+            category=Category.objects.get(id=get_category)
+
+            product=Product(product_name=name, category=category, price=price ,des=des,admin_id=admin_id, image=the_files, product_id=product_id)
+            if Product.objects.filter(id=product_id):
+                return redirect(request.path)
+            else:
+                product.save()
+                main_context="Added"
+                line_context="Congratulations! Your Have Successfully Selled a Product"
+                last_context="Thank You! For Selling for Choosing us "
+                context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+                return render(request, "shop/success.html",context)
         else:
             return HttpResponse('<h1>Error</h1>')
     else:
         context = {
-            'form':MyfileUploadForm()
+            'form':MyfileUploadForm(),
+            'category':category,
+            'integer_product_id':integer_product_id
         }
         return render(request, 'shop/sellproduct.html', context)
-        
-
-
-
-
-
-def show_file(request):
-    product = Product.objects.all()
-    paginator=Paginator(product,12)
-    page_number = request.GET.get('page', 1)
-    try:
-        page = paginator.page(page_number)
-    except EmptyPage:
-        page = paginator.page(1)
-    context = {'data':page }
-    return render(request, 'shop/view.html', context)
-
-
-
-
-def profile(request):
-    return render(request, 'shop/profile.html')
-
 
 
 
@@ -292,13 +442,30 @@ def vieworder(request):
     return render(request, 'shop/vieworder.html',context)
 
 
+def destroy(request,myid):
+    if Order.objects.filter(id=myid):
+        order=Order.objects.get(id=myid)
+        main_context="Cancelled"
+        line_context="Your Have Successfully Cancelled your Order"
+        context={'main_context':main_context,'line_context':line_context}
+        if order.user_uid == request.user.id:
+            order.delete()  
+            return render(request, 'shop/success.html',context)
+        else:
+            return redirect("/shop") 
+    else:
+        return redirect(request.path)
+
+
+
+
 
 
 def orderrequest(requests):
-    order= Order.objects.all()
     user=requests.user
+    order= Order.objects.filter(admin_id=user.id,paid=True)
     order_request=""
-    if Order.objects.filter(admin_id=user.id):
+    if Order.objects.filter(admin_id=user.id,paid=True):
         order_request="yes"
     else:
         order_request="no"
@@ -307,46 +474,50 @@ def orderrequest(requests):
 
 
 
-
-
-def destroy(request,myid):  
-    order = Order.objects.get(id=myid) 
-    if order.user_uid == request.user.id: 
-        order.delete()  
+def moredetail(request,myid):
+    if Order.objects.filter(admin_id=request.user.id,id=myid,paid=True):
+        order= Order.objects.filter(admin_id=request.user.id,id=myid,paid=True)
+        context={'order':order[0]}
     else:
-        return redirect("/shop/vieworder") 
-
-
-def moredetail(requests,myid):
-    order= Order.objects.filter(id=myid)
-    context={'order':order[0]}
-    return render(requests, 'shop/moredetail.html',context)
-
-
-def delete(request,myid):  
-    product = Product.objects.get(id=myid)  
-    product.delete()  
-    return redirect("/shop/yourproduct")  
+        return redirect('/shop/orderrequest')
+    return render(request, 'shop/moredetail.html',context)
 
 
 
 
+def update2(request,myid):
+    if Order.objects.filter(admin_id=request.user.id,id=myid,paid=True):
+        order = Order.objects.get(admin_id=request.user.id,id=myid,paid=True)
+        order.order_status = request.POST['order_status']
+        order.save()
+    else:
+        return redirect('/shop/orderrequest')
+    return redirect('/shop/orderrequest')
+
+
+
+from taggit.models import Tag
 
 def search(request):
     user=request.user
     if request.method == "POST":
         cart_id=request.POST.get('cart_id','')
-        image_p=request.POST.get('image_p','')
-        name_p=request.POST.get('name_p','')
-        price_p=request.POST.get('price_p','')
+        image_of_product=request.POST.get('image_p','')
+        product_namee=request.POST.get('name_p','')
+        price_of_the_product=request.POST.get('price_p','')
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        cart=Cart(cart_id=cart_id,image_p=image_p,name_p=name_p,price_p=price_p,product_id=product_id,quantity=quantity,user_id=user_id)
+        product_name=Product.objects.get(id=product_namee)
+        cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
-        return redirect('cart')
+        return redirect('cart')  
     search=request.GET['search']
-    product= Product.objects.filter(product_name__icontains=search)
+    category_1=Category.objects.all()
+    product = Product.objects.filter(product_name__icontains=search,on_sale=True)
+    # for products in product:
+    #     category=Product.objects.filter(category=products.category,on_sale=True)
+    product=Product.objects.filter(category=search,on_sale=True)
     paginator=Paginator(product,12)
     page_number = request.GET.get('page', 1)
     try:
@@ -355,6 +526,9 @@ def search(request):
         page = paginator.page(1)
     params={'product': page,'search':search}
     return render(request, 'shop/search.html', params)
+
+
+
 
 
 
@@ -372,30 +546,55 @@ def yourproduct(requests):
 
 
 
-
 def edit(request,myid):  
-    product = Product.objects.get(id=myid)  
-    return render(request,'shop/edit.html', {'product':product}) 
+    if Product.objects.filter(id=myid,admin_id=request.user.id):
+        product = Product.objects.get(id=myid,admin_id=request.user.id) 
+        product_category = Category.objects.get(category=product.category)
+        all_category = Category.objects.all()
+    else:
+        return redirect('/shop/yourproduct')  
+    return render(request,'shop/edit.html', {'product':product, 'product_category':product_category,'all_category':all_category}) 
 
 
 
 def update(request,myid):
-    product = Product.objects.get(id=myid)
-    product.product_name = request.POST['product_name']
-    product.category = request.POST['category']
-    product.subcategory = request.POST['subcategory']
-    product.price = request.POST['price']
-    product.des = request.POST['des']
-    product.save()
+    if Product.objects.filter(id=myid,admin_id=request.user.id):
+        product = Product.objects.get(id=myid)
+        product.product_name = request.POST['product_name']
+        category = request.POST['category']
+        product.category = Category.objects.get(id=category)
+        product.price = request.POST['price']
+        product.des = request.POST['des']
+        sale=request.POST['sale']
+        if sale=="On Sale":
+            product.on_sale=True
+        else:
+            product.on_sale=False
+        product.save()
+    else:
+        return redirect(request.path)
     return redirect('/shop/yourproduct')
 
 
 
-def update2(request,myid):
-    order = Order.objects.get(id=myid)
-    order.order_status = request.POST['order_status']
-    order.save()
-    return redirect('/shop/orderrequest')
+
+def delete(request,myid):  
+    if Product.objects.filter(id=myid):
+        product = Product.objects.get(id=myid)  
+        if product.admin_id==request.user.id:
+            product.delete()  
+            main_context="Deleted"
+            line_context=f"Your Have Successfully Deleted {product.product_name} from Your Products"
+            context={'main_context':main_context,'line_context':line_context}
+            return render(request, 'shop/success.html')
+        else:
+            return redirect('/shop/yourproduct')  
+    else:
+        return redirect(request.path)  
+
+
+
+
 
 
 
@@ -430,19 +629,15 @@ def cart(request):
 def cart_delete(request,myid):
     cart_delete = Cart.objects.get(id=myid)  
     cart_delete.delete() 
-    return redirect('cart') 
+    return redirect('cart')
     return render(request,'shop/cart.html')
 
+
+def profile(request):
+    return render(request, 'shop/profile.html')
 
 
 
 def success(request):
-    return render(request,'shop/success.html')
+    return render(request, 'shop/success.html')
 
-
-def success1(request):
-    return render(request,'shop/success1.html')
-
-
-def success2(request):
-    return render(request,'shop/success2.html')

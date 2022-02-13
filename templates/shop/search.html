@@ -15,9 +15,9 @@
 }	
 }
 </style>
+<br>
 
-
-<div class="container my-3">
+<div class="container mx-1">
 
 
 	{% if search == "" or search == " " %}
@@ -42,9 +42,13 @@
 	height: 2px;
 
 }
+#quantity{
+  margin: 10px 10px 10px 10px;
+}
 </style>
 <br>
-    <div class="d-flex position-relative">
+
+    <div class="d-flex position-relative mx-1">
   <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" class="flex-shrink-0 me-3" alt="..." id="img"></a>
   <div>
     <a href="/shop/productview/{{product.id}}"><h3 class="mt-0" style="margin-left:20px;">{{product.product_name}}</h3></a>
@@ -53,31 +57,37 @@
 
     <a href="/shop/order/{{product.id}}" class="btn btn-dark" style="margin-left:20px;"data-toggle="modal" data-target="#myModall{{product.id}}">Buy Now</a>
 
+{% if request.user.is_authenticated %}
+    <button type="button" class="btn btn-dark mx-3 my-2" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
+{% else %}
+{% endif %}
+
     <div class="modal fade" id="myModall{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="{{product.id}}" >
     <div class="modal-content" >
       <div class="modal-header">
+        {% if request.user.is_authenticated %}
         <h4 class="modal-title" id="myModalLabel">Choose Payment Method</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-footer">
       <a href="/shop/order1/{{product.id}}"><button class="btn btn-dark">Cash on Delivery</button></a>
       <a href="/shop/order/{{product.id}}"><button class="btn btn-dark">Online Payment(PayTm)</button></a>
+      {% else %}
+      <h2><li>You have not Logined to Website, please login for buying any product</li></h2>
+      {% endif %}
     </div>
   </div>
 </div>
 </div>
 
-
-{% if user.is_authenticated %}
+   {% if user.is_authenticated %}
     <form method="POST" action="/shop/search/">{% csrf_token %}
     <input type="hidden" name="cart_id" value="{{request.user.id}}">
     <input type="hidden" name="image_p" value="{{product.image}}">
     <input type="hidden" name="name_p" value="{{product.id}}">
     <input type="hidden" name="price_p" value="{{product.price}}">
-    <input type="hidden" name="product_id" value="{{product.id}}"><br>
-    <button type="button" class="btn btn-dark" style="margin-left:20px;" data-toggle="modal" data-target="#myModal{{product.id}}">Add To Cart</button>
-
+    <input type="hidden" name="product_id" value="{{product.id}}"><br><br>
 
 <div class="modal fade" id="myModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="{{product.id}}" >

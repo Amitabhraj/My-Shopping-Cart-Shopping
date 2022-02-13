@@ -1,4 +1,0 @@
-*.log
-*.pot
-*/shop/__pycache__/.pyc
-__pycache__
