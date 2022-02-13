@@ -5,6 +5,8 @@ from . import views
 
 urlpatterns = [
     path("", views.index,  name="shopHome"),
+    path("register/", views.register,  name="register"),
+    path("login/", views.login_page,  name="login_page"),
     path("starter/", views.starter,  name="starter"),
     path("dashboard/", views.dashboard,  name="dashboard"),
     path("handlerequest/", views.handlerequest,      name="handlerequest"),
@@ -12,8 +14,7 @@ urlpatterns = [
     path("contact/", views.contact,      name="contact us"),
     path("search/", views.search,      name="search"),
     path("productview/<int:myid>", views.prodview,        name="ProductView"),
-    path("order/<int:myid>", views.order,     name="checkout"),
-    path("order1/<int:myid>", views.order1,     name="order1"),
+    path("order/<int:myid>", views.order,     name="order"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name = 'sellproduct.html'),        name = 'home'),
     path('social-auth/', include('social_django.urls',       namespace='social')),

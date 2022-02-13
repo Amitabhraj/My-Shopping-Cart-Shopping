@@ -8,7 +8,6 @@ class MyfileUploadForm(forms.Form):
     files_data = forms.FileField(widget=forms.FileInput(attrs={'class':'form-control'}))
 
 
-
 class products(forms.ModelForm):  
     class Meta:  
         model = Product

@@ -1,5 +1,4 @@
 """mac URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
@@ -26,11 +25,11 @@ urlpatterns = [
     path('shop/', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
     path('', views.check_login, name='check_login'),
-    path('', LoginView.as_view(template_name="accounts/login.html"), name='login'),
+    path('shop/login/', LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('signout/', LogoutView.as_view(), name='logout'),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
 
-    
+

@@ -9,16 +9,60 @@ from .forms import *
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.models import *
 from django.db.models import Count
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
 # Create your views here.
 
-# def basic(request):
-#     user=request.user
-#     cart_count = Cart.objects.filter(user_id=user.id).count()
-#     context={'cart_count':cart_count}
-#     return render(request, 'shop/basic.html',context)
+from django.contrib.auth.hashers import make_password
+import hashlib 
+
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('/shop')
+    if request.method=="POST":
+        username = request.POST.get('username','')
+        password = request.POST.get('password','')
+        u_d=User.objects.get(username=username)
+        user_password = u_d.check_password(password)
+
+        if u_d and user_password==True:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/shop")
+            else:
+                messages.error(request,"Invalid username or password.")
+                return redirect(request.path)
+        else:
+            messages.error(request,"Invalid username or password.")
+            return redirect(request.path)
+    
+    return render(request, 'accounts/login.html')
+
+
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('/shop')
+    else:
+        if request.method=="POST":
+            username=request.POST.get('username', '')
+            password=request.POST.get('password','')
+            re_password=request.POST.get('re-password','')
+            email=request.POST.get('email','')
+            phone_number=request.POST.get('phone_number','')
+
+            if password==re_password:
+                user_detail=User.objects.create_user(username=username,
+                                 password=password,
+                                 email=email)
+                user_detail.save()
+                return redirect('/shop/login')
+            else:
+                return HttpResponse('</h1>Error</h1>')
+    return render(request, 'accounts/register.html')
 
 
 def starter(request):
@@ -39,7 +83,7 @@ def dashboard(requests):
     product=Product.objects.filter(admin_id=user.id)[::-1][:5]
 
 
-    arg1="<center><h2>Your Products</h2></center><hr style='border-top: 2px solid black;'>"
+    arg1="<hr style='border-top: 2px solid black;'><marquee scrollamount='15'><h2>Welcome To Seller Dashboard</h2></marquee><hr style='border-top: 2px solid black;>'>"
 
     arg="You Have Not Added any Product For Sale yet, add your Product to Start Your Business on MyAwesomeCart"
     button="<a href='/shop/sellproduct' class='btn btn-secondary'>Sell Your Product</a>"
@@ -199,23 +243,8 @@ def show_file(request):
 
 
 
-def order1(request, myid):
-    order_idd=Order.objects.all()
-    if order_idd.count()==0:
-        demo_order=Order(product_image=None,
-                         product_price=999,
-                         product_name=None,
-                         admin_id=0,
-                         user_uid=0
-                         )
-        demo_order.save()
-        integer_order_id=int(demo_order.id)+1
-    else:
-        order_id=order_idd[len(order_idd)-1].id
-        integer_order_id=int(order_id)+1
 
-    product = Product.objects.filter(id=myid,on_sale=True)
-    return render(request, 'shop/order1.html',{'product':product[0],'order_id':integer_order_id})
+
 
 def order(request, myid):
     order_idd=Order.objects.all()
@@ -283,7 +312,8 @@ def order(request, myid):
                 return render(request,"shop/success.html",context)
             else:
                 amount_1=order.product_price.split('₹')
-                amount=int(amount_1[1])
+                amount_in_int=int(amount_1[1])
+                amount=amount_in_int*10
                 client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
                 response_payment=client.order.create(dict(amount=amount,currency='INR',receipt=order_id, payment_capture=1))
                 order_id=response_payment['id']
@@ -466,7 +496,7 @@ def update2(request,myid):
 
 
 
-
+from taggit.models import Tag
 
 def search(request):
     user=request.user
@@ -478,14 +508,16 @@ def search(request):
         product_id=request.POST.get('product_id','')
         quantity=request.POST.get('quantity','')
         user_id=request.POST.get('user_id',f'{user.id}')
-        
         product_name=Product.objects.get(id=product_namee)
-
         cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
-        return redirect('cart')
+        return redirect('cart')  
     search=request.GET['search']
-    product= Product.objects.filter(product_name__icontains=search,on_sale=True)
+    category_1=Category.objects.all()
+    product = Product.objects.filter(product_name__icontains=search,on_sale=True)
+    # for products in product:
+    #     category=Product.objects.filter(category=products.category,on_sale=True)
+    product=Product.objects.filter(category=search,on_sale=True)
     paginator=Paginator(product,12)
     page_number = request.GET.get('page', 1)
     try:

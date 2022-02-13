@@ -156,13 +156,19 @@ width:60%;
             <style>
             #method{
                 width: 200px;
+                background-color: white;
+                color: black
             }
             </style>
                
             <label for="order_method" >Choose Method of Payment</label><br>
-             <select class="form-select" aria-label="Default select example" name="order_method" id="method">
-                <option value="CARD METHOD">CARD METHOD</option>
-             </select><br>
+             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="order_method" id="method" required>
+                <option id="jj" value="" selected>Select Payment Method</option>
+                <option id="jj" value="ONLINE PAYMENT">ONLINE PAYMENT</option>
+                <option id="jj" value="CASH ON DELIVERY">CASH ON DELIVERY</option>
+             </select>
+             <br>
+             <br>
 
 
 
@@ -194,6 +200,8 @@ width:60%;
             <a type="button" class="btn btn-dark" data-toggle="modal" data-target="#order" id="order1">
             <b>Place Order</b>
             </a>
+            <br>
+            <br>
 
             <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">

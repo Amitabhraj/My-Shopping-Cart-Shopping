@@ -222,7 +222,7 @@ body {
 
 {%for product in prod %}
   <div class="column my-3">
-    <img src="/media/{{product.image}}" width="100%">
+    <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" width="100%"></a>
     
     <div class="card">{{product.product_name}}
     <br>
