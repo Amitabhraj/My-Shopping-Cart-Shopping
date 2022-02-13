@@ -14,9 +14,6 @@ from django.template import RequestContext
 from django.contrib import messages
 # Create your views here.
 
-from django.contrib.auth.hashers import make_password
-import hashlib 
-
 def login_page(request):
     if request.user.is_authenticated:
         return redirect('/shop')
@@ -33,7 +30,7 @@ def login_page(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/shop")
+                return redirect("/shop/starter")
             else:
                 messages.error(request,"Invalid username or password.")
                 return redirect(request.path)
