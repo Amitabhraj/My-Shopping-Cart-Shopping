@@ -2,9 +2,11 @@
 {% block title %} Contact Us {% endblock %}
 {% block body %}
 {%if user.is_authenticated%}
+<br>
+<br>
  <div class="container">
      <h2><u>Contact Us</u></h2><br>
-     <form action="/shop/contact/" method="post">{% csrf_token %}
+<form action="/shop/contact/" method="post">{% csrf_token %}
   <div class="form-group">
 
 
@@ -34,11 +36,24 @@
   </div>
 
 
+  <div class="form-group">
+    <input value="{{contact_id}}" type="hidden" readonly="readonly" class="form-control" name="contact_id"></input>
+  </div>
 
 
     <button class="btn btn-dark" type="submit">Submit</button>
+    <br>
+    <br>
+  </form>
 {% else %}
-<center><h3>you have not signup please go and sign up the page</h3>
-  <a href="/"><button class="btn btn-danger">Sign In/Sign Up</button></a></center.
+
+<center>
+  <br>
+<h3>you have not signup please go and sign up the page</h3>
+<a href="/">
+  <button class="btn btn-danger">Sign In/Sign Up</button>
+</a>
+</center>
+
 {% endif %}
 {%endblock%}

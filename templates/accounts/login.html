@@ -5,137 +5,107 @@
 <html lang="en">
 <head>
   <title>Login/Signup</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel = "icon" href = "https://icon2.cleanpng.com/20171220/hpe/shopping-cart-png-5a3a8fce7193f6.6430523815137873424652.jpg" type = "image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
 </head>
 <body>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<a class="navbar-brand" id="nav">Welcome To My Awesome Cart !!</a>
+<a class="navbar-brand" id="nav">&nbsp;&nbsp;Welcome To My Awesome Cart !!</a>
 </nav>
 
 
-<style type="text/css">
-
-#nav{
-    color: white;
-}
-
-body {
-    background-color: #fbfbfb;
-    background-image: url('https://advendio.com/wp-content/uploads/2019/11/ecommerce-marketplace-advertising-tips.jpg'); 
-}
-.login-form {
-    font-family: arial;
-    color: #333;
-} 
-.login-form form {
-    width: 500px;
-    position: relative;
-    top: 100px;
-    margin: 0 auto;
-    padding: 20px 30px 20px;
-    border-radius: 5px;
-    background-color: transparent;
-}
-.login-form h2 {
-    text-align: center;
-    font-size: 35px;
-    margin: 10px 0px 40px;
-}
-.login-form input {
-    width: 100%;
-    border: 1px solid #ddd;
-    padding: 5px 10px;
-    height: 45px;
-    margin: 0px 0px 20px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 30px;
-}
-.login-form button {
-    margin: 10px auto 30px;
-    display: table;
-    font-size: 40px;
-    padding: 10px 30px;
-    background-color: #4CAF50;
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.login-form button:hover{
-  opacity:0.7;
-}
-.login-form input[type="checkbox"] {
-    height: 16px;
-    width: 16px;
-    margin-right: 5px;
-    float: left;
-}
-.login-form .forget-psw {
-    float: right;
-}
-.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
-    width: 100%;
-    font-size: 22px;
-    padding-right: 40px;
-    margin: 0px 0px 10px;
-}
-.social-btn button.twitter-btn{
-  background-color: red;
-}
-.social-btn button.facebook-btn{
-  background-color: #3f68be;
-  
-}
-.social-btn button.github-btn{
-  background-color: black;
-  
-}
-.social-btn {
-    padding-top: -5px;
-    margin-top: 20px;
-}
-.social-btn button i {
-    margin-right: 5px;
-}
-@media (max-width: 767px){
-.login-form form {
-    position: relative;
-    top: 80px;
-    width: 90%;
-    padding: 20px 15px 20px;
-}
-.social-btn button.twitter-btn, .social-btn button.facebook-btn, .social-btn button.github-btn {
-    font-size: 20px;
-    padding-right:30px;
-    white-space: nowrap
-}
+<style>
+body{
+  background-color: #6a11cb;
 }
 </style>
 
 
 
-<div class="login-form">
-  <form>
-    <h2 style="color:black;"><b><u>Please Login</u></b></h2>
-    <div class="social-btn">
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-90">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
 
-      <a href="{% provider_login_url 'google' method='js_sdk' %} " style="text-decoration:none"><button type="button" class="twitter-btn"><i class="fa fa-google" aria-hidden="true"></i>Login with Google</button></a>
-
-      <a href="{% provider_login_url 'facebook' %}" style="text-decoration:none"><button type="button" class="facebook-btn" id="product_button" type="button" data-toggle="modal" data-target="#product"><i class="fa fa-facebook" aria-hidden="true" ></i>Login with Facebook</button></a>
-
-      <a href="{% provider_login_url 'github' %}" style="text-decoration:none"><button type="button" class="github-btn" id="product_button" type="button" data-toggle="modal" data-target="#product"><i class="fa fa-github" aria-hidden="true" ></i>Login with Github</button></a>
-
-      <a href="/shop" class="btn btn-danger" type="button">skip</a>
-    </div>
-  </form>
+            <div class="mb-md-5 mt-md-4 pb-5">
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+  {{message}}
 </div>
+{% endfor %}
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">Please Enter your Username and password!</p>
+
+<form action="/shop/login/" method="post">{% csrf_token %}
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="typeEmailX">Username</label>
+                <input type="text" name="username" id="typeEmailX" class="form-control form-control-lg" />
+              </div>
+
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="typePasswordX">Password</label>
+                <input type="password" name="password" id="password" class="form-control form-control-lg" /><i class="fa fa-eye" id="togglePassword"style="margin-left: -30px; cursor: pointer;"> Show/hide Password</i></input>
+              </div>
+
+              <p class="small mb-2 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+
+              <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+
+</form>
+
+
+
+
+<script>
+const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+ 
+  togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('fa-eye-slash');
+});
+</script>
+
+<p></p>
+<p></p>
+              <u><p class="small mb-1 pb-lg-1">Or Login With</p></u>
+
+
+              <div class="d-flex justify-content-center text-center mt-4 pt-1">
+                
+                <a href="{% provider_login_url 'github' %}" class="text-white mx-1"><button class="btn btn-secondary"><i class="fa fa-github fa-lg"></i> GitHub</button></a>
+
+                <!-- <a href="{% provider_login_url 'google' method='js_sdk' %}" class="text-white"><button class="btn btn-danger"><i class="fa fa-google fa-lg"></i> Google</button></a> -->
+              </div>
+
+            </div>
+
+            <div>
+              <p class="mt-0">Don't have an account? <a href="/shop/register" class="text-white-50 fw-bold">Sign Up</a></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
  <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
