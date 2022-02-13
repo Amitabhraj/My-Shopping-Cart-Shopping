@@ -24,9 +24,10 @@ def login_page(request):
         username = request.POST.get('username','')
         password = request.POST.get('password','')
         u_d=User.objects.get(username=username)
+        u_dd=User.objects.filter(username=username)
         user_password = u_d.check_password(password)
 
-        if u_d and user_password==True:
+        if u_dd and user_password==True:
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
