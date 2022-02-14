@@ -38,6 +38,21 @@
 body{
   background-color: #6a11cb;
 }
+.mb-5 {
+    margin-bottom: 2rem!important;
+}
+.p-5 {
+    padding: 2.2rem!important;
+}
+@media (max-width: 767px){
+.p-5 {
+    padding: 0.2rem!important;
+}
+.row>* {
+  padding-right: calc(var(--bs-gutter-x) * .1);
+  padding-left: calc(var(--bs-gutter-x) * .1);
+}
+}
 </style>
 
 
@@ -90,9 +105,8 @@ const togglePassword = document.querySelector('#togglePassword');
     this.classList.toggle('fa-eye-slash');
 });
 </script>
-
 <p></p>
-<p></p>
+<br>
               <p class="large mb-0 pb-lg-0">Or Login With</p>
               <hr class="my-0">
 
