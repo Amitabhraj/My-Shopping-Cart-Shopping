@@ -46,11 +46,11 @@ body{
 }
 @media (max-width: 767px){
 .p-5 {
-    padding:0.3rem!important;
+    padding:0.4rem!important;
 }
 .row>* {
-  padding-right: calc(var(--bs-gutter-x) * .2);
-  padding-left: calc(var(--bs-gutter-x) * .2);
+  padding-right: calc(var(--bs-gutter-x) * .3);
+  padding-left: calc(var(--bs-gutter-x) * .3);
 }
 #login_text{
   margin-top: 20px;
@@ -121,7 +121,7 @@ const togglePassword = document.querySelector('#togglePassword');
                 
                 <a href="{% provider_login_url 'github' %}" class="text-white mx-1"><button class="btn btn-secondary"><i class="fa fa-github fa-lg"></i> GitHub</button></a>
 
-                <!-- <a href="{% provider_login_url 'google' method='js_sdk' %}" class="text-white"><button class="btn btn-danger"><i class="fa fa-google fa-lg"></i> Google</button></a> -->
+                <a href="{% provider_login_url 'google' method='js_sdk' %}" class="text-white"><button class="btn btn-danger"><i class="fa fa-google fa-lg"></i> Google</button></a>
               </div>
 
             </div>
