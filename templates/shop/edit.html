@@ -1,4 +1,5 @@
 {% extends 'shop/seller.html' %}
+{% block title %}Edit Product:- {{product.name}}{% endblock %}
 {% block body %}
 <br>
     <form method="POST" action="update/{{product.id }}">
