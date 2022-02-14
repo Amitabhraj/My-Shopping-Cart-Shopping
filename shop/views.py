@@ -523,7 +523,7 @@ def search(request):
     product = Product.objects.filter(product_name__icontains=search,on_sale=True)
     # for products in product:
     #     category=Product.objects.filter(category=products.category,on_sale=True)
-    product=Product.objects.filter(category=search,on_sale=True)
+    # product=Product.objects.filter(category=search,on_sale=True)
     paginator=Paginator(product,12)
     page_number = request.GET.get('page', 1)
     try:
