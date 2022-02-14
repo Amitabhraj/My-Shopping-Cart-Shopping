@@ -303,24 +303,30 @@ def order(request, myid):
             return redirect(request.path)
         else:
             if order.order_method=="CASH ON DELIVERY":
-                order.paid=True
-                order.save()
-                main_context="Ordered"
-                line_context="You Have Successfully Ordered the Product"
-                last_context="Thank You! We will Deliver You the product at your Home very Soon.."
-                context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
-                return render(request,"shop/success.html",context)
-            else:
-                amount_1=order.product_price.split('₹')
-                amount_in_int=int(amount_1[1])
-                amount=amount_in_int*10
-                client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
-                response_payment=client.order.create(dict(amount=amount,currency='INR',receipt=order_id, payment_capture=1))
-                order_id=response_payment['id']
-                order.transaction_id=order_id
-                order_status=response_payment['status']
-                if order_status=="created":
+                if Order.objects.filter(order_id=integer_order_id):
+                    return redirect(request.path)
+                else:
+                    order.paid=True
                     order.save()
+                    main_context="Ordered"
+                    line_context="You Have Successfully Ordered the Product"
+                    last_context="Thank You! We will Deliver You the product at your Home very Soon.."
+                    context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
+                    return render(request,"shop/success.html",context)
+            else:
+                if Order.objects.filter(order_id=integer_order_id):
+                    return redirect(request.path)
+                else: 
+                    amount_1=order.product_price.split('₹')
+                    amount_in_int=int(amount_1[1])
+                    amount=amount_in_int*10
+                    client = razorpay.Client(auth=('rzp_test_RMrYVBgxH8sJdI', 'N8OvdMQXtE7WLVtsO38rNfA5'))
+                    response_payment=client.order.create(dict(amount=amount,currency='INR',receipt=order_id, payment_capture=1))
+                    order_id=response_payment['id']
+                    order.transaction_id=order_id
+                    order_status=response_payment['status']
+                    if order_status=="created":
+                        order.save()
             context={'payment':response_payment}
             return render(request, 'shop/order.html',context)
 
