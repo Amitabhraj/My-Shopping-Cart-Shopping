@@ -46,11 +46,17 @@ body{
 }
 @media (max-width: 767px){
 .p-5 {
-    padding: 0.2rem!important;
+    padding:0.3rem!important;
 }
 .row>* {
-  padding-right: calc(var(--bs-gutter-x) * .1);
-  padding-left: calc(var(--bs-gutter-x) * .1);
+  padding-right: calc(var(--bs-gutter-x) * .2);
+  padding-left: calc(var(--bs-gutter-x) * .2);
+}
+#login_text{
+  margin-top: 20px;
+}
+#sign_up_text{
+  margin-bottom: 1.5rem!important;
 }
 }
 </style>
@@ -70,7 +76,7 @@ body{
   {{message}}
 </div>
 {% endfor %}
-              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <h2 class="fw-bold mb-2 text-uppercase" id="login_text">Login</h2>
               <p class="text-white-50 mb-5">Please Enter your Username and password!</p>
 
 <form action="/shop/login/" method="post">{% csrf_token %}
@@ -121,7 +127,7 @@ const togglePassword = document.querySelector('#togglePassword');
             </div>
 
             <div>
-              <p class="mt-4 my-0">Don't have an account? <a href="/shop/register" class="text-white-50 fw-bold">Sign Up</a></p>
+              <p class="mt-4 my-0" id="sign_up_text">Don't have an account? <a href="/shop/register" class="text-white-50 fw-bold">Sign Up</a></p>
             </div>
 
           </div>
