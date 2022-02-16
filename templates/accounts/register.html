@@ -70,7 +70,23 @@ body{
           <div class="card-body p-5 text-center">
 
             <div class="mb-md-2 mt-md-7 pb-9">
+{% if status %}
+<form action="/shop/verify_otp/" method="post">{% csrf_token %}
+<h3>Please type OTP</h3>
+<input type="number" name="otp">
+<input name="username" value="{{username}}" type="hidden">
+<input name="email" value="{{email}}" type="hidden">
+<input name="password" value="{{password}}" type="hidden"><br>
+<button type="submit" class="btn btn-secondary">Submit</button>
 
+</form>
+{% else %}
+
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+  {{message}}
+</div>
+{% endfor %}
               <h2 class="fw-bold mb-2 text-uppercase" id="register_text">Register</h2>
               <p class="text-white-50 mb-5">Please enter Some Details to Get Register</p>
 <form action="/shop/register/" method="post">{% csrf_token %}
@@ -106,6 +122,8 @@ body{
 <br>
 <a href="/shop/login"><p id="register_button" style="color:white; text-align:left"><i class="fa fa-angle-double-left"> Back To Login</i></p></a>
 
+{% endif %}
+
             </div>
           </div>
         </div>
@@ -113,7 +131,6 @@ body{
     </div>
   </div>
 </section>
-
 
  <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

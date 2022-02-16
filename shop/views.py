@@ -1,6 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
 from .models import *
+import random
+import math
 import razorpay
 from django.db.models import Count
 from math import ceil
@@ -13,6 +18,15 @@ from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
 # Create your views here.
+
+
+digits = [i for i in range(0, 10)]
+random_str = ""
+for i in range(5):
+    index = math.floor(random.random() * 10)
+    random_str += str(digits[index])
+
+
 
 def login_page(request):
     if request.user.is_authenticated:
@@ -54,15 +68,65 @@ def register(request):
             email=request.POST.get('email','')
             phone_number=request.POST.get('phone_number','')
 
-            if password==re_password:
-                user_detail=User.objects.create_user(username=username,
-                                 password=password,
-                                 email=email)
-                user_detail.save()
-                return redirect('/shop/login')
+            username_match=User.objects.filter(username=username)
+            email_match=User.objects.filter(email=email)
+
+            if username_match:
+                messages.error(request,"Username Already Taken")
+                return redirect(request.path)
+
+            elif email_match:
+                messages.error(request,"Email Already Taken")
+                return redirect(request.path)
+
+            elif password!=re_password:
+                messages.error(request,"Password Do not Match!")
+                return redirect(request.path)
+
+            elif not username_match and not email_match and password==re_password:
+                mail_content = f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone"
+                sender_address = 'abhiraj1709w@gmail.com'
+                sender_pass = 'tajmahal66'
+                receiver_address = email
+                #Setup the MIME
+                message = MIMEMultipart()
+                message['From'] = sender_address
+                message['To'] = receiver_address
+                message['Subject'] = 'Thank You For Register in MyAwesomeCart, Find OTP'   #The subject line
+                #The body and the attachments for the mail
+                message.attach(MIMEText(mail_content, 'plain'))
+                #Create SMTP session for sending the mail
+                session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
+                session.starttls() #enable security
+                session.login(sender_address, sender_pass) #login with mail_id and password
+                text = message.as_string()
+                session.sendmail(sender_address, receiver_address, text)
+                print("successfully gone")
+                status=True
+                password=password
+                username=username
+                email=email
+                context={'status':status,'password':password,'username':username,'email':email}
+                return render(request,'accounts/register.html',context)
             else:
                 return HttpResponse('</h1>Error</h1>')
     return render(request, 'accounts/register.html')
+
+
+@csrf_exempt
+def verify_otp(request):
+    response=request.POST
+    if request.method=="POST":
+        if response['otp']==random_str:
+            user_detail=User.objects.create_user(username=response['username'],
+                             password=response['password'],email=response['email'])
+            user_detail.save()
+            return redirect('/shop/login')
+        else:
+            messages.info(request,'Incorrect OTP, Try Registration Again!')
+            return redirect('/shop/register')
+    return render(request, 'shop/verify_otp.html')
+
 
 
 def starter(request):
