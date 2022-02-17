@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 import smtplib
 from .models import *
 import random
+from django.core.mail import send_mail
 import math
 import razorpay
 from django.db.models import Count
@@ -17,6 +18,7 @@ from django.db.models import Count
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
+from mac.settings import EMAIL_HOST_USER,EMAIL_HOST_PASSWORD
 # Create your views here.
 
 
@@ -84,24 +86,33 @@ def register(request):
                 return redirect(request.path)
 
             elif not username_match and not email_match and password==re_password:
-                mail_content = f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone"
-                sender_address = 'abhiraj1709w@gmail.com'
-                sender_pass = 'tajmahal66'
-                receiver_address = email
-                #Setup the MIME
-                message = MIMEMultipart()
-                message['From'] = sender_address
-                message['To'] = receiver_address
-                message['Subject'] = 'Thank You For Register in MyAwesomeCart, Find OTP'   #The subject line
-                #The body and the attachments for the mail
-                message.attach(MIMEText(mail_content, 'plain'))
-                #Create SMTP session for sending the mail
-                session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
-                session.starttls() #enable security
-                session.login(sender_address, sender_pass) #login with mail_id and password
-                text = message.as_string()
-                session.sendmail(sender_address, receiver_address, text)
+                send_mail(
+                    'Thank You For Register in MyAwesomeCart, Find OTP',
+                    f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
+                    'abhiraj1709w@gmail.com',
+                    [f'{email}'],
+                    fail_silently=False,
+                    )
+                # mail_content = f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone"
+                # sender_address = EMAIL_HOST_USER
+                # sender_pass = EMAIL_HOST_PASSWORD
+                # receiver_address = email
+                # #Setup the MIME
+                # message = MIMEMultipart()
+                # message['From'] = sender_address
+                # message['To'] = receiver_address
+                # message['Subject'] = 'Thank You For Register in MyAwesomeCart, Find OTP'   #The subject line
+                # #The body and the attachments for the mail
+                # message.attach(MIMEText(mail_content, 'plain'))
+                # #Create SMTP session for sending the mail
+                # session = smtplib.SMTP('smtp.gmail.com', port=587) #use gmail with port
+                
+                # session.starttls() #enable security
+                # session.login(sender_address, sender_pass) #login with mail_id and password
+                # text = message.as_string()
+                # session.sendmail(sender_address, receiver_address, text)
                 print("successfully gone")
+                print(random_str)
                 status=True
                 password=password
                 username=username
