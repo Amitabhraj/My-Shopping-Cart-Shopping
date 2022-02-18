@@ -1,9 +1,9 @@
 from django.db import migrations,models
 import time as _time
 import datetime
+from django.contrib.auth.models import User
 from datetime import timedelta, tzinfo
 from threading import local
-
 
 
 delivery_status=(
@@ -11,8 +11,6 @@ delivery_status=(
     ("Dispatched", "Dispatched"),
     ("Delivered", "Delivered")
     )
-
-
 
 
 class Category(models.Model):
@@ -99,4 +97,18 @@ class Cart(models.Model):
         return str(self.product_name) if self.product_name else ''
 
 
+
+
+
+
+class Register_Attempt(models.Model):
+    # username=models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    username=models.CharField(max_length=200, blank=True, null=True, default="XXXXXXX")
+    email=models.CharField(max_length=200, blank=True, null=True, default="XXXXXXX")
+    otp=models.IntegerField(default=0, blank=True, null=True)
+    successfully_register=models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.username
 

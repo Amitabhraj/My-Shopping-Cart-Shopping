@@ -19,16 +19,26 @@ from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
 from mac.settings import EMAIL_HOST_USER,EMAIL_HOST_PASSWORD
+from random import randint
 # Create your views here.
 
 
-digits = [i for i in range(0, 10)]
-random_str = ""
-for i in range(5):
-    index = math.floor(random.random() * 10)
-    random_str += str(digits[index])
+# def delete(request):
+#     d=Register_Attempt.objects.all()
+#     d.delete()
+#     print("deleted")
+#     if d.exist():
+#         print("it is exist")
+#     else:
+#         print("patta saf")
 
 
+def generateOTP() :
+     digits = "0123456789"
+     OTP = ""
+     for i in range(5) :
+         OTP += digits[math.floor(random.random() * 10)]
+     return OTP
 
 def login_page(request):
     if request.user.is_authenticated:
@@ -86,52 +96,46 @@ def register(request):
                 return redirect(request.path)
 
             elif not username_match and not email_match and password==re_password:
+                random_str=generateOTP()
                 send_mail(
                     'Thank You For Register in MyAwesomeCart, Find OTP',
                     f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
                     'abhiraj1709w@gmail.com',
                     [f'{email}'],
                     fail_silently=False,
-                    )
-                # mail_content = f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone"
-                # sender_address = EMAIL_HOST_USER
-                # sender_pass = EMAIL_HOST_PASSWORD
-                # receiver_address = email
-                # #Setup the MIME
-                # message = MIMEMultipart()
-                # message['From'] = sender_address
-                # message['To'] = receiver_address
-                # message['Subject'] = 'Thank You For Register in MyAwesomeCart, Find OTP'   #The subject line
-                # #The body and the attachments for the mail
-                # message.attach(MIMEText(mail_content, 'plain'))
-                # #Create SMTP session for sending the mail
-                # session = smtplib.SMTP('smtp.gmail.com', port=587) #use gmail with port
-                
-                # session.starttls() #enable security
-                # session.login(sender_address, sender_pass) #login with mail_id and password
-                # text = message.as_string()
-                # session.sendmail(sender_address, receiver_address, text)
-                print("successfully gone")
-                print(random_str)
+                )
+                if Register_Attempt.objects.filter(username=username):
+                    reg_at=Register_Attempt.objects.get(username=username)
+                    reg_at.otp=random_str
+                    reg_at.save()
+                else:
+                    register_attempt=Register_Attempt(username=username,
+                                                      email=email,
+                                                      otp=random_str)
+                    register_attempt.save()
+                print('Successfully Mailed & saved Otp in database')
                 status=True
-                password=password
-                username=username
-                email=email
-                context={'status':status,'password':password,'username':username,'email':email}
+                context={'status':status,'email':email,'username':username,'password':password}
                 return render(request,'accounts/register.html',context)
             else:
                 return HttpResponse('</h1>Error</h1>')
     return render(request, 'accounts/register.html')
 
 
+
 @csrf_exempt
 def verify_otp(request):
     response=request.POST
+    otp=Register_Attempt.objects.get(username=response['username']).otp
+    register_user=Register_Attempt.objects.get(username=response['username'])
     if request.method=="POST":
-        if response['otp']==random_str:
+        if response['otp']==str(otp):
             user_detail=User.objects.create_user(username=response['username'],
                              password=response['password'],email=response['email'])
             user_detail.save()
+            register_user.successfully_register=True
+            register_user.save()
+            messages.info(request,'You are Successfully Register, Please Login')
             return redirect('/shop/login')
         else:
             messages.info(request,'Incorrect OTP, Try Registration Again!')

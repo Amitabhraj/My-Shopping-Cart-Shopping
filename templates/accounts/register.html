@@ -71,12 +71,14 @@ body{
 
             <div class="mb-md-2 mt-md-7 pb-9">
 {% if status %}
+
+
 <form action="/shop/verify_otp/" method="post">{% csrf_token %}
 <h3>Please type OTP</h3>
-<input type="number" name="otp">
-<input name="username" value="{{username}}" type="hidden">
-<input name="email" value="{{email}}" type="hidden">
-<input name="password" value="{{password}}" type="hidden"><br>
+<input id="partitioned" maxlength="6" type="number" name="otp">
+<input type="hidden" name="email" value="{{email}}">
+<input type="hidden" name="username" value="{{username}}">
+<input type="hidden" name="password" value="{{password}}"><br><br>
 <button type="submit" class="btn btn-secondary">Submit</button>
 
 </form>
@@ -92,28 +94,28 @@ body{
 <form action="/shop/register/" method="post">{% csrf_token %}
               <div class="form-outline form-white mb-4">
               	<label class="form-label" for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control form-control-lg" />
+                <input type="text" name="username" id="username" class="form-control form-control-lg" required>
               </div>
 
               <div class="form-outline form-white mb-4">
               	<label class="form-label" for="typePasswordX">Password</label>
-                <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg" />
+                <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg" required>
               </div>
 
               <div class="form-outline form-white mb-4">
               	<label class="form-label" for="typePasswordX">Re-Enter Password</label>
-                <input type="password" name="re-password" id="typePasswordX" class="form-control form-control-lg" />
+                <input type="password" name="re-password" id="typePasswordX" class="form-control form-control-lg" required>
               </div>
 
 
               <div class="form-outline form-white mb-4">
               	<label class="form-label" for="email">Email-id</label>
-                <input type="email" name="email" id="email" class="form-control form-control-lg" />
+                <input type="email" name="email" id="email" class="form-control form-control-lg" required>
               </div>
 
               <div class="form-outline form-white mb-4">
               	<label class="form-label" for="typePasswordX">Phone Number</label>
-                <input type="number" name="phone_number" id="typePasswordX" class="form-control form-control-lg" />
+                <input type="number" name="phone_number" id="typePasswordX" class="form-control form-control-lg" required>
               </div>
 
 
