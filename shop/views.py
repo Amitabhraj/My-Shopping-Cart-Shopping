@@ -97,6 +97,7 @@ def register(request):
 
             elif not username_match and not email_match and password==re_password:
                 random_str=generateOTP()
+                # print(random_str)
                 send_mail(
                     'Thank You For Register in MyAwesomeCart, Find OTP',
                     f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
@@ -104,15 +105,22 @@ def register(request):
                     [f'{email}'],
                     fail_silently=False,
                 )
-                if Register_Attempt.objects.filter(username=username):
-                    reg_at=Register_Attempt.objects.get(username=username)
+                # print(random_str)
+                if Register_Attempt.objects.filter(username=username, email=email):
+                    reg_at=Register_Attempt.objects.get(username=username, email=email)
+                    reg_at.password=password
+                    reg_at.phone_number=phone_number
                     reg_at.otp=random_str
                     reg_at.save()
+                    # print(reg_at.otp)
                 else:
                     register_attempt=Register_Attempt(username=username,
                                                       email=email,
+                                                      password=password,
+                                                      phone_number=phone_number,
                                                       otp=random_str)
                     register_attempt.save()
+                    # print(Register_Attempt.objects.get(username=username).otp)
                 print('Successfully Mailed & saved Otp in database')
                 status=True
                 context={'status':status,'email':email,'username':username,'password':password}

@@ -75,7 +75,7 @@ body{
 
 <form action="/shop/verify_otp/" method="post">{% csrf_token %}
 <h3>Please type OTP</h3>
-<input id="partitioned" maxlength="6" type="number" name="otp">
+<input maxlength="6" type="number" name="otp">
 <input type="hidden" name="email" value="{{email}}">
 <input type="hidden" name="username" value="{{username}}">
 <input type="hidden" name="password" value="{{password}}"><br><br>

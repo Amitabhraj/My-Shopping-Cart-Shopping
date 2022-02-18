@@ -104,11 +104,13 @@ class Cart(models.Model):
 class Register_Attempt(models.Model):
     # username=models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
     username=models.CharField(max_length=200, blank=True, null=True, default="XXXXXXX")
+    password=models.CharField(max_length=200, blank=True, null=True, default="XXXXXXX")
     email=models.CharField(max_length=200, blank=True, null=True, default="XXXXXXX")
+    phone_number=models.IntegerField(default=0, blank=True, null=True)
     otp=models.IntegerField(default=0, blank=True, null=True)
     successfully_register=models.BooleanField(default=False)
 
 
     def __str__(self):
-        return self.username
+        return "username:-"+self.username+"~~~~~~~"+self.email+"~~~~~~"+self.password
 
