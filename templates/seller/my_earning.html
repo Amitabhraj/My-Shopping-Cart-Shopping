@@ -1,0 +1,79 @@
+{% extends 'shop/seller.html' %}
+{% load custom_filter %}
+{% block title %}My Earning{% endblock %}
+{% block body %}
+<br>
+
+<style>
+.table{
+	width: 1200px;
+}
+#chart{
+	width:500px;
+}
+td,table{
+	border-bottom:1px solid #343a45;
+	border-right: 1px solid #343a45;
+	border-left: 1px solid #343a45;
+}
+th {
+  color:#D5DDE5;;
+  background:#1b1e24;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+@media (max-width: 767px){
+.table{
+	width: 20px;
+}
+#table_col, #table_row{
+	font-size:9.5px;
+}
+#chart{
+	width:275px;
+}
+}
+</style>
+
+<center>
+	<u><h2>Earning Table</h2></u>
+<table class="table">
+  <thead>
+    <b><tr>
+      <th scope="col my-2" id="table_col">Product Name</th>
+      <th scope="col" id="table_col">Total Money Earned</th>
+      <th scope="col" id="table_col">Tax Dedected</th>
+      <th scope="col" id="table_col">Net Profit</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for order in order %}
+{% for product in product %}
+{% if product.id == order.product_name %}
+  <tr>
+    <td id="table_row">{{product.product_name}}</td>
+    <td id="table_row">₹{{product.price|mul:order.product_name__count}}</td>
+    <td id="table_row">₹{{product.price|tax:order.product_name__count}}</td>
+    <td id="table_row">₹{{product.price|net_profit:order.product_name__count}}</td>
+  </tr></b>
+{% endif %}
+{% endfor %}
+{% endfor %}
+  </tbody>
+</table>
+</center>
+<br>
+<hr>
+<hr>
+<br>
+
+
+
+<center>
+	<u><h2>Order Method Ratio</h2></u>
+	<img src="/media/shop/earning_chart/earning_chart_{{request.user.username}}.png" id="chart">
+</center>
+{% endblock %}

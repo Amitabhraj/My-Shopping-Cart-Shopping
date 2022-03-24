@@ -1,14 +1,21 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import numpy as np
+from matplotlib import pyplot as plt
+from email.mime.image import MIMEImage
 import smtplib
+import os
+from django.core import mail
 from .models import *
 import random
-from django.core.mail import send_mail
+from django.core.files.base import ContentFile
+from django.core.mail import send_mail,EmailMessage,EmailMultiAlternatives
 import math
 import razorpay
 from django.db.models import Count
+from django.core.files.storage import default_storage
 from math import ceil
 from django.views.decorators.csrf import csrf_exempt
 from .forms import *
@@ -18,19 +25,21 @@ from django.db.models import Count
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
-from mac.settings import EMAIL_HOST_USER,EMAIL_HOST_PASSWORD
+from googlevoice import Voice
+from googlevoice.util import input
+from mac.settings import EMAIL_HOST_USER,EMAIL_HOST_PASSWORD,BASE_DIR
 from random import randint
+from sms import send_sms
+
 # Create your views here.
 
 
-# def delete(request):
-#     d=Register_Attempt.objects.all()
-#     d.delete()
-#     print("deleted")
-#     if d.exist():
-#         print("it is exist")
-#     else:
-#         print("patta saf")
+def generateOTP_forget_password() :
+     digits = "0123456789"
+     OTP = ""
+     for i in range(5) :
+         OTP += digits[math.floor(random.random() * 10)]
+     return OTP
 
 
 def generateOTP() :
@@ -39,6 +48,9 @@ def generateOTP() :
      for i in range(5) :
          OTP += digits[math.floor(random.random() * 10)]
      return OTP
+
+
+
 
 def login_page(request):
     if request.user.is_authenticated:
@@ -95,9 +107,13 @@ def register(request):
                 messages.error(request,"Password Do not Match!")
                 return redirect(request.path)
 
+            elif len(str(phone_number))<=9 or len(str(phone_number))>=11:
+                messages.error(request,"Phone Number Should be 10 Digits")
+                return redirect(request.path)
+        
+
             elif not username_match and not email_match and password==re_password:
                 random_str=generateOTP()
-                # print(random_str)
                 send_mail(
                     'Thank You For Register in MyAwesomeCart, Find OTP',
                     f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
@@ -152,6 +168,62 @@ def verify_otp(request):
 
 
 
+
+def forget_password(request):
+    global otp_num
+    global username
+    global password
+    if request.method=="POST":
+        if not request.POST.get('otp', ''):
+            otp_num= str(generateOTP_forget_password())
+            print("otp_Num = "+otp_num)
+            username=request.POST.get('username', '')
+            password=request.POST.get('password', '')
+            re_password=request.POST.get('re-password', '')
+
+            if not User.objects.filter(username=username):
+                messages.error(request,'you have Entered Wrong Username')
+                return redirect('/shop/forget_password')
+            elif password != re_password:
+                messages.error(request,'Password Do Not Match')
+                return redirect('/shop/forget_password')
+            else:
+                email_id=User.objects.get(username__exact=username).email
+                subject = 'You are requested for set new password, here is your OTP:-'
+                plain_message = f'this is your otp:- {otp_num}'
+                from_email = 'abhiraj1709w@gmail.com'
+                to = f'{email_id}'
+                mail.send_mail(subject, plain_message, from_email, [to])
+                
+                status=200
+                context={'status':status}
+                return render(request, 'accounts/forget_password.html',context)
+        else:
+            otp = str(request.POST.get('otp', ''))
+            if otp == otp_num:
+                print("you have entered right otp")
+                user_name=User.objects.get(username__exact=username)
+                user_name.set_password(password)
+                user_name.save()
+                messages.success(request, 'You have Successfully Reset Your password')
+                return redirect('/shop/login')
+                
+            else:
+                print("you have not entered right otp")
+                messages.error(request, 'You have not Entered Right OTP')
+                return redirect('/shop/forget_password')
+    else:
+        status = 100
+        context={'status':status}
+        return render(request, 'accounts/forget_password.html',context)
+    return render(request, 'accounts/forget_password.html')
+
+
+
+
+
+
+#buyer
 def starter(request):
     if request.method == "POST":
         search=request.POST.get('search','')
@@ -605,7 +677,7 @@ def search(request):
         cart=Cart(cart_id=cart_id,image_of_product=image_of_product,product_name=product_name,price_of_the_product=price_of_the_product,product_id=product_id,quantity=quantity,user_id=user_id)
         cart.save()
         return redirect('cart')  
-    search=request.GET['search']
+    search=request.GET.get('search')
     category_1=Category.objects.all()
     product = Product.objects.filter(product_name__icontains=search,on_sale=True)
     # for products in product:
@@ -719,11 +791,163 @@ def cart(request):
     return render(request,'shop/cart.html',context) 
 
 
+
 def cart_delete(request,myid):
     cart_delete = Cart.objects.get(id=myid)  
     cart_delete.delete() 
     return redirect('cart')
     return render(request,'shop/cart.html')
+
+
+
+
+def my_earning(request):
+    order=Order.objects.filter(admin_id=request.user.id, paid=True)
+    # order_2 = list(order)
+    # print(order_2)
+    # order_3 = set(order_2)
+    # print("")
+    # print("")
+    # print(order_3)
+    # order_4=list(order_3)
+    # qty=[]
+    # for order in order:
+    #     for order_3 in order_3:
+    #         qty.append(order_2.count(order_3))
+    #     break
+
+    if order:
+        order_product=Order.objects.filter(admin_id=request.user.id, paid=True).values("product_name").annotate(Count("product_name"))
+        product_name = Product.objects.all()
+
+        online_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="ONLINE PAYMENT"))
+        offline_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="CASH ON DELIVERY"))
+
+        labels = 'online Payment', 'Cash on Delivery'
+        sizes = [online_payment, offline_payment]
+        explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')
+        plt.savefig(str(BASE_DIR)+"/media/"+"/shop/earning_chart/earning_chart_"+request.user.username+".png")
+    else:
+        messages.error(request,'you have not any product')
+        return redirect('/shop')
+        # , {'order':order_4, 'qty':qty}
+    return render(request, 'seller/my_earning.html',{'order':order_product, 'product':product_name})
+
+
+
+
+#admin_panel
+def Check_Admin(request):
+    group=Group.objects.get(name="admin").id
+    if User.objects.filter(id=request.user.id, groups=group):
+        return True
+    else:
+        return False
+
+
+
+def admin_panel_dashboard(request):
+    if Check_Admin(request):
+        return render(request, 'admin_panel/admin_panel_dashboard.html')
+    else:
+        messages.error(request, 'you cannot access the page')
+        return redirect('/shop')
+
+
+
+def send_bulk_email(request):
+    global bulk_email
+    global hh
+    if Check_Admin(request):
+        if request.method=="POST":
+            subject=request.POST.get('subject','')
+            main_body=request.POST.get('main_body','')
+            attachment=request.FILES.getlist('attachment')
+            send_to=request.POST.getlist('send_to','')
+            send_to=send_to[0]
+
+
+            email_attachment=[]
+            for attachment in attachment:
+                print(attachment)
+                bulk_email=Bulk_Email(subject=subject, main_body=main_body, send_to=send_to, attachment=attachment)
+                bulk_email.save()
+                email_attachment.append(bulk_email.attachment)
+
+            seller_group=Group.objects.get(name="seller").id
+            buyer_group=Group.objects.get(name="buyer").id
+
+            if send_to=="seller":
+                seller_user=User.objects.filter(groups=seller_group)
+                seller_mail=[]
+                for seller in seller_user:
+                    seller_email.append(seller.email)
+                
+                email_with_django=EmailMessage(
+                    subject,
+                    main_body,
+                    'abheiraj1709w@gmail.com',
+                    seller_email
+                    )
+                for email_attachment in email_attachment:
+                    email_with_django.attach_file(str(BASE_DIR)+"/media/"+str(email_attachment))
+
+                email_with_django.send()
+                messages.success(request, 'Successfully Send the Email To All Seller')
+                return redirect(request.path)
+            
+
+
+            elif send_to=="buyer":
+                buyer_user=User.objects.filter(groups=buyer_group)
+                buyer_email=[]
+                for buyer in buyer_user:
+                    buyer_email.append(buyer.email)
+                email_with_django=EmailMessage(
+                    subject,
+                    main_body,
+                    'abhiraj1709w@gmail.com',
+                    buyer_email
+                    )
+
+                for email_attachment in email_attachment:
+                    email_with_django.attach_file(str(BASE_DIR)+"/media/"+str(email_attachment))
+                email_with_django.send()
+                messages.success(request, 'Successfully Send the Email To All Buyer')
+                return redirect(request.path)
+            
+
+
+
+            elif send_to=="all_user":
+                all_user=User.objects.all()
+                all_user_email=[]
+                for all_user in all_user:
+                    all_user_email.append(all_user.email)
+                email_with_django=EmailMessage(
+                    subject,
+                    main_body,
+                    'abhiraj1709w@gmail.com',
+                    all_user_email
+                    )
+                for email_attachment in email_attachment:
+                    email_with_django.attach_file(str(BASE_DIR)+"/media/"+str(email_attachment))
+                email_with_django.send()
+                
+
+                messages.success(request, 'Successfully Send the Email To All Buyer')
+                return redirect(request.path)
+    else:
+        messages.error(request, 'you cannot access the page')
+        return redirect('/shop')
+
+    return render(request, 'admin_panel/send_bulk_email.html')
+
+
 
 
 def profile(request):

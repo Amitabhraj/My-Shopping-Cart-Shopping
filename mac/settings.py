@@ -246,7 +246,7 @@ PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Host for sending e-mail.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -258,6 +258,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'abhiraj1709w@gmail.com'
 EMAIL_HOST_PASSWORD = 'tajmahal12@66'
 EMAIL_USE_TLS = True
+
+
+# SMS_BACKEND = 'sms.backends.console.SmsBackend'
 
 
 # PRODUCTION_URL = 'https://myawesomecartshopping.pythonanywhere.com/'
