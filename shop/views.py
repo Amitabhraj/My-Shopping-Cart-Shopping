@@ -114,12 +114,11 @@ def register(request):
 
             elif not username_match and not email_match and password==re_password:
                 random_str=generateOTP()
-                send_mail(
+                mail.send_mail(
                     'Thank You For Register in MyAwesomeCart, Find OTP',
                     f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
                     'abhiraj1709w@gmail.com',
-                    [f'{email}'],
-                    fail_silently=False,
+                    [f'{email}']
                 )
                 # print(random_str)
                 if Register_Attempt.objects.filter(username=username, email=email):
