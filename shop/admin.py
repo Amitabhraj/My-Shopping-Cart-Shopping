@@ -5,7 +5,6 @@ admin.site.register(Order)
 admin.site.register(Contact)
 admin.site.register(Cart)
 admin.site.register(Category)
-admin.site.register(Register_Attempt)
 admin.site.register(Bulk_Email)
 @admin.register(Product)
 

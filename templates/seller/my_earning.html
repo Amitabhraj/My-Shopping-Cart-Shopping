@@ -2,6 +2,11 @@
 {% load custom_filter %}
 {% block title %}My Earning{% endblock %}
 {% block body %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js
+'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <br>
 
 <style>
@@ -51,22 +56,18 @@ th {
     <b><tr>
       <th scope="col my-2" id="table_col">Product Name</th>
       <th scope="col" id="table_col">Total Money Earned</th>
-      <th scope="col" id="table_col">Tax Dedected</th>
+      <th scope="col" id="table_col">Tax Dedected (4%)</th>
       <th scope="col" id="table_col">Net Profit</th>
     </tr>
   </thead>
   <tbody>
-{% for order in order %}
-{% for product in product %}
-{% if product.id == order.product_name %}
+{% for product in product_name %}
   <tr>
-    <td id="table_row">{{product.product_name}}</td>
-    <td id="table_row">₹{{product.price|mul:order.product_name__count}}</td>
-    <td id="table_row">₹{{product.price|tax:order.product_name__count}}</td>
-    <td id="table_row">₹{{product.price|net_profit:order.product_name__count}}</td>
+    <td id="table_row">{{product}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter|tax:4}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter|net_profit:96}}</td>
   </tr></b>
-{% endif %}
-{% endfor %}
 {% endfor %}
   </tbody>
 </table>
@@ -75,11 +76,52 @@ th {
 <hr>
 <hr>
 <br>
+<canvas id="pieChart" height="110px" width="220px"></canvas>
+<script>
+  var canvasP = document.getElementById("pieChart");
+  var ctxP = canvasP.getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+     type: 'bar',
+     data: {
+        labels: [{% for d in product_name %}'{{d}}',{% endfor %}],
+        datasets: [
+  
+        {
+           data: [{% for occur in total_amount %}{{occur}},{% endfor %}],
+           backgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C",'#00E8FF','#4200FF','#BD00FF','#FF8ED3'],
+           hoverBackgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C",'#00E8FF','#4200FF','#BD00FF','#FF8ED3'],
+        }]
+     },
+     options: {
+        responsive: true,
+    }
+  });
+  
+  
+  canvasP.onclick = function(e) {
+     var slice = myPieChart.getElementAtEvent(e);
+     if (!slice.length) return; // return if not clicked on slice
+     var label = slice[0]._model.label;
+     switch (label) {
+        // add case for each label/slice
+        {% for data in product_name %}
+        case '{{data}}':
+           window.open('/user/complain/{{data}}');
+           break;
+        {% endfor %}
+     }
+  };
+  function download(){
+    const imageLink = document.createElement('a');
+    const canvas = document.getElementById('pieChart');
+    imageLink.download = 'Data.png'
+    imageLink.href = canvas.toDataURL('static/data/canvas',1);
+    // window.open(imageLink);
+    // document.write('<img src=" '+imageLink+' "/>')
+  
+    // console.log(imageLink.href);
+    imageLink.click();
+  }
+  </script>
 
-
-
-<center>
-	<u><h2>Order Method Ratio</h2></u>
-	<img src="/media/shop/earning_chart/earning_chart_{{request.user.username}}.png" id="chart">
-</center>
 {% endblock %}

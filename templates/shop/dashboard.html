@@ -66,6 +66,16 @@ body {
 
 <main>
   <section class="py-5 text-center container">
+    {% for message in messages %}
+              <div id="alert" class="alert alert-{{ message.tags }}">{{message}}
+              </div>
+                
+              <script type="text/javascript">
+              setTimeout(function () {
+                  $('#alert').alert('close');
+              }, 4000);
+              </script>
+              {% endfor %}
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Seller Dashboard</h1>

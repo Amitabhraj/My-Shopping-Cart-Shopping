@@ -63,6 +63,8 @@ MIDDLEWARE = [
 ]
 ROOT_URLCONF = 'mac.urls'
 
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -256,7 +258,7 @@ EMAIL_PORT = 587
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'abhiraj1709w@gmail.com'
-EMAIL_HOST_PASSWORD = 'tajmahal12@66'
+EMAIL_HOST_PASSWORD = 'kvvddayjmbuhfddd'
 EMAIL_USE_TLS = True
 
 
@@ -266,3 +268,16 @@ EMAIL_USE_TLS = True
 # PRODUCTION_URL = 'https://myawesomecartshopping.pythonanywhere.com/'
 # IS_DEVELOPMENT = False
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+from django.contrib.messages import constants as messages
+
+
+
+
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
+
+
+

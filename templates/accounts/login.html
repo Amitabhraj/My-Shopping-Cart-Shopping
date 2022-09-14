@@ -72,11 +72,17 @@ body{
 
             <div class="mb-md-0 mt-md-0 pb-0">
               
-{% for message in messages %}
-<div class="alert alert-danger" role="alert">
-  {{message}}
-</div>
-{% endfor %}
+              {% for message in messages %}
+              <div id="alert" class="alert alert-{{ message.tags }}">{{message}}
+              </div>
+                
+              <script type="text/javascript">
+              setTimeout(function () {
+                  $('#alert').alert('close');
+              }, 4000);
+              </script>
+              {% endfor %}
+              
               <h2 class="fw-bold mb-2 text-uppercase" id="login_text">Login</h2>
               <p class="text-white-50 mb-5">Please Enter your Username and password!</p>
 
@@ -120,8 +126,6 @@ const togglePassword = document.querySelector('#togglePassword');
 
               <div class="d-flex justify-content-center text-center mt-4 pt-1">
                 
-                <a href="{% provider_login_url 'github' %}" class="text-white mx-1"><button class="btn btn-secondary"><i class="fa fa-github fa-lg"></i> GitHub</button></a>
-
                 <a href="{% provider_login_url 'google' method='js_sdk' %}" class="text-white"><button class="btn btn-danger"><i class="fa fa-google fa-lg"></i> Google</button></a>
               </div>
 

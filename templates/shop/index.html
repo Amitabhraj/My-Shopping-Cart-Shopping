@@ -156,7 +156,7 @@ margin: 10px 10px 10px 10px;
 {% endfor %}</div>
 
     <hr id="hori"></hr>
-    <h5 id="cate">&nbsp;&nbsp;&bull;Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
+    <h5 id="cate">&nbsp;&nbsp;&nbsp;Newly Released <b><u>{{prod.0.category}}</u></b> Products</li></h5>
     <hr id="hori"></hr>
 
 
@@ -225,7 +225,7 @@ body {
 
 {%for product in prod %}
   <div class="column my-3">
-    <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" width="100%"></a>
+    <a href="/shop/productview/{{product.id}}"><img src="/media/{{product.image}}" width="100%" height="220px"></a>
     
     <div class="card">{{product.product_name}}
     <br>

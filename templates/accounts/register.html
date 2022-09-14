@@ -73,22 +73,26 @@ body{
 {% if status %}
 
 
-<form action="/shop/verify_otp/" method="post">{% csrf_token %}
+<form action="/shop/register/" method="post">{% csrf_token %}
 <h3>Please type OTP</h3>
 <input maxlength="6" type="number" name="otp">
-<input type="hidden" name="email" value="{{email}}">
-<input type="hidden" name="username" value="{{username}}">
-<input type="hidden" name="password" value="{{password}}"><br><br>
+<br><br>
 <button type="submit" class="btn btn-secondary">Submit</button>
 
 </form>
 {% else %}
 
 {% for message in messages %}
-<div class="alert alert-danger" role="alert">
-  {{message}}
+<div id="alert" class="alert alert-{{ message.tags }}">{{message}}
 </div>
+  
+<script type="text/javascript">
+setTimeout(function () {
+    $('#alert').alert('close');
+}, 4000);
+</script>
 {% endfor %}
+
               <h2 class="fw-bold mb-2 text-uppercase" id="register_text">Register</h2>
               <p class="text-white-50 mb-5">Please enter Some Details to Get Register</p>
 <form action="/shop/register/" method="post">{% csrf_token %}

@@ -1,3 +1,5 @@
+from email import message
+from unicodedata import category
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from email.mime.multipart import MIMEMultipart
@@ -25,13 +27,17 @@ from django.db.models import Count
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib import messages
-from googlevoice import Voice
-from googlevoice.util import input
 from mac.settings import EMAIL_HOST_USER,EMAIL_HOST_PASSWORD,BASE_DIR
 from random import randint
-from sms import send_sms
 
 # Create your views here.
+
+category_list = ["Sports",'Home And Appliances', 'Electronics', 'Makeup', 'Food & Baverage', 'Stationary', 'Clothes']
+if Category.objects.filter(category=category_list[0]):
+    pass
+else:
+    for i in range(0,len(category_list)):
+        Category.objects.create(category=category_list[i])
 
 
 def generateOTP_forget_password() :
@@ -48,7 +54,6 @@ def generateOTP() :
      for i in range(5) :
          OTP += digits[math.floor(random.random() * 10)]
      return OTP
-
 
 
 
@@ -82,88 +87,61 @@ def login_page(request):
 
 
 def register(request):
+    global username
+    global password
+    global email
+    global random_str
     if request.user.is_authenticated:
         return redirect('/shop')
     else:
         if request.method=="POST":
-            username=request.POST.get('username', '')
-            password=request.POST.get('password','')
-            re_password=request.POST.get('re-password','')
-            email=request.POST.get('email','')
-            phone_number=request.POST.get('phone_number','')
+            if not request.POST.get('otp',''):
+                username=request.POST.get('username', '')
+                password=request.POST.get('password','')
+                re_password=request.POST.get('re-password','')
+                email=request.POST.get('email','')
+                phone_number=request.POST.get('phone_number','')
 
-            username_match=User.objects.filter(username=username)
-            email_match=User.objects.filter(email=email)
+                username_match=User.objects.filter(username=username)
+                email_match=User.objects.filter(email=email)
 
-            if username_match:
-                messages.error(request,"Username Already Taken")
-                return redirect(request.path)
+                if username_match:
+                    messages.error(request,"Username Already Taken")
+                    return redirect(request.path)
 
-            elif email_match:
-                messages.error(request,"Email Already Taken")
-                return redirect(request.path)
+                elif email_match:
+                    messages.error(request,"Email Already Taken")
+                    return redirect(request.path)
 
-            elif password!=re_password:
-                messages.error(request,"Password Do not Match!")
-                return redirect(request.path)
+                elif password!=re_password:
+                    messages.error(request,"Password Do not Match!")
+                    return redirect(request.path)
 
-            elif len(str(phone_number))<=9 or len(str(phone_number))>=11:
-                messages.error(request,"Phone Number Should be 10 Digits")
-                return redirect(request.path)
-        
+                elif len(str(phone_number))<=9 or len(str(phone_number))>=11:
+                    messages.error(request,"Phone Number Should be 10 Digits")
+                    return redirect(request.path)
+            
 
-            elif not username_match and not email_match and password==re_password:
-                random_str=generateOTP()
-                mail.send_mail(
-                    'Thank You For Register in MyAwesomeCart, Find OTP',
-                    f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
-                    'abhiraj1709w@gmail.com',
-                    [f'{email}']
-                )
-                # print(random_str)
-                if Register_Attempt.objects.filter(username=username, email=email):
-                    reg_at=Register_Attempt.objects.get(username=username, email=email)
-                    reg_at.password=password
-                    reg_at.phone_number=phone_number
-                    reg_at.otp=random_str
-                    reg_at.save()
-                    # print(reg_at.otp)
-                else:
-                    register_attempt=Register_Attempt(username=username,
-                                                      email=email,
-                                                      password=password,
-                                                      phone_number=phone_number,
-                                                      otp=random_str)
-                    register_attempt.save()
-                    # print(Register_Attempt.objects.get(username=username).otp)
-                print('Successfully Mailed & saved Otp in database')
-                status=True
-                context={'status':status,'email':email,'username':username,'password':password}
+                elif not username_match and not email_match and password==re_password:
+                    random_str=generateOTP()
+                    mail.send_mail(
+                        'Thank You For Register in MyAwesomeCart, Find OTP',
+                        f"This is the OTP for Getting Register in MyAwesomeCart:- {random_str}, Please Don't Share With Anyone",
+                        'abhiraj1709w@gmail.com',
+                        [f'{email}']
+                    )
+                    
+                    status=True
+                context={'status':status}
                 return render(request,'accounts/register.html',context)
             else:
-                return HttpResponse('</h1>Error</h1>')
+                status=False
+                otp = request.POST.get('otp')
+                if otp == f'{random_str}':
+                    User.objects.create(username=username, email=email, password=password)
+                    messages.success(request, 'Successfully Register')
+                    return redirect('/shop/login')
     return render(request, 'accounts/register.html')
-
-
-
-@csrf_exempt
-def verify_otp(request):
-    response=request.POST
-    otp=Register_Attempt.objects.get(username=response['username']).otp
-    register_user=Register_Attempt.objects.get(username=response['username'])
-    if request.method=="POST":
-        if response['otp']==str(otp):
-            user_detail=User.objects.create_user(username=response['username'],
-                             password=response['password'],email=response['email'])
-            user_detail.save()
-            register_user.successfully_register=True
-            register_user.save()
-            messages.info(request,'You are Successfully Register, Please Login')
-            return redirect('/shop/login')
-        else:
-            messages.info(request,'Incorrect OTP, Try Registration Again!')
-            return redirect('/shop/register')
-    return render(request, 'shop/verify_otp.html')
 
 
 
@@ -175,7 +153,6 @@ def forget_password(request):
     if request.method=="POST":
         if not request.POST.get('otp', ''):
             otp_num= str(generateOTP_forget_password())
-            print("otp_Num = "+otp_num)
             username=request.POST.get('username', '')
             password=request.POST.get('password', '')
             re_password=request.POST.get('re-password', '')
@@ -200,7 +177,6 @@ def forget_password(request):
         else:
             otp = str(request.POST.get('otp', ''))
             if otp == otp_num:
-                print("you have entered right otp")
                 user_name=User.objects.get(username__exact=username)
                 user_name.set_password(password)
                 user_name.save()
@@ -209,7 +185,7 @@ def forget_password(request):
                 
             else:
                 print("you have not entered right otp")
-                messages.error(request, 'You have not Entered Right OTP')
+                messages.error(request, 'Oops! You have not Entered Right OTP')
                 return redirect('/shop/forget_password')
     else:
         status = 100
@@ -226,7 +202,6 @@ def forget_password(request):
 def starter(request):
     if request.method == "POST":
         search=request.POST.get('search','')
-        print(search)
         product= Product.objects.filter(product_name__icontains=search, on_sale=True)
         context={'product':product}
         return render(request,'shop/search.html',context)
@@ -559,8 +534,8 @@ def sellproduct(request):
             else:
                 product.save()
                 main_context="Added"
-                line_context="Congratulations! Your Have Successfully Selled a Product"
-                last_context="Thank You! For Selling for Choosing us "
+                line_context="Congratulations! Your Have Successfully Added a Product"
+                last_context="Thank You! For Selling Your Product On Our Platform "
                 context={'main_context':main_context,'line_context':line_context,'last_context':last_context}
                 return render(request, "shop/success.html",context)
         else:
@@ -801,40 +776,48 @@ def cart_delete(request,myid):
 
 
 def my_earning(request):
-    order=Order.objects.filter(admin_id=request.user.id, paid=True)
-    # order_2 = list(order)
-    # print(order_2)
-    # order_3 = set(order_2)
-    # print("")
-    # print("")
-    # print(order_3)
-    # order_4=list(order_3)
-    # qty=[]
-    # for order in order:
-    #     for order_3 in order_3:
-    #         qty.append(order_2.count(order_3))
-    #     break
+    total_amount = []
+    order=Product.objects.filter(admin_id=request.user.id)
+    set_product = set(order)
+    product_name = list(set_product)
+    no_of_product=[]
+
 
     if order:
-        order_product=Order.objects.filter(admin_id=request.user.id, paid=True).values("product_name").annotate(Count("product_name"))
-        product_name = Product.objects.all()
-
-        online_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="ONLINE PAYMENT"))
-        offline_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="CASH ON DELIVERY"))
-
-        labels = 'online Payment', 'Cash on Delivery'
-        sizes = [online_payment, offline_payment]
-        explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                shadow=True, startangle=90)
-        ax1.axis('equal')
-        plt.savefig(str(BASE_DIR)+"/media/"+"/shop/earning_chart/earning_chart_"+request.user.username+".png")
+        for order in product_name:
+            price = Order.objects.filter(product_name = order,paid=True)
+            product_count = price.count()
+            no_of_product.append(product_count)
+            price_list = []
+            for p in price:
+                w=(p.product_price).split("₹")
+                price_list.append(int(w[1]))
+            total_amount.append(sum(price_list))
     else:
-        messages.error(request,'you have not any product')
-        return redirect('/shop')
-        # , {'order':order_4, 'qty':qty}
-    return render(request, 'seller/my_earning.html',{'order':order_product, 'product':product_name})
+        messages.error(request,"You Have Not Selled/Added Any Product To MyAwesomeCart, So That You Cannot See Your Earing")
+        return redirect('/shop/dashboard')
+
+    # if order:
+    #     order_product=Order.objects.filter(admin_id=request.user.id, paid=True).values("product_name").annotate(Count("product_name"))
+    #     product_name = Product.objects.all()
+
+    #     online_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="ONLINE PAYMENT"))
+    #     offline_payment = len(Order.objects.filter(admin_id=request.user.id, paid=True, order_method="CASH ON DELIVERY"))
+
+    #     labels = 'online Payment', 'Cash on Delivery'
+    #     sizes = [online_payment, offline_payment]
+    #     explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+    #     fig1, ax1 = plt.subplots()
+    #     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+    #             shadow=True, startangle=90)
+    #     ax1.axis('equal')
+    #     plt.savefig(str(BASE_DIR)+"/media/"+"/shop/earning_chart/earning_chart_"+request.user.username+".png")
+    # else:
+    #     messages.error(request,'you have not any product')
+    #     return redirect('/shop')
+
+    context = {'number_of_product':no_of_product,'total_amount':total_amount,'product_name':product_name}
+    return render(request, 'seller/my_earning.html',context)
 
 
 
