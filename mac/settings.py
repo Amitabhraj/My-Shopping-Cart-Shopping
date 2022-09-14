@@ -55,12 +55,15 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ROOT_URLCONF = 'mac.urls'
+
+SOCIALACCOUNT_LOGIN_ON_GET=True
 
 TEMPLATES = [
     {
@@ -133,11 +136,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
 
-#managing media
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
-MEDIA_URL='/media/'
+
+STATIC_URL = '/shop/static/'
+MEDIA_URL = '/media/'
+
+  
+
+
+# if DEBUG:
+#     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'shop')]
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'shop/static')
+
+  
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -159,7 +176,7 @@ SITE_ID = 3
 # LOGIN_URL = 'login'
 # LOGOUT_URL = 'logout'
 ACCOUNT_EMAIL_VERIFICATION = "none"
-LOGIN_REDIRECT_URL = '/shop'
+LOGIN_REDIRECT_URL = '/shop/starter'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 
@@ -207,7 +224,60 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# # Static files (CSS, JavaScript, Images)
+# # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# STATIC_ROOT = os.path.join(BASE_DIR, 'shop')
+# STATIC_URL = '/static/'
+
+# # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+
+
+
 PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 
 # SOCIAL_AUTH_FACEBOOK_KEY = '534560934481071' 
 # SOCIAL_AUTH_FACEBOOK_SECRET = '21e1d4b891b76d2008e89833176ca745'  # App 
+
+
+
+
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.gmail.com'
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'abhiraj1709w@gmail.com'
+EMAIL_HOST_PASSWORD = 'kvvddayjmbuhfddd'
+EMAIL_USE_TLS = True
+
+
+# SMS_BACKEND = 'sms.backends.console.SmsBackend'
+
+
+# PRODUCTION_URL = 'https://myawesomecartshopping.pythonanywhere.com/'
+# IS_DEVELOPMENT = False
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+from django.contrib.messages import constants as messages
+
+
+
+
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
+
+
+

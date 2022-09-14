@@ -1,0 +1,126 @@
+{% extends 'shop/seller.html' %}
+{% block title %}My DashBoard{% endblock %}
+{% block body %}
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+</style>
+
+<body>
+
+<main>
+  <section class="py-5 text-center container">
+    {% for message in messages %}
+              <div id="alert" class="alert alert-{{ message.tags }}">{{message}}
+              </div>
+                
+              <script type="text/javascript">
+              setTimeout(function () {
+                  $('#alert').alert('close');
+              }, 4000);
+              </script>
+              {% endfor %}
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Seller Dashboard</h1>
+        <p class="lead text-muted">This is Your Seller where you can control Your Customer order and sell your product very Easily</p>
+        <p>
+          <a href="/shop/sellproduct" class="btn btn-dark my-2">Sell Your Product</a>
+          <a href="/shop/orderrequest" class="btn btn-dark my-2">Order Request</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+<center><h4>{{arg}}</h4>{{button|safe}}</center>
+
+
+{{arg1|safe}}
+
+<div class="row mx-4">
+{%for product in product %}
+  <div class="column my-3">
+    <img src="/media/{{product.image}}" width="100%">
+    
+    <div class="card"><u><h6>{{product.product_name}}</h6></u>
+
+<div>
+
+    <a href="/shop/productview/{{product.id}}"><button id="button-font-size" type="button" class="btn btn-sm btn-outline-secondary">View</button></a>
+
+</div>
+
+    </div>
+  </div>
+
+{% endfor %}
+
+</div>
+<br>
+
+
+</main>
+
+
+    <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+      
+  </body>
+{% endblock %}

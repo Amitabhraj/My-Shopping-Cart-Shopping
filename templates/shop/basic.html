@@ -1,18 +1,34 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel = "icon" href = "https://icon2.cleanpng.com/20171220/hpe/shopping-cart-png-5a3a8fce7193f6.6430523815137873424652.jpg" type = "image/x-icon">
+{% load custom_filter %}
+<!DOCTYPE html>
+<html lang="en" >
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
 
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<title>{%block title%}{%endblock %}</title>
-<style>{% block css %}{% endblock %}</style>
+
+<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+<title>{% block title %} {% endblock %}</title>
+  
+
+  
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/css/tether.min.css'>
 
 
 <style>
@@ -24,345 +40,510 @@
     border-radius: 20px;
     background-color: #909596;
 }
-#cart{
-  position: relative;
-  left:15px;
+body {
+    position: relative;
+    overflow-x: hidden;
 }
-.nav-link{
-  position: relative;
-  left: 10px;
-}
-</style>
+body,
+html { height: 100%;}
+.nav .open > a, 
+.nav .open > a:hover, 
+.nav .open > a:focus {background-color: transparent;}
 
+/*-------------------------------*/
+/*           Wrappers            */
+/*-------------------------------*/
 
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
 
-  </head>
-  <body>
+#wrapper.toggled {
+    padding-left: 220px;
+}
 
-<style>
-@media(min-width: 768px){
-#bar{
-  margin-left:15px;
+#sidebar-wrapper {
+    z-index: 1000;
+    left: 220px;
+    width: 0;
+    height: 100%;
+    margin-left: -220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #1a1a1a;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
-#search{
-  width:320px;
-}
-}
-@media(max-width: 768px){
-#bar{
-  margin-left:10px;
-}
-#search{
-  width:180px;
-}
-#search_button{
-  height: 50px;
-  width: 80px;
-  font-size: 12px;
-}
-#navbar-brand{
+
+#sidebar-wrapper::-webkit-scrollbar {
   display: none;
 }
-.navbar-toggler{
-  width: 25px;
-  height: 30px;
-  margin: 13px 13px 13px 13px;
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 220px;
 }
-.navbar-toggler-icon{
-  width: 15px;
-  height: 15px;
-  margin: 0px 13px 8px -6px;
+
+#page-content-wrapper {
+    width: 100%;
+    padding-top: 70px;
 }
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -220px;
 }
+
+/*-------------------------------*/
+/*     Sidebar nav styles        */
+/*-------------------------------*/
+.navbar {
+  padding: 0;
+}
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 220px;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    position: relative; 
+    line-height: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.sidebar-nav li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 3px;
+    background-color: #1c1c1c;
+    -webkit-transition: width .2s ease-in;
+      -moz-transition:  width .2s ease-in;
+       -ms-transition:  width .2s ease-in;
+            transition: width .2s ease-in;
+
+}
+.sidebar-nav li:hover{
+  background: skyblue !important;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.sidebar-nav li:hover:before,
+.sidebar-nav li.open:hover:before {
+    width: 100%;
+    -webkit-transition: width .2s ease-in;
+      -moz-transition:  width .2s ease-in;
+       -ms-transition:  width .2s ease-in;
+            transition: width .2s ease-in;
+
+}
+
+.sidebar-nav li a {
+    display: block;
+    color: #ddd;
+    text-decoration: none;
+    padding: 10px 15px 10px 30px;    
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus,
+.sidebar-nav li.open a:hover,
+.sidebar-nav li.open a:active,
+.sidebar-nav li.open a:focus{
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+}
+.sidebar-header {
+    text-align: center;
+    font-size: 20px;
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+.sidebar-brand {
+    height: 58.3px;
+    position: relative;
+    background:#212531;
+    background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
+   padding-top: 1em;
+}
+.sidebar-brand a {
+    color: #ddd;
+}
+.sidebar-brand a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.dropdown-header {
+    text-align: center;
+    font-size: 1em;
+    color: #ddd;
+    background:#212531;
+    background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
+}
+.sidebar-nav .dropdown-menu {
+    position: relative;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    background-color: #222;
+    box-shadow: none;
+}
+.dropdown-menu.show {
+    top: 0;
+}
+/*-------------------------------*/
+/*       Hamburger-Cross         */
+/*-------------------------------*/
+
+.hamburger {
+  position: fixed;
+  top: 18px;  
+  z-index: 999;
+  display: block;
+  width: 30px;
+  height: 32px;
+  margin-left: 0px;
+  margin-bottom: 10px;
+  margin-top: -3px;
+  background: transparent;
+  border: none;
+}
+.hamburger:hover,
+.hamburger:focus,
+.hamburger:active {
+  outline: none;
+}
+.hamburger.is-closed:before {
+  content: '';
+  display: block;
+  width: 100px;
+  font-size: 14px;
+  color: #fff;
+  line-height: 32px;
+  text-align: center;
+  opacity: 0;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed:hover:before {
+  opacity: 1;
+  display: block;
+  -webkit-transform: translate3d(-100px,0,0);
+  -webkit-transition: all .35s ease-in-out;
+}
+
+.hamburger.is-closed .hamb-top,
+.hamburger.is-closed .hamb-middle,
+.hamburger.is-closed .hamb-bottom,
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-middle,
+.hamburger.is-open .hamb-bottom {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  width: 100%;
+}
+.hamburger.is-closed .hamb-top,
+.hamburger.is-closed .hamb-middle,
+.hamburger.is-closed .hamb-bottom {
+  background-color: #1a1a1a;
+}
+.hamburger.is-closed .hamb-top { 
+  top: 5px; 
+  -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed .hamb-middle {
+  top: 50%;
+  margin-top: -2px;
+}
+.hamburger.is-closed .hamb-bottom {
+  bottom: 5px;  
+  -webkit-transition: all .35s ease-in-out;
+}
+
+.hamburger.is-closed:hover .hamb-top {
+  top: 0;
+  -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed:hover .hamb-bottom {
+  bottom: 0;
+  -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-middle,
+.hamburger.is-open .hamb-bottom {
+  background-color: #1a1a1a;
+}
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-bottom {
+  top: 50%;
+  margin-top: -2px;  
+}
+.hamburger.is-open .hamb-top { 
+  -webkit-transform: rotate(45deg);
+  -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+}
+.hamburger.is-open .hamb-middle { display: none; }
+.hamburger.is-open .hamb-bottom {
+  -webkit-transform: rotate(-45deg);
+  -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+}
+.hamburger.is-open:before {
+  content: '';
+  display: block;
+  width: 100px;
+  font-size: 14px;
+  color: #fff;
+  line-height: 32px;
+  text-align: center;
+  opacity: 0;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-open:hover:before {
+  opacity: 1;
+  display: block;
+  -webkit-transform: translate3d(-100px,0,0);
+  -webkit-transition: all .35s ease-in-out;
+}
+
+/*-------------------------------*/
+/*            Overlay            */
+/*-------------------------------*/
 </style>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" width="100%">
-    <a class="navbar-brand mx-2" href="/shop" id="navbar-brand" style="font-size:22px">My Awesome Cart</a><form class="d-flex" id="bar" method="get" action="/shop/search">
-        <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
-        <button class="btn btn-outline-success" id="search_button" type="submit">Search</button>
-      </form>
+  <script>
+  window.console = window.console || function(t) {};
+</script>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div id="wrapper">
+   <div class="overlay"></div>
+    
+        <!-- Sidebar -->
+    <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+     <ul class="nav sidebar-nav">
+       <div class="sidebar-header">
+       <div class="sidebar-brand">
+
+        <p style="color:white">My Awesome Cart</p></div></div>
+
+
+       <li><a href="/shop"><i class="fa fa-home" style="color:white;width:20px;height:20px;"></i>Home</a></li>
+
+
+       <li><a href="/shop/about"><i class="fa fa-address-card-o" style="color:white;width:20px;height:20px;"></i> About Us</a></li>
+
+       <li><a href="/shop/contact"><i class="material-icons" style="font-size:18px;">contacts</i> Contact us</a></li>
+
+
+       <li><a href="/shop/cart"><i class="fa fa-shopping-cart" style="color:white;width:20px;height:20px;"></i>My cart</a></li>
+
+       <li><a href="/shop/vieworder"><i class="material-icons" style="font-size:18px;">notifications_active</i> My Orders</a></li>
+
+
+       <li><a href="/shop/view"><i class="fa fa-product-hunt " style="color:white;width:20px;height:20px;"></i>All Products</a></li>
+
+
+    
+      <li><a href="/shop/dashboard"><i class="fa fa-exchange"></i> Switch To Seller Mode</a></li>
+
+
+
+
+{% if request.user|has_group:"admin" %}
+      <li><a href="/shop/admin_panel/dashboard"><i class="fa fa-exchange"></i> Switch To Admin Mode</a></li>
+{% else %}
+{% endif %}
+
+
+{% if request.user.is_authenticated %}
+      <div id="signout"><li><h5><a href="/signout">Sign Out <i class="fa fa-sign-out"></i></a></h5></li></div>
+{% else %}
+<div id="signout" class="container mx-2"><h5><a href="/"><button class="btn btn-danger">Login Now</button></a></h5></div>
+      {% endif %}
+      </ul>
+
+  </nav>
+
+
+
+  <style>
+  .navbarr {
+    overflow: hidden;
+    background-color: #212531;
+    position: fixed;
+    top: -1%;
+    width: 100%;
+    z-index: 999;
+  }
+  #signout{
+      padding-top: 140px;
+  }
+  </style>
+  <div id="navbarr">
+    <nav class="navbarr navbar-expand-lg navbar-light" id="mainNav">
+              <div class="container mx-4">
+
+
+  <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas" id="jj">
+      <span class="hamb-top"></span>
+      <span class="hamb-middle"></span>
+      <span class="hamb-bottom"></span>
   </button>
 
 
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-
-
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop">Home</a>
-      </li>
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop/contact">Contact Us</a>
-      </li>
-{% else %}
-<style>
-#button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
-}
-</style>
-
-<li class="nav-item active">
-<button class="nav-link active" type="button" data-toggle="modal" data-target="#contact" id="button">
-  Contact Us
-</button>
-</li>
-
-<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">You can't Contact Us</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        for Contacting us,you have to login first:-
-      </div>
-      <div class="modal-footer">
-        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
-      </div>
-    </div>
-  </div>
+                <form class="d-flex" method="get" action="/shop/search" id="kk">
+                  <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search" >
+                  <button class="btn btn-outline-success mx-2" id="search_button" type="submit">Search</button>
+                </form>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 </div>
-{% endif %}
+<br>
+<br>
 
 
-
-
-
-
-
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop/cart">My Cart {{cart_count}}</a>
-      </li>
-{% else %}
 <style>
-#button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
+.d-flex{
+  margin-bottom:10px;
+  width:90%;
+  margin-left:120px;
+  padding-right: 5.5px;
+  margin-top: 10px;
+  padding-top: 8px;
+}
+@media (max-width: 770px) {
+#text-head{
+  display: none;
+}
+#search{
+  width: 40%;
+}
+.d-flex{
+  margin-bottom:10px;
+  width:80%;
+  margin-left:55px;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+}
+@media (max-width: 445px) {
+#text-head{
+  display: none;
+}
+#search{
+  width: 100%;
+}
+.d-flex{
+  margin-bottom:10px;
+  width:80%;
+  margin-left:55px;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+}
+@media (max-width: 286px) {
+.d-flex{
+  margin-bottom:10px;
+  width:76%;
+  margin-left:55px;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+#text-head{
+  display: none;
+}
+#search{
+  width: 100%;
+}
 }
 </style>
 
-<li class="nav-item active">
-<button class="nav-link active" type="button" data-toggle="modal" data-target="#AddToCart" id="button">
-  Add To Cart
-</button>
-</li>
-
-<div class="modal fade" id="AddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">You can't Go To Cart</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        for Seeing,your Add To Cart Button You Have To Login First:-
-      </div>
-      <div class="modal-footer">
-        <a  href="/" class="btn btn-secondary" >Signup/Login</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
 
 
-
-
-
-
-
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop/vieworder">My orders</a>
-      </li>
-{% else %}
-<style>
-#button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
-}
-</style>
-
-<li class="nav-item active">
-<button class="nav-link active" type="button" data-toggle="modal" data-target="#order" id="button">
-  My order
-</button>
-</li>
-
-<div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">You can't See Your Order</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        for seeing Your Order, you have to login first:-
-      </div>
-      <div class="modal-footer">
-        <a href="/" class="btn btn-secondary" >Signup/Login</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-{% if user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link active" href="/shop/sellproduct" data-target="#exampleModal">Sell Your Products</a>
-    </li>
-
-{% else %}
-<style>
-#product_button {     
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden; 
-    color: white;       
-}
-@media(min-width: 780px){
-  .btn{
-    position: relative;
-    top:0px;
-  }
-}
-</style>
-
-<li class="nav-item active">
-<button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" id="product_button">
-  Sell Your Product
-</button>
-</li>
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">You can't Sell Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        For selling product You have to login first:-
-      </div>
-      <div class="modal-footer">
-        <a href="/"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Login/Signup</button></a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-
-
-
-
-<li class="nav-item dropdown">
-  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    MORE
-  </a>
-
-<style>
-#droplist{
-    background-color:#CECECE;
-}
-.dropdown-item:hover{
-  background-color: #EAE8E6;
-}
-#navbarDropdown{
-  position:relative;
-  left:2px;
-}
-</style>
-<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/shop/view"><p style="color:black;"><b>All Products</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/about"><p style="color:black;"><b>About Us</b></p></a></li>
-</ul>
-</li>
-
-
-{% if user.is_authenticated %}
-<li class="nav-item dropdown">
-  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <b>{{request.user.username}}</b>
-  </a>
-
-
-<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="droplist">
-  <li><a class="dropdown-item" href="/shop/orderrequest"><p style="color:black;"><b>My Profile</b></p></a></li>
-  <li><a class="dropdown-item" href="/shop/yourproduct"><p style="color:black;"><b>Switch To Seller</b></p></a></li>
-  <li><a class="dropdown-item" href="/signout"><p style="color:black;"><b>Logout</b></p></a></li>
-  {% if request.user.id == 21 or request.user.id == 1 %}
-  <li><a class="dropdown-item" href="/admin"><p style="color:black;"><b>Admin Panel</b></p></a></li>
-  </ul>
-  {% endif %}
-{% else %}
-<a href="/"><button class="btn btn-danger">Login/signup</button></a>
-{% endif %}
-
-
-
-</ul>
-</li>
-
-
-</nav>
 {% block body %}
+
 {% endblock %}
 
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<style>{% block css %} {% endblock %}</style>
 
 
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js'></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-  </body>
+<script id="rendered-js" >
+$(document).ready(function () {
+  var trigger = $('.hamburger'),
+  overlay = $('.overlay'),
+  isClosed = false;
+
+  trigger.click(function () {
+    hamburger_cross();
+  });
+
+  function hamburger_cross() {
+
+    if (isClosed == true) {
+      overlay.hide();
+      trigger.removeClass('is-open');
+      trigger.addClass('is-closed');
+      isClosed = false;
+    } else {
+      overlay.show();
+      trigger.removeClass('is-closed');
+      trigger.addClass('is-open');
+      isClosed = true;
+    }
+  }
+
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('#wrapper').toggleClass('toggled');
+  });
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
 </html>
