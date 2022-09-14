@@ -1,0 +1,7 @@
+db.sqlite3
+./shop/migrations/
+shop/migrations/
+mac/__pycache__/
+./mac/__pycache__/
+./shop/migrations/__pycache__
+.pyc

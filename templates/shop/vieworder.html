@@ -10,12 +10,10 @@
 {% else %}
 
 {% for order in order %}
-
-<div class="alert alert-{{alert}} alert-dismissible fade show" role="alert">
+<br>
+<div class="alert alert-{{alert}} alert-dismissible fade show mx-5" role="alert">
   Your Order is <strong>{{arr}}</strong>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-
 
 <style>
 .flex-shrink-0{
@@ -32,15 +30,13 @@ h4,h5,a{
 }
 }
 </style>
-
-<br>
-<div class="d-flex position-relative">
+<div class="d-flex position-relative mx-1">
   <img src="/media/{{order.product_image}}" class="flex-shrink-0 me-3" alt="...">
   <div>
     <h4 class="mt-0">Product Name:-<b><u>{{order.product_name}}</u></b></h4>
-    <h5>Price:-<b><u>{{order.product_price}}</u></b></h6>
-    <a href="/shop/productview/{{order.product_id}}"><button class="btn btn-primary mx-3" >View Product</button></p></a>
-    <a href="destroy/{{order.id}}" onclick="return confirm('Are you sure you want to Cancel The Order?')"/><button class="btn btn-danger mx-3">Cancel Order</button></p></a>
+    <h4>Price:-<b><u>{{order.product_price}}</u></b></h4>
+    <a href="/shop/productview/{{order.product_id}}"><button class="btn btn-primary mx-2" >View Product</button></p></a>
+    <a href="destroy/{{order.id}}" onclick="return confirm('Are you sure you want to Cancel The Order?')"/><button class="btn btn-danger mx-2">Cancel Order</button></p></a>
   </div>
 </div>
 <br>
@@ -51,6 +47,7 @@ h4,h5,a{
 {% endif %}
 
 {%else%}
+<br>
 <center><h2>Please sign in to see your Orders</h2>
 <a href="/" class="btn btn-danger">Sign in Here</a></center>
 {%endif%}

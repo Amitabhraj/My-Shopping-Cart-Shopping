@@ -1,0 +1,127 @@
+{% extends 'shop/seller.html' %}
+{% load custom_filter %}
+{% block title %}My Earning{% endblock %}
+{% block body %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js
+'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<br>
+
+<style>
+.table{
+	width: 1200px;
+}
+#chart{
+	width:500px;
+}
+#table_col{
+  color: white;
+}
+td,table{
+	border-bottom:1px solid #343a45;
+	border-right: 1px solid #343a45;
+	border-left: 1px solid #343a45;
+}
+th {
+  color:#D5DDE5;;
+  background:#1b1e24;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+@media (max-width: 767px){
+.table{
+	width: 95%;
+}
+#table_col{
+  font-weight: bold;
+}
+#table_col, #table_row{
+	font-size:9.9px;
+}
+#chart{
+	width:100%;
+}
+}
+</style>
+
+<center>
+	<u><h2>Earning Table</h2></u>
+<table class="table">
+  <thead>
+    <b><tr>
+      <th scope="col my-2" id="table_col">Product Name</th>
+      <th scope="col" id="table_col">Total Money Earned</th>
+      <th scope="col" id="table_col">Tax Dedected (4%)</th>
+      <th scope="col" id="table_col">Net Profit</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for product in product_name %}
+  <tr>
+    <td id="table_row">{{product}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter|tax:4}}</td>
+    <td id="table_row">₹{{total_amount|index:forloop.counter|net_profit:96}}</td>
+  </tr></b>
+{% endfor %}
+  </tbody>
+</table>
+</center>
+<br>
+<hr>
+<hr>
+<br>
+<canvas id="pieChart" height="110px" width="220px"></canvas>
+<script>
+  var canvasP = document.getElementById("pieChart");
+  var ctxP = canvasP.getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+     type: 'bar',
+     data: {
+        labels: [{% for d in product_name %}'{{d}}',{% endfor %}],
+        datasets: [
+  
+        {
+           data: [{% for occur in total_amount %}{{occur}},{% endfor %}],
+           backgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C",'#00E8FF','#4200FF','#BD00FF','#FF8ED3'],
+           hoverBackgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C",'#00E8FF','#4200FF','#BD00FF','#FF8ED3'],
+        }]
+     },
+     options: {
+        responsive: true,
+    }
+  });
+  
+  
+  canvasP.onclick = function(e) {
+     var slice = myPieChart.getElementAtEvent(e);
+     if (!slice.length) return; // return if not clicked on slice
+     var label = slice[0]._model.label;
+     switch (label) {
+        // add case for each label/slice
+        {% for data in product_name %}
+        case '{{data}}':
+           window.open('/user/complain/{{data}}');
+           break;
+        {% endfor %}
+     }
+  };
+  function download(){
+    const imageLink = document.createElement('a');
+    const canvas = document.getElementById('pieChart');
+    imageLink.download = 'Data.png'
+    imageLink.href = canvas.toDataURL('static/data/canvas',1);
+    // window.open(imageLink);
+    // document.write('<img src=" '+imageLink+' "/>')
+  
+    // console.log(imageLink.href);
+    imageLink.click();
+  }
+  </script>
+
+{% endblock %}

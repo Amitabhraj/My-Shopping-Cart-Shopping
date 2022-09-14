@@ -1,5 +1,7 @@
-{% extends 'shop/basic.html' %}
+{% extends 'shop/seller.html' %}
+{% block title %}Edit Product:- {{product.name}}{% endblock %}
 {% block body %}
+<br>
     <form method="POST" action="update/{{product.id }}">
         {% csrf_token %}
         <div class="container">
@@ -13,25 +15,44 @@
 
 
         <div class="form-group">
-            <label for="category"><h5>Enter Product Category:-</h5></label>
-            <input type="text" id="category" name="category" value="{{ product.category }}" class="form-control" />
+            <label for="category"><h5>Enter Product Category:-</h5></label><br>
+            <select class="form-select" aria-label="Default select example" name="category">
+                <option value="{{product_category.id}}" selected>{{product_category}}</option>
+                {% for all_category in all_category %}
+                {% if all_category != product_category %}
+                <option value="{{all_category.id}}">{{all_category}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
         </div>
         <br>
-
-
-
-        <div class="form-group">
-            <label for="subcategory"><h5>Enter Product SubCategory:-</h5></label>
-            <input type="text" id="subcategory" name="subcategory" value="{{ product.subcategory }}" class="form-control" />
-        </div>
-        <br>
-
 
 
         <div class="form-group">
             <label for="price"><h5>Enter Product Price:-</h5></label>
             <input type="text" id="price" name="price" value="{{ product.price }}" class="form-control" />
         </div>
+        <br>
+
+<u><h4>Pause or Sale?</h4></u>
+<div class="form-check">
+  {% if product.on_sale %}
+  <input class="form-check-input" name="sale" type="radio" value="On Sale" id="flexRadioDefault1" checked>
+  {% else %}
+  <input class="form-check-input" name="sale" type="radio" value="On Sale" id="flexCheckDefault">
+  {% endif %}
+  <label class="form-check-label" for="flexRadioDefault1">
+    On Sale
+  </label><br>
+  {% if not product.on_sale %}
+  <input class="form-check-input" name="sale" type="radio" value="Not on Sale" id="flexRadioDefault1" checked>
+  {% else %}
+  <input class="form-check-input" name="sale" type="radio" value="Not on Sale" id="flexRadioDefault1">
+  {% endif %}
+  <label class="form-check-label" for="flexRadioDefault1">
+    Not on Sale
+  </label>
+</div>
         <br>
 
 <!DOCTYPE html>
