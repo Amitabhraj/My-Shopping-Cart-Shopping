@@ -1,9 +1,9 @@
 from django.db import migrations,models
 import time as _time
 import datetime
+from django.contrib.auth.models import User
 from datetime import timedelta, tzinfo
 from threading import local
-
 
 
 delivery_status=(
@@ -11,8 +11,6 @@ delivery_status=(
     ("Dispatched", "Dispatched"),
     ("Delivered", "Delivered")
     )
-
-
 
 
 class Category(models.Model):
@@ -98,5 +96,15 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.product_name) if self.product_name else ''
 
+        
 
 
+
+class Bulk_Email(models.Model):
+    subject=models.CharField(max_length=250,blank=True,null=True)
+    main_body=models.CharField(max_length=550,blank=True,null=True)
+    send_to=models.CharField(max_length=250,blank=True,null=True)
+    attachment=models.FileField(max_length=1000000,upload_to="shop/bulk_email_file", null=True, blank=True) 
+  
+    def __str__(self):
+        return self.subject

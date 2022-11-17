@@ -63,6 +63,8 @@ MIDDLEWARE = [
 ]
 ROOT_URLCONF = 'mac.urls'
 
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -240,4 +242,42 @@ PROVIDER_AUTHENTICATED_LOGIN_REDIRECTS=False
 
 # SOCIAL_AUTH_FACEBOOK_KEY = '534560934481071' 
 # SOCIAL_AUTH_FACEBOOK_SECRET = '21e1d4b891b76d2008e89833176ca745'  # App 
+
+
+
+
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.gmail.com'
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'abhiraj1709w@gmail.com'
+EMAIL_HOST_PASSWORD = 'kvvddayjmbuhfddd'
+EMAIL_USE_TLS = True
+
+
+# SMS_BACKEND = 'sms.backends.console.SmsBackend'
+
+
+# PRODUCTION_URL = 'https://myawesomecartshopping.pythonanywhere.com/'
+# IS_DEVELOPMENT = False
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+from django.contrib.messages import constants as messages
+
+
+
+
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
+
+
 

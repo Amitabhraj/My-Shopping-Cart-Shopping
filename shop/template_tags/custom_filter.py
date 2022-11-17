@@ -9,12 +9,36 @@ register = template.Library()
 def sub(value, arg):
     return int(value) - int(arg)
 
+@register.filter(name="index")
+def index(value, arg):
+    return value[arg-1]
+
 
 @register.filter(name="div")
-def sub(value, arg):
+def div(value, arg):
     return int(value) / int(arg)
 
 
 @register.filter(name="mul")
-def sub(value, arg):
+def mul(value, arg):
     return int(value) * int(arg)
+
+
+@register.filter(name="tax")
+def Tax(value, arg):
+    tax=int(arg/100*int(value))
+    return tax
+ 
+
+@register.filter(name="net_profit")
+def net_profit(value, arg):
+    net_profit=int(arg/100*int(value))
+    return net_profit
+
+
+@register.filter(name='has_group') 
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
+
+   
+

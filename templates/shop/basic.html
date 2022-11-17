@@ -1,3 +1,4 @@
+{% load custom_filter %}
 <!DOCTYPE html>
 <html lang="en" >
 
@@ -379,6 +380,15 @@ html { height: 100%;}
     
       <li><a href="/shop/dashboard"><i class="fa fa-exchange"></i> Switch To Seller Mode</a></li>
 
+
+
+
+{% if request.user|has_group:"admin" %}
+      <li><a href="/shop/admin_panel/dashboard"><i class="fa fa-exchange"></i> Switch To Admin Mode</a></li>
+{% else %}
+{% endif %}
+
+
 {% if request.user.is_authenticated %}
       <div id="signout"><li><h5><a href="/signout">Sign Out <i class="fa fa-sign-out"></i></a></h5></li></div>
 {% else %}
@@ -416,7 +426,7 @@ html { height: 100%;}
 
 
                 <form class="d-flex" method="get" action="/shop/search" id="kk">
-                  <input class="form-control" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search">
+                  <input class="form-control me-2" type="search" placeholder="Search Product Here" name="search" id="search" aria-label="Search" >
                   <button class="btn btn-outline-success mx-2" id="search_button" type="submit">Search</button>
                 </form>
                     </ul>
@@ -426,7 +436,6 @@ html { height: 100%;}
 </div>
 <br>
 <br>
-
 
 
 <style>

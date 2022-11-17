@@ -1,0 +1,58 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Send Bulk Email{% endblock %}
+{% block body %}
+<br>
+<div class="mx-1">
+  <center><h2>Send Bulk Email To Anyone</h2></center>
+  <hr style='border-top: 3px solid black;'>
+</div>
+
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+  {{message}}
+</div>
+{% endfor %}
+
+<form action="/shop/admin_panel/send_bulk_email/" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+<div class="mx-2 mt-3">
+<div class="mb-3">
+  <label for="subject" class="form-label">Subject:-</label>
+  <textarea name="subject" rows="3" type="text" class="form-control" id="subject" placeholder="Enter Subject for Mail"></textarea>
+</div>
+
+
+<div class="mb-3">
+  <label for="Main_Body" class="form-label">Main Body:-</label>
+  <textarea name="main_body" class="form-control" id="Main_Body" rows="6"></textarea>
+</div>
+
+
+<div class="mb-3">
+  <label for="attachment" class="form-label">Add Attachment:-</label>
+  <input name="attachment" type="file" class="form-control" id="attachment" multiple></textarea>
+</div>
+
+
+<br>
+<div class="mb-3">
+  <label for="send_to" class="form-label">Send To:-</label><br>
+  <select name="send_to" class="form-selectform-select-lg mb-3" aria-label=".form-select-lg example">
+      <option selected>Select to Whom you want to send</option>
+      <option name="send_to" value="seller">Only Seller</option>
+      <option name="send_to" value="buyer">Only Buyer</option>
+      <option name="send_to" value="all_user">All User</option>
+  </select>
+</div>
+
+<button class="btn btn-success" type="submit">Send Mail</button>
+
+<br>
+<br>
+<br>
+
+</div>
+
+<form>
+
+{% endblock %}
